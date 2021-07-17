@@ -4,13 +4,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.groceryapp.MainActivity;
+import com.example.groceryapp.viewModel.MainActivity;
 import com.example.groceryapp.R;
 import com.example.groceryapp.model.ShoppingListModel;
 
@@ -69,7 +68,6 @@ public class MainActivityAdapter extends RecyclerView.Adapter<MainActivityAdapte
                 Toast.makeText(mainActivity, listOfShoppingLists.get(position).getName(), Toast.LENGTH_SHORT).show();
             }
         });*/
-
 
     }
 

@@ -1,4 +1,4 @@
-package com.example.groceryapp;
+package com.example.groceryapp.viewModel;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
