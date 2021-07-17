@@ -27,13 +27,15 @@ public class MainActivity extends AppCompatActivity {
 
         listOfShoppingLists = new ArrayList<>();
 
+        // RecyclerView
         listRecyclerView = findViewById(R.id.listRecyclerView);
         listRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        // Adapter
         mainActivityAdapter = new MainActivityAdapter(this);
         listRecyclerView.setAdapter(mainActivityAdapter);
 
-        ShoppingListModel list = new ShoppingListModel();
-        list.setName("Grocery");
+        ShoppingListModel list = new ShoppingListModel("Grocery");
 
         listOfShoppingLists.add(list);
         listOfShoppingLists.add(list);
