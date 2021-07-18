@@ -1,5 +1,7 @@
 package com.example.groceryapp.viewModel;
 
+import android.app.Activity;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
@@ -130,11 +132,20 @@ public class AddNewListViewModel extends BottomSheetDialogFragment {
                 }
                 else {
                     ShoppingListModel shoppingList = new ShoppingListModel(listName);
-                    db.addNewList(shoppingList);
+                    // db.addNewList(shoppingList);
                 }
                 // dismiss the bottom sheet dialog fragment
                 dismiss();
             }
         });
+    }
+
+    // refreshes and updates the recyclerview
+    @Override
+    public void onDismiss(DialogInterface dialog) {
+        Activity activity = getActivity();
+        if (activity instanceof DialogCloseListener) {
+            ((DialogCloseListener)activity).handleDialogClose(dialog);
+        }
     }
 }
