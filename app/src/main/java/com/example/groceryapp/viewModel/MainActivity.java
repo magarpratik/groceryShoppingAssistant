@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-
     private RecyclerView listRecyclerView;
     private MainActivityAdapter mainActivityAdapter;
     private List<ShoppingListModel> listOfShoppingLists;

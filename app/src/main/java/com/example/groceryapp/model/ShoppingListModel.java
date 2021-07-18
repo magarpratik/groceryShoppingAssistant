@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class  ShoppingListModel {
     private int id;
     private String name;
-    private String store;
+    private String store = "";
     private ArrayList<ItemModel> list = new ArrayList<>();
 
     public ShoppingListModel (String name) {
