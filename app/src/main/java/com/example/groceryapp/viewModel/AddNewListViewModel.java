@@ -128,15 +128,17 @@ public class AddNewListViewModel extends BottomSheetDialogFragment {
             public void onClick(View v) {
                 String listName = newListText.getText().toString();
 
-                if(finalIsUpdate) {
-                    db.updateList(bundle.getInt("ID"), listName);
+                if(!listName.equals("")) {
+                    if(finalIsUpdate) {
+                        db.updateList(bundle.getInt("ID"), listName);
+                    }
+                    else {
+                        ShoppingListModel shoppingList = new ShoppingListModel(listName);
+                        db.addNewList(shoppingList);
+                    }
+                    // dismiss the bottom sheet dialog fragment
+                    dismiss();
                 }
-                else {
-                    ShoppingListModel shoppingList = new ShoppingListModel(listName);
-                    db.addNewList(shoppingList);
-                }
-                // dismiss the bottom sheet dialog fragment
-                dismiss();
             }
         });
     }
