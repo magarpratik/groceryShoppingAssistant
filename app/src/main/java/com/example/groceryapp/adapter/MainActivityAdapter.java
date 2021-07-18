@@ -9,7 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.groceryapp.viewModel.MainActivity;
+import com.example.groceryapp.viewModel.MainActivityViewModel;
 import com.example.groceryapp.R;
 import com.example.groceryapp.model.ShoppingListModel;
 
@@ -20,10 +20,10 @@ import java.util.List;
 // Takes items from the shopping list and displays it in the RecyclerView
 public class MainActivityAdapter extends RecyclerView.Adapter<MainActivityAdapter.ViewHolder> {
     private List<ShoppingListModel> listOfShoppingLists = new ArrayList<>();
-    private MainActivity mainActivity;
+    private MainActivityViewModel mainActivity;
 
     // Constructor
-    public MainActivityAdapter(MainActivity mainActivity) {
+    public MainActivityAdapter(MainActivityViewModel mainActivity) {
         this.mainActivity = mainActivity;
     }
 

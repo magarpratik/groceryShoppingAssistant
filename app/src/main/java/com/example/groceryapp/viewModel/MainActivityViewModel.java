@@ -13,7 +13,7 @@ import com.example.groceryapp.model.ShoppingListModel;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivityViewModel extends AppCompatActivity {
     private RecyclerView listRecyclerView;
     private MainActivityAdapter mainActivityAdapter;
     private List<ShoppingListModel> listOfShoppingLists;

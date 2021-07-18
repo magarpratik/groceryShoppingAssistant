@@ -119,7 +119,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     // add a new list
     /*public boolean addList(ShoppingListModel shoppingListModel) {
         openDatabase();
-
         // Dictionary-like data structure
         // Key-value pairs
         ContentValues cv = new ContentValues();

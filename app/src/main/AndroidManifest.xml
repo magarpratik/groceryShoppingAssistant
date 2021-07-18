@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.GroceryApp">
         <activity
-            android:name=".viewModel.MainActivity"
+            android:name=".viewModel.MainActivityViewModel"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
