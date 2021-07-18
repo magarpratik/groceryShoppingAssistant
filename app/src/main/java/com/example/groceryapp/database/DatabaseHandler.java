@@ -109,7 +109,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     }
 
     // delete a list
-    public void deleteList(int id, String list_name) {
+    public void deleteList(int id) {
         db.delete(LIST_TABLE, COLUMN_ID + "=?", new String[] {String.valueOf(id)});
     }
 

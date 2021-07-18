@@ -88,6 +88,14 @@ public class MainActivityAdapter extends RecyclerView.Adapter<MainActivityAdapte
         notifyDataSetChanged();
     }
 
+    // delete an item and update the recyclerView
+    public void deleteItem(int position) {
+        ShoppingListModel item = listOfShoppingLists.get(position);
+        db.deleteList(item.getId());
+        listOfShoppingLists.remove(position);
+        notifyItemRemoved(position);
+    }
+
     public void editItem(int position) {
         ShoppingListModel item = listOfShoppingLists.get(position);
         Bundle bundle = new Bundle();
