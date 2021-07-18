@@ -16,7 +16,7 @@ import java.util.List;
 public class DatabaseHandler extends SQLiteOpenHelper {
     // database details
     public static final int VERSION = 1;
-    public static final String DATABASE_NAME = "list.db";
+    public static final String DATABASE_NAME = "GroceryAPP.db";
 
     // table details
     public static final String LIST_TABLE = "LIST_TABLE";
@@ -111,6 +111,10 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     // delete a list
     public void deleteList(int id, String list_name) {
         db.delete(LIST_TABLE, COLUMN_ID + "=?", new String[] {String.valueOf(id)});
+    }
+
+    public void resetDatabase() {
+        db.execSQL("DROP TABLE IF EXISTS " + LIST_TABLE);
     }
 
 

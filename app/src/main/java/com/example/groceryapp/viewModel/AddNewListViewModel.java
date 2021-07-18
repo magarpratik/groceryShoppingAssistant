@@ -15,6 +15,7 @@ import android.widget.EditText;
 
 import androidx.core.content.ContextCompat;
 
+import com.example.groceryapp.DialogCloseListener;
 import com.example.groceryapp.R;
 import com.example.groceryapp.database.DatabaseHandler;
 import com.example.groceryapp.model.ShoppingListModel;
@@ -85,7 +86,7 @@ public class AddNewListViewModel extends BottomSheetDialogFragment {
 
         if(bundle != null) {
             isUpdate = true;
-            String listName = bundle.getString("list_name");
+            String listName = bundle.getString("LIST_NAME");
             newListText.setText(listName);
 
             // check if listName is empty or not
@@ -128,11 +129,11 @@ public class AddNewListViewModel extends BottomSheetDialogFragment {
                 String listName = newListText.getText().toString();
 
                 if(finalIsUpdate) {
-                    db.updateList(bundle.getInt("id"), listName);
+                    db.updateList(bundle.getInt("ID"), listName);
                 }
                 else {
                     ShoppingListModel shoppingList = new ShoppingListModel(listName);
-                    // db.addNewList(shoppingList);
+                    db.addNewList(shoppingList);
                 }
                 // dismiss the bottom sheet dialog fragment
                 dismiss();
