@@ -1,5 +1,6 @@
 package com.example.groceryapp.adapter;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -76,6 +77,8 @@ public class MainActivityAdapter extends RecyclerView.Adapter<MainActivityAdapte
         });*/
 
     }
+
+    public Context getContext() { return mainActivity; }
 
     @Override
     public int getItemCount() {

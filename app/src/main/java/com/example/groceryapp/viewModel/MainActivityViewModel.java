@@ -1,6 +1,7 @@
 package com.example.groceryapp.viewModel;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -11,6 +12,7 @@ import android.view.View;
 
 import com.example.groceryapp.DialogCloseListener;
 import com.example.groceryapp.R;
+import com.example.groceryapp.RecyclerItemTouchHelper;
 import com.example.groceryapp.adapter.MainActivityAdapter;
 import com.example.groceryapp.database.DatabaseHandler;
 import com.example.groceryapp.model.ShoppingListModel;
@@ -50,6 +52,10 @@ public class MainActivityViewModel extends AppCompatActivity implements DialogCl
         listRecyclerView.setAdapter(mainActivityAdapter);
 
         addFloatingButton = findViewById(R.id.addFloatingButton);
+
+        ItemTouchHelper itemTouchHelper = new
+                ItemTouchHelper(new RecyclerItemTouchHelper(mainActivityAdapter));
+        itemTouchHelper.attachToRecyclerView(listRecyclerView);
 
         listOfShoppingLists = db.getAllLists();
         // reverse the order so the latest ones are at the top
