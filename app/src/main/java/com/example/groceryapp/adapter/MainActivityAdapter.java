@@ -1,11 +1,14 @@
 package com.example.groceryapp.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -13,13 +16,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.groceryapp.database.DatabaseHandler;
 import com.example.groceryapp.viewModel.AddNewListViewModel;
+import com.example.groceryapp.viewModel.InsideListViewModel;
 import com.example.groceryapp.viewModel.MainActivityViewModel;
 import com.example.groceryapp.R;
 import com.example.groceryapp.model.ShoppingListModel;
 
 import java.util.ArrayList;
 import java.util.List;
-
 
 // Takes items from the shopping list and displays it in the RecyclerView
 public class MainActivityAdapter extends RecyclerView.Adapter<MainActivityAdapter.ViewHolder> {
@@ -62,19 +65,23 @@ public class MainActivityAdapter extends RecyclerView.Adapter<MainActivityAdapte
     // MOST IMPORTANT
     // Responsible for mapping data from the original list to the RecyclerView
     @Override
-    public void onBindViewHolder(@NonNull MainActivityAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull MainActivityAdapter.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         db.openDatabase();
         holder.listNameTextView.setText(listOfShoppingLists.get(position).getName());
 
         // YOU CAN SET OnClickListeners FOR EVERY UI ELEMENT
 
         // EXAMPLE
-        /*holder.listNameCardView.setOnClickListener(new View.OnClickListener() {
+        holder.listNameCardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(mainActivity, listOfShoppingLists.get(position).getName(), Toast.LENGTH_SHORT).show();
+                // start a new activity when you click on an item
+                Intent i = new Intent(getContext(), InsideListViewModel.class);
+                mainActivity.startActivity(i);
+                i.putExtra("listName", listOfShoppingLists.get(position).getName());
+                // Toast.makeText(mainActivity, listOfShoppingLists.get(position).getName(), Toast.LENGTH_SHORT).show();
             }
-        });*/
+        });
 
     }
 

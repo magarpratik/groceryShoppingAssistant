@@ -1,6 +1,5 @@
 package com.example.groceryapp;
 
-
 import android.content.DialogInterface;
 import android.graphics.Canvas;
 import android.graphics.Color;

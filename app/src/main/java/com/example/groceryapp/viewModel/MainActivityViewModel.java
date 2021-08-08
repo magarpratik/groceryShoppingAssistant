@@ -51,8 +51,10 @@ public class MainActivityViewModel extends AppCompatActivity implements DialogCl
         mainActivityAdapter = new MainActivityAdapter(this, db);
         listRecyclerView.setAdapter(mainActivityAdapter);
 
+        // add a new list button
         addFloatingButton = findViewById(R.id.addFloatingButton);
 
+        // swipe functionality
         ItemTouchHelper itemTouchHelper = new
                 ItemTouchHelper(new RecyclerItemTouchHelper(mainActivityAdapter));
         itemTouchHelper.attachToRecyclerView(listRecyclerView);
@@ -62,6 +64,7 @@ public class MainActivityViewModel extends AppCompatActivity implements DialogCl
         Collections.reverse(listOfShoppingLists);
         mainActivityAdapter.setListOfShoppingLists(listOfShoppingLists);
 
+        // adding a new list
         addFloatingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

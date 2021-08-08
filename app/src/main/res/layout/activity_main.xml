@@ -10,24 +10,24 @@
         android:id="@+id/topBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/primary2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:background="@color/primary2">
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:paddingBottom="10sp"
             android:text="My Lists"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:textSize="32sp"
             android:textColor="@color/whiteText"
+            android:textSize="32sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:paddingBottom="10sp"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -56,9 +56,9 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="32dp"
         android:layout_marginBottom="64dp"
-        app:layout_constraintBottom_toBottomOf="@+id/listRecyclerView"
-        app:layout_constraintEnd_toEndOf="@+id/listRecyclerView"
+        android:src="@drawable/ic_baseline_add"
         app:backgroundTint="@color/primary3"
-        android:src="@drawable/ic_baseline_add" />
+        app:layout_constraintBottom_toBottomOf="@+id/listRecyclerView"
+        app:layout_constraintEnd_toEndOf="@+id/listRecyclerView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.GroceryApp">
         <activity
+            android:name=".viewModel.InsideListViewModel"
+            android:exported="true" />
+        <activity
             android:name=".viewModel.MainActivityViewModel"
             android:exported="true">
             <intent-filter>

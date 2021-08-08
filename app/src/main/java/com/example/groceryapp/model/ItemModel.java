@@ -4,11 +4,18 @@ import android.icu.math.BigDecimal;
 
 public class ItemModel {
     private String name;
-    private int weight;
-    private int volume;
-    private int quantity;
+    private String quantity;
+    private String pricePerUnit;
+    private String price;
     private BigDecimal inStorePrice;
     private BigDecimal estimatedPrice;
+
+    public ItemModel(String name, String quantity, String pricePerUnit, String price) {
+        this.name = name;
+        this.quantity = quantity;
+        this.pricePerUnit = pricePerUnit;
+        this.price = price;
+    }
 
     public String getName() {
         return name;
@@ -18,28 +25,20 @@ public class ItemModel {
         this.name = name;
     }
 
-    public int getWeight() {
-        return weight;
-    }
-
-    public void setWeight(int weight) {
-        this.weight = weight;
-    }
-
-    public int getVolume() {
-        return volume;
-    }
-
-    public void setVolume(int volume) {
-        this.volume = volume;
-    }
-
-    public int getQuantity() {
+    public String getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(int quantity) {
+    public void setQuantity(String quantity) {
         this.quantity = quantity;
+    }
+
+    public String getPricePerUnit() {
+        return pricePerUnit;
+    }
+
+    public void setPricePerUnit(String pricePerUnit) {
+        this.pricePerUnit = pricePerUnit;
     }
 
     public BigDecimal getInStorePrice() {
@@ -56,5 +55,13 @@ public class ItemModel {
 
     public void setEstimatedPrice(BigDecimal estimatedPrice) {
         this.estimatedPrice = estimatedPrice;
+    }
+
+    public String getPrice() {
+        return price;
+    }
+
+    public void setPrice(String price) {
+        this.price = price;
     }
 }
