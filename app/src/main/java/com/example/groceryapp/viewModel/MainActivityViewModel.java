@@ -80,6 +80,5 @@ public class MainActivityViewModel extends AppCompatActivity implements DialogCl
         Collections.reverse(listOfShoppingLists);
         mainActivityAdapter.setListOfShoppingLists(listOfShoppingLists);
         mainActivityAdapter.notifyDataSetChanged();
-
     }
 }
