@@ -3,8 +3,10 @@ package com.example.groceryapp.model;
 import android.icu.math.BigDecimal;
 
 public class ItemModel {
+    private int id;
     private String name;
     private String quantity;
+    private String unit;
     private String pricePerUnit;
     private String price;
     private BigDecimal inStorePrice;
@@ -17,6 +19,28 @@ public class ItemModel {
     public ItemModel(String name, String quantity) {
         this.name = name;
         this.quantity = quantity;
+    }
+
+    public ItemModel(String name, String quantity, String unit) {
+        this.name = name;
+        this.quantity = quantity;
+        this.unit = unit;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
     }
 
     public String getName() {
