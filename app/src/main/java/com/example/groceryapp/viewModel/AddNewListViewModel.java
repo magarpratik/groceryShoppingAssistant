@@ -20,6 +20,7 @@ import com.example.groceryapp.R;
 import com.example.groceryapp.database.DatabaseHandler;
 import com.example.groceryapp.model.ShoppingListModel;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.w3c.dom.Text;
 
@@ -32,6 +33,7 @@ public class AddNewListViewModel extends BottomSheetDialogFragment {
     // declare UI elements
     private EditText newListText;
     private Button newListSaveButton;
+    private FloatingActionButton addFloatingButton;
 
     private DatabaseHandler db;
 
@@ -59,6 +61,7 @@ public class AddNewListViewModel extends BottomSheetDialogFragment {
 
         // Readjusts the size of the bottom sheet dialog fragment, when text is typed
         getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+
         return view;
     }
 

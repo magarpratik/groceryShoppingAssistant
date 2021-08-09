@@ -10,11 +10,13 @@ public class ItemModel {
     private BigDecimal inStorePrice;
     private BigDecimal estimatedPrice;
 
-    public ItemModel(String name, String quantity, String pricePerUnit, String price) {
+    public ItemModel(String name) {
+        this.name = name;
+    }
+
+    public ItemModel(String name, String quantity) {
         this.name = name;
         this.quantity = quantity;
-        this.pricePerUnit = pricePerUnit;
-        this.price = price;
     }
 
     public String getName() {

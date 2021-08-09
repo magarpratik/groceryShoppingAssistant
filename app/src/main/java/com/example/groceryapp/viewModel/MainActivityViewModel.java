@@ -68,6 +68,7 @@ public class MainActivityViewModel extends AppCompatActivity implements DialogCl
         addFloatingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                addFloatingButton.hide();
                 AddNewListViewModel.newInstance().show(getSupportFragmentManager(), AddNewListViewModel.TAG);
             }
         });
@@ -80,5 +81,6 @@ public class MainActivityViewModel extends AppCompatActivity implements DialogCl
         Collections.reverse(listOfShoppingLists);
         mainActivityAdapter.setListOfShoppingLists(listOfShoppingLists);
         mainActivityAdapter.notifyDataSetChanged();
+        addFloatingButton.show();
     }
 }

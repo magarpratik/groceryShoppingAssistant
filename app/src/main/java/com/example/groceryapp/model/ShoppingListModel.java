@@ -1,12 +1,13 @@
 package com.example.groceryapp.model;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class  ShoppingListModel {
     private int id;
     private String name;
     private String store = "";
-    private ArrayList<ItemModel> list = new ArrayList<>();
+    private List<ItemModel> list = new ArrayList<>();
 
     public ShoppingListModel (String name) {
         this.name = name;
@@ -28,7 +29,7 @@ public class  ShoppingListModel {
         this.name = name;
     }
 
-    public ArrayList<ItemModel> getList() {
+    public List<ItemModel> getList() {
         return list;
     }
 

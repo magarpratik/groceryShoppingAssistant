@@ -24,6 +24,7 @@ import com.example.groceryapp.model.ShoppingListModel;
 import java.util.ArrayList;
 import java.util.List;
 
+// RecyclerView Adapter for the list of lists
 // Takes items from the shopping list and displays it in the RecyclerView
 public class MainActivityAdapter extends RecyclerView.Adapter<MainActivityAdapter.ViewHolder> {
     private List<ShoppingListModel> listOfShoppingLists = new ArrayList<>();
@@ -83,7 +84,6 @@ public class MainActivityAdapter extends RecyclerView.Adapter<MainActivityAdapte
                 // Toast.makeText(mainActivity, listOfShoppingLists.get(position).getName(), Toast.LENGTH_SHORT).show();
             }
         });
-
     }
 
     public Context getContext() { return mainActivity; }
@@ -96,6 +96,7 @@ public class MainActivityAdapter extends RecyclerView.Adapter<MainActivityAdapte
     // Update the RecyclerView
     public void setListOfShoppingLists(List<ShoppingListModel> listOfShoppingLists) {
         this.listOfShoppingLists = listOfShoppingLists;
+        // update the RecyclerView
         notifyDataSetChanged();
     }
 

@@ -16,7 +16,7 @@ import java.util.List;
 public class DatabaseHandler extends SQLiteOpenHelper {
     // database details
     public static final int VERSION = 1;
-    public static final String DATABASE_NAME = "GroceryAPP.db";
+    public static final String DATABASE_NAME = "GroceryApp.db";
 
     // table details
     public static final String LIST_TABLE = "LIST_TABLE";
@@ -29,6 +29,11 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     // Constructor
     public DatabaseHandler(@Nullable Context context) {
         super(context, DATABASE_NAME, null, VERSION);
+    }
+
+    // Open the database so you can write on it
+    public void openDatabase() {
+        db = this.getWritableDatabase();
     }
 
     // This is called when a database is accessed for the first time
@@ -51,11 +56,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    // Open the database so you can write on it
-    public void openDatabase() {
-        db = this.getWritableDatabase();
-    }
-
     public void addNewList(ShoppingListModel shoppingList) {
         // add the new list details to a cv data structure
         ContentValues cv = new ContentValues();
@@ -66,17 +66,35 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.insert(LIST_TABLE, null, cv);
     }
 
+    // Change the name of a list
+    public void updateList(int id, String list_name) {
+        ContentValues cv = new ContentValues();
+        cv.put(COLUMN_LIST_NAME, list_name);
+        db.update(LIST_TABLE, cv, COLUMN_ID + "=?", new String[] {String.valueOf(id)});
+    }
+
+    // delete a list
+    public void deleteList(int id) {
+        db.delete(LIST_TABLE, COLUMN_ID + "=?", new String[] {String.valueOf(id)});
+    }
+
+    // reset the database
+    public void resetDatabase() {
+        db.execSQL("DROP TABLE IF EXISTS " + LIST_TABLE);
+    }
+
+    // get the list table from the database
     public List<ShoppingListModel> getAllLists() {
         List<ShoppingListModel> listOfLists= new ArrayList<>();
 
         // Cursor is resultset
         Cursor cursor = null;
 
-        // Atomic operation
+        // Atomic operation starts
         db.beginTransaction();
         try {
             // returns the whole table
-            cursor = db.query(LIST_TABLE, null, null, null, null, null,null);
+            cursor = db.query(LIST_TABLE, null, null, null, null, null,null, null);
 
             if(cursor != null) {
                 // move to the first row of the table
@@ -100,24 +118,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         }
         return listOfLists;
     }
-
-    // Change the name of a list
-    public void updateList(int id, String list_name) {
-        ContentValues cv = new ContentValues();
-        cv.put(COLUMN_LIST_NAME, list_name);
-        db.update(LIST_TABLE, cv, COLUMN_ID + "=?", new String[] {String.valueOf(id)});
-    }
-
-    // delete a list
-    public void deleteList(int id) {
-        db.delete(LIST_TABLE, COLUMN_ID + "=?", new String[] {String.valueOf(id)});
-    }
-
-    public void resetDatabase() {
-        db.execSQL("DROP TABLE IF EXISTS " + LIST_TABLE);
-    }
-
-
 
     // EXAMPLE
     // add a new list
