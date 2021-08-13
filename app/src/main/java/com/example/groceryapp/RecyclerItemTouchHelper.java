@@ -47,7 +47,7 @@ public class RecyclerItemTouchHelper extends ItemTouchHelper.SimpleCallback {
             builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    adapter.notifyItemChanged(viewHolder.getAdapterPosition());
+                    adapter.notifyItemChanged(position);
                 }
             });
             AlertDialog dialog = builder.create();
@@ -58,6 +58,7 @@ public class RecyclerItemTouchHelper extends ItemTouchHelper.SimpleCallback {
         }
     }
 
+    // animation when you use swipe functionality
     @Override
     public void onChildDraw(Canvas canvas, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
         super.onChildDraw(canvas, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);

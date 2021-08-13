@@ -62,56 +62,25 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="64dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="64dp"
+        android:layout_marginBottom="32dp"
         android:nestedScrollingEnabled="true"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/topBar"
         app:layout_constraintVertical_bias="0.0" />
 
-    <EditText
-        android:id="@+id/editTextItemName"
-        android:layout_width="0dp"
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/addFloatingButton"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:ems="10"
-        android:hint="Item name"
-        android:inputType="textPersonName"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintWidth_percent="0.47" />
-
-    <EditText
-        android:id="@+id/editTextItemQty"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="Qty"
-        android:inputType="textPersonName"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/editTextItemName"
-        app:layout_constraintWidth_percent="0.12" />
-
-    <Button
-        android:id="@+id/button"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="2dp"
-        android:text="ADD"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintWidth_percent="0.18" />
-
-    <Spinner
-        android:id="@+id/unitSpinner"
-        android:layout_width="82dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="@+id/editTextItemQty"
-        app:layout_constraintStart_toEndOf="@+id/editTextItemQty"
-        app:layout_constraintTop_toTopOf="@+id/editTextItemQty" />
-
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="64dp"
+        android:src="@drawable/ic_baseline_add"
+        app:backgroundTint="@color/primary3"
+        app:layout_constraintBottom_toBottomOf="@+id/insideListRecyclerView"
+        app:layout_constraintEnd_toEndOf="@+id/insideListRecyclerView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -28,7 +28,7 @@ public class InsideListViewModel extends AppCompatActivity implements AdapterVie
     LinearLayoutManager layoutManager;
     List<ItemModel> itemsList;
     InsideListAdapter adapter;
-    Spinner unitSpinner;
+    // Spinner unitSpinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,13 +36,13 @@ public class InsideListViewModel extends AppCompatActivity implements AdapterVie
         setContentView(R.layout.activity_inside_list_view_model);
         getSupportActionBar().hide();
 
-        unitSpinner = findViewById(R.id.unitSpinner);
+        /*unitSpinner = findViewById(R.id.unitSpinner);
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.unit, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         unitSpinner.setAdapter(adapter);
 
-        unitSpinner.setOnItemSelectedListener(this);
+        unitSpinner.setOnItemSelectedListener(this);*/
 
         Intent i = getIntent();
         TextView listNameTextView = findViewById(R.id.listNameTextView);
