@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.DataSetObserver;
 import android.os.Bundle;
@@ -16,68 +17,59 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.example.groceryapp.DialogCloseListener;
 import com.example.groceryapp.R;
 import com.example.groceryapp.adapter.InsideListAdapter;
+import com.example.groceryapp.database.DatabaseHandler;
 import com.example.groceryapp.model.ItemModel;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class InsideListViewModel extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
-    RecyclerView recyclerView;
-    LinearLayoutManager layoutManager;
-    List<ItemModel> itemsList;
-    InsideListAdapter adapter;
-    // Spinner unitSpinner;
+public class InsideListViewModel extends AppCompatActivity implements DialogCloseListener {
+    private List<ItemModel> itemsList;
+    private RecyclerView insideListRecyclerView;
+    private InsideListAdapter insideListAdapter;
+
+    private FloatingActionButton addItemFloatingButton;
+    private DatabaseHandler db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // set the layout
         setContentView(R.layout.activity_inside_list_view_model);
         getSupportActionBar().hide();
 
-        /*unitSpinner = findViewById(R.id.unitSpinner);
-
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.unit, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        unitSpinner.setAdapter(adapter);
-
-        unitSpinner.setOnItemSelectedListener(this);*/
-
+        // unpack the intent and set up the activity
         Intent i = getIntent();
         TextView listNameTextView = findViewById(R.id.listNameTextView);
 
         String listName = i.getStringExtra("listName");
+        int listId = i.getIntExtra("listId", 0);
+
         listNameTextView.setText(listName);
-        
-        //initData();
-        //initRecyclerView();
-    }
 
-    /*private void initData() {
-        itemsList = new ArrayList<>();
-        itemsList.add(new ItemModel("Apples"));
-        itemsList.add(new ItemModel("Apples"));
-        itemsList.add(new ItemModel("Apples"));
-        itemsList.add(new ItemModel("Apples"));
-    }
+        // add a new item button
+        addItemFloatingButton = findViewById(R.id.addItemFloatingButton);
+        addItemFloatingButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addItemFloatingButton.hide();
+                Bundle bundle = new Bundle();
+                bundle.putInt("LIST_ID", listId);
+                AddNewItemViewModel fragment = new AddNewItemViewModel();
+                fragment.setArguments(bundle);
+                fragment.show(getSupportFragmentManager(), AddNewItemViewModel.TAG);
+            }
+        });
 
-    private void initRecyclerView() {
-        recyclerView = findViewById(R.id.insideListRecyclerView);
-        layoutManager = new LinearLayoutManager(this);
-        layoutManager.setOrientation(RecyclerView.VERTICAL);
-        recyclerView.setLayoutManager(layoutManager);
-        adapter = new InsideListAdapter(itemsList);
-        adapter.notifyDataSetChanged();
-    }*/
-
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        String choice = parent.getItemAtPosition(position).toString();
     }
 
     @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-
+    public void handleDialogClose(DialogInterface dialog) {
+        addItemFloatingButton.show();
     }
 }

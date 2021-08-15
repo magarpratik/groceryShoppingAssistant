@@ -23,24 +23,28 @@ import java.util.Collections;
 import java.util.List;
 
 public class MainActivityViewModel extends AppCompatActivity implements DialogCloseListener {
+    private List<ShoppingListModel> listOfShoppingLists;
     private RecyclerView listRecyclerView;
     private MainActivityAdapter mainActivityAdapter;
-    private List<ShoppingListModel> listOfShoppingLists;
-    private DatabaseHandler db;
+
     private FloatingActionButton addFloatingButton;
+    private DatabaseHandler db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // set the layout
         setContentView(R.layout.activity_main);
         getSupportActionBar().hide();
 
         // Database
-        db = new DatabaseHandler(this);
+        db = new DatabaseHandler(MainActivityViewModel.this);
         db.openDatabase();
 
         // db.resetDatabase();
 
+        // arraylist to hold the list of listNames
         listOfShoppingLists = new ArrayList<>();
 
         // RecyclerView

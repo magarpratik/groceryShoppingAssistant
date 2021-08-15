@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,7 +34,6 @@ public class AddNewListViewModel extends BottomSheetDialogFragment {
     // declare UI elements
     private EditText newListText;
     private Button newListSaveButton;
-    private FloatingActionButton addFloatingButton;
 
     private DatabaseHandler db;
 

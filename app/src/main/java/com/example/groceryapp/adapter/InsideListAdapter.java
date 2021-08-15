@@ -9,7 +9,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.groceryapp.R;
+import com.example.groceryapp.database.DatabaseHandler;
 import com.example.groceryapp.model.ItemModel;
+import com.example.groceryapp.viewModel.InsideListViewModel;
+import com.example.groceryapp.viewModel.MainActivityViewModel;
 
 import org.w3c.dom.Text;
 
@@ -18,11 +21,14 @@ import java.util.List;
 // RecyclerView adapter for the items inside the list
 public class InsideListAdapter extends RecyclerView.Adapter<InsideListAdapter.ViewHolder> {
 
+    private InsideListViewModel insideListViewModel;
+    private DatabaseHandler db;
     private List<ItemModel> itemsList;
 
     // Constructor for the adapter
-    public InsideListAdapter (List<ItemModel> itemsList) {
-        this.itemsList = itemsList;
+    public InsideListAdapter(InsideListViewModel insideListViewModel, DatabaseHandler db) {
+        this.insideListViewModel = insideListViewModel;
+        this.db = db;
     }
 
     @NonNull

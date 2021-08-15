@@ -79,6 +79,7 @@ public class MainActivityAdapter extends RecyclerView.Adapter<MainActivityAdapte
                 // start a new activity when you click on an item
                 Intent i = new Intent(getContext(), InsideListViewModel.class);
                 i.putExtra("listName", listOfShoppingLists.get(holder.getAdapterPosition()).getName());
+                i.putExtra("listId", listOfShoppingLists.get(holder.getAdapterPosition()).getId());
                 mainActivity.startActivity(i);
 
                 // Toast.makeText(mainActivity, listOfShoppingLists.get(position).getName(), Toast.LENGTH_SHORT).show();

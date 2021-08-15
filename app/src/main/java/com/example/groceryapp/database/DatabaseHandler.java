@@ -53,7 +53,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         String createListTableStatement = "CREATE TABLE " + LIST_TABLE + " (" + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + COLUMN_LIST_NAME + " TEXT, " + COLUMN_STORE + " TEXT)";
         String createItemTableStatement = "CREATE TABLE " + ITEM_TABLE + " (" + ITEM_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                + LIST_ID + " INTEGER, " + ITEM_NAME + " TEXT, " + ITEM_QUANTITY + " TEXT, " + ITEM_UNIT + "TEXT)";
+                + LIST_ID + " INTEGER, " + ITEM_NAME + " TEXT, " + ITEM_QUANTITY + " TEXT, " + ITEM_UNIT + " TEXT)";
 
         db.execSQL(createListTableStatement);
         db.execSQL(createItemTableStatement);
@@ -141,10 +141,10 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     // METHODS FOR ADDING/DELETING/UPDATING ITEMS
 
-    public void addNewItem(ItemModel itemModel, ShoppingListModel listModel) {
+    public void addNewItem(ItemModel itemModel) {
         // add the new ITEM details to a cv data structure
         ContentValues cv = new ContentValues();
-        cv.put(LIST_ID, listModel.getId());
+        cv.put(LIST_ID, itemModel.getListId());
         cv.put(ITEM_NAME, itemModel.getName());
         cv.put(ITEM_QUANTITY, itemModel.getQuantity());
         cv.put(ITEM_UNIT, itemModel.getUnit());
@@ -154,12 +154,17 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     }
 
     // Change the name of a list
-    public void updateItem(int id, String item_name, String item_quantity, String unit, ShoppingListModel listModel) {
+    public void updateItem(int id, String item_name) {
         ContentValues cv = new ContentValues();
-        cv.put(LIST_ID, listModel.getId());
         cv.put(ITEM_NAME, item_name);
-        cv.put(ITEM_QUANTITY, item_quantity);
-        cv.put(ITEM_UNIT, unit);
+        db.update(ITEM_TABLE, cv, ITEM_ID + "=?", new String[] {String.valueOf(id)});
+    }
+
+    public void updateItem(int id, String item_name, String item_qty, String item_unit) {
+        ContentValues cv = new ContentValues();
+        cv.put(ITEM_NAME, item_name);
+        cv.put(ITEM_QUANTITY, item_qty);
+        cv.put(ITEM_UNIT, item_unit);
         db.update(ITEM_TABLE, cv, ITEM_ID + "=?", new String[] {String.valueOf(id)});
     }
 
@@ -188,7 +193,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                         // Get the details about the lists from the resultset (cursor)
                         // Go through the lists from the resultset
                         // Add the lists from the resultset to the listOfLists ArrayList
-                        ItemModel item = new ItemModel(cursor.getString(cursor.getColumnIndex(ITEM_NAME)));
+                        ItemModel item = new ItemModel(cursor.getInt(cursor.getColumnIndex(LIST_ID)), cursor.getString(cursor.getColumnIndex(ITEM_NAME)));
                         item.setId(cursor.getInt(cursor.getColumnIndex(ITEM_ID)));
                         item.setQuantity(cursor.getString(cursor.getColumnIndex(ITEM_QUANTITY)));
                         item.setUnit(cursor.getString(cursor.getColumnIndex(ITEM_UNIT)));

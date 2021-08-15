@@ -28,8 +28,16 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintWidth_percent="0.12" />
 
+    <Spinner
+        android:id="@+id/unitSpinner"
+        android:layout_width="82dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="@+id/editTextItemQty"
+        app:layout_constraintStart_toEndOf="@+id/editTextItemQty"
+        app:layout_constraintTop_toTopOf="@+id/editTextItemQty" />
+
     <Button
-        android:id="@+id/buttonAddItem"
+        android:id="@+id/newItemSaveButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="2dp"
@@ -38,13 +46,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintWidth_percent="0.18" />
-
-    <Spinner
-        android:id="@+id/unitSpinner"
-        android:layout_width="82dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="@+id/editTextItemQty"
-        app:layout_constraintStart_toEndOf="@+id/editTextItemQty"
-        app:layout_constraintTop_toTopOf="@+id/editTextItemQty" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
