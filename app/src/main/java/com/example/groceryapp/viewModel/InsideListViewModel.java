@@ -60,12 +60,12 @@ public class InsideListViewModel extends AppCompatActivity implements DialogClos
                 addItemFloatingButton.hide();
                 Bundle bundle = new Bundle();
                 bundle.putInt("LIST_ID", listId);
+                bundle.putString("ITEM_NAME", "");
                 AddNewItemViewModel fragment = new AddNewItemViewModel();
                 fragment.setArguments(bundle);
                 fragment.show(getSupportFragmentManager(), AddNewItemViewModel.TAG);
             }
         });
-
     }
 
     @Override

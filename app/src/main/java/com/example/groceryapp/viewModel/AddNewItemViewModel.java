@@ -92,7 +92,7 @@ public class AddNewItemViewModel extends BottomSheetDialogFragment {
         // pass data to fragment
         final Bundle bundle = getArguments();
 
-        /*if(bundle.getString("ITEM_NAME").equals("")) {
+        if(!bundle.getString("ITEM_NAME").equals("")) {
             isUpdate = true;
             String itemName = bundle.getString("ITEM_NAME");
             editTextItemName.setText(itemName);
@@ -106,7 +106,7 @@ public class AddNewItemViewModel extends BottomSheetDialogFragment {
             if(itemName.length() > 0) {
                 newItemSaveButton.setTextColor(ContextCompat.getColor(getContext(), R.color.primary3));
             }
-        }*/
+        }
 
         // Listener to check if the text changed in the EditText
         // Save button will be enabled only after text is entered in the EditText
