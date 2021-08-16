@@ -59,7 +59,10 @@ public class InsideListAdapter extends RecyclerView.Adapter<InsideListAdapter.Vi
     // populates the RecyclerView
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.itemNameTextView.setText(itemsList.get(position).getName());
-        holder.itemQtyTextView.setText(itemsList.get(position).getQuantity());
+        if (itemsList.get(position).getQuantity() != null) {
+            holder.itemQtyTextView.setText(itemsList.get(position).getQuantity()
+                    + " " + itemsList.get(position).getUnit());
+        }
     }
 
     @Override

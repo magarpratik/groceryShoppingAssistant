@@ -19,7 +19,7 @@
         android:id="@+id/itemQtyTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="itemQty"
+        android:text=""
         android:textColor="@color/blackText"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"

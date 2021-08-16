@@ -37,7 +37,6 @@ public class InsideListViewModel extends AppCompatActivity implements DialogClos
     private FloatingActionButton addItemFloatingButton;
     private DatabaseHandler db;
     private int listId;
-    String testNames[] = {"Testing1", "Testing2", "Testing3"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,12 +68,12 @@ public class InsideListViewModel extends AppCompatActivity implements DialogClos
         insideListAdapter = new InsideListAdapter(this, db);
         insideListRecyclerView.setAdapter(insideListAdapter);
 
-        // add a new item button
-        addItemFloatingButton = findViewById(R.id.addItemFloatingButton);
         itemsList = db.getListOfItems(listId);
         insideListAdapter.setItemsList(itemsList);
 
-        // adding a new item
+        // add a new item button
+        addItemFloatingButton = findViewById(R.id.addItemFloatingButton);
+
         addItemFloatingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
