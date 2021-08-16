@@ -37,6 +37,8 @@ public class MainActivityAdapter extends RecyclerView.Adapter<MainActivityAdapte
         this.db = db;
     }
 
+    public Context getContext() { return mainActivity; }
+
     // Only knows about one object at a time
     // Takes an individual layout from the RecyclerView
     // and populates it with an object from the list
@@ -67,7 +69,6 @@ public class MainActivityAdapter extends RecyclerView.Adapter<MainActivityAdapte
     // Responsible for mapping data from the original list to the RecyclerView
     @Override
     public void onBindViewHolder(@NonNull MainActivityAdapter.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
-        db.openDatabase();
         holder.listNameTextView.setText(listOfShoppingLists.get(position).getName());
 
         // YOU CAN SET OnClickListeners FOR EVERY UI ELEMENT
@@ -86,8 +87,6 @@ public class MainActivityAdapter extends RecyclerView.Adapter<MainActivityAdapte
             }
         });
     }
-
-    public Context getContext() { return mainActivity; }
 
     @Override
     public int getItemCount() {

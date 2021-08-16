@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.ClipData;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.DataSetObserver;
@@ -25,6 +26,7 @@ import com.example.groceryapp.model.ItemModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class InsideListViewModel extends AppCompatActivity implements DialogCloseListener {
@@ -34,6 +36,8 @@ public class InsideListViewModel extends AppCompatActivity implements DialogClos
 
     private FloatingActionButton addItemFloatingButton;
     private DatabaseHandler db;
+    private int listId;
+    String testNames[] = {"Testing1", "Testing2", "Testing3"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,17 +47,34 @@ public class InsideListViewModel extends AppCompatActivity implements DialogClos
         setContentView(R.layout.activity_inside_list_view_model);
         getSupportActionBar().hide();
 
+        // Database
+        db = new DatabaseHandler(InsideListViewModel.this);
+        db.openDatabase();
+
         // unpack the intent and set up the activity
         Intent i = getIntent();
-        TextView listNameTextView = findViewById(R.id.listNameTextView);
-
         String listName = i.getStringExtra("listName");
-        int listId = i.getIntExtra("listId", 0);
+        listId = i.getIntExtra("listId", 0);
 
+        TextView listNameTextView = findViewById(R.id.listNameTextView);
         listNameTextView.setText(listName);
+
+        itemsList = new ArrayList<>();
+
+        // RecyclerView
+        insideListRecyclerView = findViewById(R.id.insideListRecyclerView);
+        insideListRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        // Adapter
+        insideListAdapter = new InsideListAdapter(this, db);
+        insideListRecyclerView.setAdapter(insideListAdapter);
 
         // add a new item button
         addItemFloatingButton = findViewById(R.id.addItemFloatingButton);
+        itemsList = db.getListOfItems(listId);
+        insideListAdapter.setItemsList(itemsList);
+
+        // adding a new item
         addItemFloatingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -70,6 +91,9 @@ public class InsideListViewModel extends AppCompatActivity implements DialogClos
 
     @Override
     public void handleDialogClose(DialogInterface dialog) {
+        itemsList = db.getListOfItems(listId);
+        insideListAdapter.setItemsList(itemsList);
+        insideListAdapter.notifyDataSetChanged();
         addItemFloatingButton.show();
     }
 }

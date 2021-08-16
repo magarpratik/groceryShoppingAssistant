@@ -174,7 +174,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     }
 
     // get the list table from the database
-    public List<ItemModel> getListOfItems(ShoppingListModel listModel) {
+    public List<ItemModel> getListOfItems(int listId) {
         List<ItemModel> listOfItems= new ArrayList<>();
 
         // Cursor is resultset
@@ -184,7 +184,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.beginTransaction();
         try {
             // returns the whole table
-            cursor = db.query(ITEM_TABLE, null, LIST_ID + "=" + listModel.getId(), null, null, null,null, null);
+            cursor = db.query(ITEM_TABLE, null, LIST_ID + " = " + listId, null, null, null,null, null);
 
             if(cursor != null) {
                 // move to the first row of the table
