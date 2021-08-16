@@ -97,6 +97,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     // delete a list
     public void deleteList(int id) {
         db.delete(LIST_TABLE, COLUMN_ID + "=?", new String[] {String.valueOf(id)});
+        db.delete(ITEM_TABLE, LIST_ID + "=?", new String[] {String.valueOf(id)});
     }
 
     // get the list table from the database

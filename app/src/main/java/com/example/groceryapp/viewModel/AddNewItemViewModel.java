@@ -101,7 +101,6 @@ public class AddNewItemViewModel extends BottomSheetDialogFragment {
             String itemUnit = bundle.getString("ITEM_UNIT");
             unitSpinner.setSelection(getIndex(unitSpinner, itemUnit));
 
-
             // check if itemName is empty or not
             if(itemName.length() > 0) {
                 newItemSaveButton.setTextColor(ContextCompat.getColor(getContext(), R.color.primary3));
@@ -143,13 +142,14 @@ public class AddNewItemViewModel extends BottomSheetDialogFragment {
                 String itemQty = editTextItemQty.getText().toString();
                 String itemUnit = unitSpinner.getSelectedItem().toString();
                 int itemId = bundle.getInt("ITEM_ID");
+                int listId = bundle.getInt("LIST_ID");
 
                 if(!itemName.equals("") && itemQty.equals("")) {
                     if(finalIsUpdate) {
                         db.updateItem(itemId, itemName);
                     }
                     else {
-                        ItemModel itemModel = new ItemModel(itemId, itemName);
+                        ItemModel itemModel = new ItemModel(listId, itemName);
                         db.addNewItem(itemModel);
                     }
                     // dismiss the bottom sheet dialog fragment
@@ -160,7 +160,7 @@ public class AddNewItemViewModel extends BottomSheetDialogFragment {
                         db.updateItem(itemId, itemName, itemQty, itemUnit);
                     }
                     else {
-                        ItemModel itemModel = new ItemModel(itemId, itemName, itemQty, itemUnit);
+                        ItemModel itemModel = new ItemModel(listId, itemName, itemQty, itemUnit);
                         db.addNewItem(itemModel);
                     }
                     // dismiss the bottom sheet dialog fragment
