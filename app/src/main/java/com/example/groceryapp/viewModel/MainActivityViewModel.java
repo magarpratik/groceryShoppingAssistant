@@ -7,12 +7,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.view.View;
 
 import com.example.groceryapp.DialogCloseListener;
 import com.example.groceryapp.R;
-import com.example.groceryapp.RecyclerItemTouchHelper;
+import com.example.groceryapp.touchHelper.MainActivityTouchHelper;
 import com.example.groceryapp.adapter.MainActivityAdapter;
 import com.example.groceryapp.database.DatabaseHandler;
 import com.example.groceryapp.model.ShoppingListModel;
@@ -60,7 +59,7 @@ public class MainActivityViewModel extends AppCompatActivity implements DialogCl
 
         // swipe functionality
         ItemTouchHelper itemTouchHelper = new
-                ItemTouchHelper(new RecyclerItemTouchHelper(mainActivityAdapter));
+                ItemTouchHelper(new MainActivityTouchHelper(mainActivityAdapter));
         itemTouchHelper.attachToRecyclerView(listRecyclerView);
 
         listOfShoppingLists = db.getAllLists();

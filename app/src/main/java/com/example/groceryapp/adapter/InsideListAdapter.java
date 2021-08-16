@@ -1,6 +1,7 @@
 package com.example.groceryapp.adapter;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import com.example.groceryapp.R;
 import com.example.groceryapp.database.DatabaseHandler;
 import com.example.groceryapp.model.ItemModel;
 import com.example.groceryapp.model.ShoppingListModel;
+import com.example.groceryapp.viewModel.AddNewItemViewModel;
 import com.example.groceryapp.viewModel.InsideListViewModel;
 import com.example.groceryapp.viewModel.MainActivityViewModel;
 
@@ -24,16 +26,16 @@ import java.util.List;
 // RecyclerView adapter for the items inside the list
 public class InsideListAdapter extends RecyclerView.Adapter<InsideListAdapter.ViewHolder> {
     private List<ItemModel> itemsList = new ArrayList<>();
-    private Context context;
+    private InsideListViewModel insideListViewModel;
     private DatabaseHandler db;
 
     // Constructor for the adapter
-    public InsideListAdapter(Context context, DatabaseHandler db) {
-        this.context = context;
+    public InsideListAdapter(InsideListViewModel insideListViewModel, DatabaseHandler db) {
+        this.insideListViewModel = insideListViewModel;
         this.db = db;
     }
 
-    public Context getContext() { return context; }
+    public Context getContext() { return insideListViewModel; }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         private TextView itemNameTextView;
@@ -75,5 +77,26 @@ public class InsideListAdapter extends RecyclerView.Adapter<InsideListAdapter.Vi
         this.itemsList = itemsList;
         // update the RecyclerView
         notifyDataSetChanged();
+    }
+
+    public void deleteItem(int position) {
+        ItemModel itemModel = itemsList.get(position);
+        db.deleteItem(itemModel.getId());
+        itemsList.remove(position);
+        notifyItemRemoved(position);
+    }
+
+    public void editItem(int position) {
+        ItemModel itemModel = itemsList.get(position);
+        Bundle bundle = new Bundle();
+        bundle.putInt("LIST_ID", itemModel.getListId());
+        bundle.putInt("ITEM_ID", itemModel.getId());
+        bundle.putString("ITEM_NAME", itemModel.getName());
+        bundle.putString("ITEM_QTY", itemModel.getQuantity());
+        bundle.putString("ITEM_UNIT", itemModel.getUnit());
+
+        AddNewItemViewModel fragment = new AddNewItemViewModel();
+        fragment.setArguments(bundle);
+        fragment.show(insideListViewModel.getSupportFragmentManager(), AddNewItemViewModel.TAG);
     }
 }

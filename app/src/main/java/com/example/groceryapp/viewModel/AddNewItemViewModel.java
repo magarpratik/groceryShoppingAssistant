@@ -142,25 +142,25 @@ public class AddNewItemViewModel extends BottomSheetDialogFragment {
                 String itemName = editTextItemName.getText().toString();
                 String itemQty = editTextItemQty.getText().toString();
                 String itemUnit = unitSpinner.getSelectedItem().toString();
-                int listId = bundle.getInt("LIST_ID");
+                int itemId = bundle.getInt("ITEM_ID");
 
                 if(!itemName.equals("") && itemQty.equals("")) {
                     if(finalIsUpdate) {
-                        db.updateItem(bundle.getInt("ID"), itemName);
+                        db.updateItem(itemId, itemName);
                     }
                     else {
-                        ItemModel itemModel = new ItemModel(listId, itemName);
+                        ItemModel itemModel = new ItemModel(itemId, itemName);
                         db.addNewItem(itemModel);
                     }
                     // dismiss the bottom sheet dialog fragment
                     dismiss();
                 }
-                else {
+                else if (!itemName.equals("") && !itemQty.equals("")){
                     if(finalIsUpdate) {
-                        db.updateItem(bundle.getInt("ID"), itemName, itemQty, itemUnit);
+                        db.updateItem(itemId, itemName, itemQty, itemUnit);
                     }
                     else {
-                        ItemModel itemModel = new ItemModel(listId, itemName, itemQty, itemUnit);
+                        ItemModel itemModel = new ItemModel(itemId, itemName, itemQty, itemUnit);
                         db.addNewItem(itemModel);
                     }
                     // dismiss the bottom sheet dialog fragment

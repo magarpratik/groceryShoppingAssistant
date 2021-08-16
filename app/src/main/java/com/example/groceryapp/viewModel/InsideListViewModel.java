@@ -1,6 +1,7 @@
 package com.example.groceryapp.viewModel;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -23,6 +24,7 @@ import com.example.groceryapp.R;
 import com.example.groceryapp.adapter.InsideListAdapter;
 import com.example.groceryapp.database.DatabaseHandler;
 import com.example.groceryapp.model.ItemModel;
+import com.example.groceryapp.touchHelper.InsideListTouchHelper;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -73,6 +75,11 @@ public class InsideListViewModel extends AppCompatActivity implements DialogClos
 
         // add a new item button
         addItemFloatingButton = findViewById(R.id.addItemFloatingButton);
+
+        // swipe functionality
+        ItemTouchHelper itemTouchHelper = new
+                ItemTouchHelper(new InsideListTouchHelper(insideListAdapter));
+        itemTouchHelper.attachToRecyclerView(insideListRecyclerView);
 
         addItemFloatingButton.setOnClickListener(new View.OnClickListener() {
             @Override

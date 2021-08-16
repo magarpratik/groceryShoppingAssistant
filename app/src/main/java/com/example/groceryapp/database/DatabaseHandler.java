@@ -153,7 +153,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.insert(ITEM_TABLE, null, cv);
     }
 
-    // Change the name of a list
+    // Change the name of an item
     public void updateItem(int id, String item_name) {
         ContentValues cv = new ContentValues();
         cv.put(ITEM_NAME, item_name);
