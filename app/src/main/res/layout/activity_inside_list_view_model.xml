@@ -62,7 +62,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="64dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="32dp"
+        android:layout_marginBottom="72dp"
         android:nestedScrollingEnabled="true"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -77,10 +77,24 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="32dp"
-        android:layout_marginBottom="64dp"
+        android:layout_marginBottom="24dp"
         android:src="@drawable/ic_baseline_add"
         app:backgroundTint="@color/primary3"
         app:layout_constraintBottom_toBottomOf="@+id/insideListRecyclerView"
         app:layout_constraintEnd_toEndOf="@+id/insideListRecyclerView" />
+
+    <Button
+        android:id="@+id/comparePricesButton"
+        android:backgroundTint="@color/primary3"
+        android:textSize="18sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:text="Compare Prices"
+        android:textColor="@color/whiteText"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/insideListRecyclerView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

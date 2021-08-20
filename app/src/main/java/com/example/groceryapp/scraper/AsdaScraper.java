@@ -1,16 +1,35 @@
 package com.example.groceryapp.scraper;
 
+import android.util.Log;
+
+import androidx.annotation.NonNull;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.example.groceryapp.model.ItemModel;
+import com.example.groceryapp.viewModel.InsideListViewModel;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
-public class AsdaScraper {
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
 
-    public void scrape(String searchTerm) {
+public class AsdaScraper {
+    /*public ArrayList<ArrayList<String>> scrape(String response) {
         final String itemName = "skuName";
         final String price = "price";
         final String weight = "weight";
@@ -20,13 +39,6 @@ public class AsdaScraper {
 
         ArrayList<ArrayList<String>> result = new ArrayList<ArrayList<String>>();
 
-        // Get the JSON data
-        String response = null;
-        try {
-            response = Unirest.get("https://groceries.asda.com/cmscontent/v2/items/autoSuggest?requestorigin=gi&searchTerm=" + searchTerm.replace(" ", "%20")).asString().getBody();
-        } catch (UnirestException e) {
-            e.printStackTrace();
-        }
         JSONObject jsonObject = null;
         try {
             jsonObject = new JSONObject(response);
@@ -43,8 +55,8 @@ public class AsdaScraper {
 
         ArrayList<ArrayList<String>> finalResult = resultSorter(result);
 
-        System.out.println(finalResult);
-    }
+        return finalResult;
+    }*/
 
     public static ArrayList<ArrayList<String>> resultSorter(ArrayList<ArrayList<String>> result) {
         ArrayList<ArrayList<String>> finalResult = new ArrayList<ArrayList<String>>();

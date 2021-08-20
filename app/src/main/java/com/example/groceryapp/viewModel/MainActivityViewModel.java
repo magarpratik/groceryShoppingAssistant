@@ -9,6 +9,8 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.Volley;
 import com.example.groceryapp.DialogCloseListener;
 import com.example.groceryapp.R;
 import com.example.groceryapp.touchHelper.MainActivityTouchHelper;
@@ -66,6 +68,8 @@ public class MainActivityViewModel extends AppCompatActivity implements DialogCl
         // reverse the order so the latest ones are at the top
         Collections.reverse(listOfShoppingLists);
         mainActivityAdapter.setListOfShoppingLists(listOfShoppingLists);
+
+
 
         // adding a new list
         addFloatingButton.setOnClickListener(new View.OnClickListener() {

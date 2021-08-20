@@ -9,15 +9,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class SainsburysScraper {
-    public void scrape(String searchTerm) {
+    public ArrayList<ArrayList<String>> scrape(String response) {
 
-        // Get the JSON data
-        String response = null;
-        try {
-            response = Unirest.get("https://www.sainsburys.co.uk/groceries-api/gol-services/product/v1/product?filter[keyword]=" + searchTerm.replace(" ", "%20")).asString().getBody();
-        } catch (UnirestException e) {
-            e.printStackTrace();
-        }
         JSONObject jsonObject = null;
         try {
             jsonObject = new JSONObject(response);
@@ -144,6 +137,6 @@ public class SainsburysScraper {
         result.add(finalCombinedPricePerUnitList);
 
         ArrayList<ArrayList<String>> finalResult = AsdaScraper.resultSorter(result);
-        System.out.println(finalResult);
+        return finalResult;
     }
 }

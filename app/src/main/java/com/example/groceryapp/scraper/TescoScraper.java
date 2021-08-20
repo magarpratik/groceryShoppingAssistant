@@ -12,7 +12,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class TescoScraper {
-    public void scrape(String searchTerm) {
+    public ArrayList<ArrayList<String>> scrape(String searchTerm) {
         ArrayList<ArrayList<String>> finalResult = new ArrayList<ArrayList<String>>();
 
         Document page = null;
@@ -43,7 +43,7 @@ public class TescoScraper {
         quantityScraper(price, unit, result);
 
         finalResult = AsdaScraper.resultSorter(result);
-        System.out.println(finalResult);
+        return finalResult;
     }
 
     // sort prices into 2 categories

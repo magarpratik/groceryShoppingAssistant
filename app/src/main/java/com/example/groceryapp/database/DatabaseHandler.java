@@ -33,6 +33,16 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public static final String ITEM_UNIT = "ITEM_UNIT";
     public static final String LIST_ID = "LIST_ID";
 
+    // RESULTS table details
+    public static final String RESULTS_TABLE = "RESULTS_TABLE";
+    public static final String RESULTS_ITEM_ID = "RESULTS_ITEM_ID";
+    public static final String RESULTS_NAME = "RESULTS_NAME";
+    public static final String RESULTS_QTY = "RESULTS_QTY";
+    public static final String RESULTS_LIST_ID = "RESULTS_LIST_ID";
+    public static final String RESULTS_STORE_ID = "RESULTS_STORE_ID";
+    public static final String RESULTS_PRICE = "RESULTS_PRICE";
+    public static final String RESULTS_PPU = "RESULTS_PPU";
+
     private SQLiteDatabase db;
 
     // Constructor
@@ -54,9 +64,13 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 + COLUMN_LIST_NAME + " TEXT, " + COLUMN_STORE + " TEXT)";
         String createItemTableStatement = "CREATE TABLE " + ITEM_TABLE + " (" + ITEM_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + LIST_ID + " INTEGER, " + ITEM_NAME + " TEXT, " + ITEM_QUANTITY + " TEXT, " + ITEM_UNIT + " TEXT)";
+        String createResultsTableStatement = "CREATE TABLE " + RESULTS_TABLE + " (" + RESULTS_LIST_ID + " INTEGER, " + RESULTS_ITEM_ID
+                + " INTEGER, " + RESULTS_STORE_ID + " INTEGER, " + RESULTS_NAME + " TEXT, " + RESULTS_PRICE + " TEXT, "
+                + RESULTS_QTY + " TEXT, " + RESULTS_PPU + " TEXT)";
 
         db.execSQL(createListTableStatement);
         db.execSQL(createItemTableStatement);
+        db.execSQL(createResultsTableStatement);
     }
 
     // called when the database version number changes
@@ -66,9 +80,28 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         // Drop the older tables
         db.execSQL("DROP TABLE IF EXISTS " + LIST_TABLE);
         db.execSQL("DROP TABLE IF EXISTS " + ITEM_TABLE);
+        db.execSQL("DROP TABLE IF EXISTS " + RESULTS_TABLE);
 
         // Create tables again
         onCreate(db);
+    }
+
+    // Add the webscraping results to the database
+    public void addResults(ItemModel itemModel) {
+        ContentValues cv = new ContentValues();
+        cv.put(RESULTS_LIST_ID, itemModel.getListId());
+        cv.put(RESULTS_ITEM_ID, itemModel.getId());
+        cv.put(RESULTS_NAME, itemModel.getName());
+        cv.put(RESULTS_QTY, itemModel.getQuantity());
+        cv.put(RESULTS_STORE_ID, itemModel.getStoreId());
+        cv.put(RESULTS_PRICE, itemModel.getPrice());
+        cv.put(RESULTS_PPU, itemModel.getPricePerUnit());
+
+        db.insert(RESULTS_TABLE, null, cv);
+    }
+
+    public void clearResults() {
+        db.execSQL("DELETE FROM " + RESULTS_TABLE);
     }
 
 
@@ -214,11 +247,41 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
 
 
+    // Get the list of items of a particular list
+    public ArrayList<ItemModel> getItemsList(int listId) {
+        ArrayList<ItemModel> result = new ArrayList<>();
+        Cursor cursor = null;
+
+        db.beginTransaction();
+        try {
+            cursor = db.query(ITEM_TABLE, null, LIST_ID + " = " + listId, null, null, null, null, null);
+
+            if(cursor != null) {
+                if(cursor.moveToFirst()) {
+                    do{
+                        ItemModel itemModel = new ItemModel(cursor.getInt(cursor.getColumnIndex(LIST_ID)), cursor.getString(cursor.getColumnIndex(ITEM_NAME)),
+                                cursor.getString(cursor.getColumnIndex(ITEM_QUANTITY)), cursor.getString(cursor.getColumnIndex(ITEM_UNIT)));
+                        itemModel.setId(cursor.getInt(cursor.getColumnIndex(ITEM_ID)));
+                        result.add(itemModel);
+                    }while(cursor.moveToNext());
+                }
+            }
+        }
+        finally {
+            db.endTransaction();
+            cursor.close();
+        }
+
+        return result;
+    }
+
+
 
     // reset the database
     public void resetDatabase() {
         db.execSQL("DROP TABLE IF EXISTS " + LIST_TABLE);
         db.execSQL("DROP TABLE IF EXISTS " + ITEM_TABLE);
+        db.execSQL("DROP TABLE IF EXISTS " + RESULTS_TABLE);
     }
 
     // EXAMPLE

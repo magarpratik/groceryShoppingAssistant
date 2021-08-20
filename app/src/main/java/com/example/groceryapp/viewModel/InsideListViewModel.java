@@ -16,16 +16,30 @@ import android.view.ViewGroup;
 import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.groceryapp.DialogCloseListener;
 import com.example.groceryapp.R;
 import com.example.groceryapp.adapter.InsideListAdapter;
 import com.example.groceryapp.database.DatabaseHandler;
 import com.example.groceryapp.model.ItemModel;
+import com.example.groceryapp.scraper.AsdaScraper;
+import com.example.groceryapp.scraper.SainsburysScraper;
 import com.example.groceryapp.touchHelper.InsideListTouchHelper;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -37,6 +51,7 @@ public class InsideListViewModel extends AppCompatActivity implements DialogClos
     private InsideListAdapter insideListAdapter;
 
     private FloatingActionButton addItemFloatingButton;
+    private Button comparePricesButton;
     private DatabaseHandler db;
     private int listId;
 
@@ -60,8 +75,6 @@ public class InsideListViewModel extends AppCompatActivity implements DialogClos
         TextView listNameTextView = findViewById(R.id.listNameTextView);
         listNameTextView.setText(listName);
 
-        itemsList = new ArrayList<>();
-
         // RecyclerView
         insideListRecyclerView = findViewById(R.id.insideListRecyclerView);
         insideListRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -70,11 +83,14 @@ public class InsideListViewModel extends AppCompatActivity implements DialogClos
         insideListAdapter = new InsideListAdapter(this, db);
         insideListRecyclerView.setAdapter(insideListAdapter);
 
+        // list of items on the list
+        itemsList = new ArrayList<>();
         itemsList = db.getListOfItems(listId);
         insideListAdapter.setItemsList(itemsList);
 
         // add a new item button
         addItemFloatingButton = findViewById(R.id.addItemFloatingButton);
+        comparePricesButton = findViewById(R.id.comparePricesButton);
 
         // swipe functionality
         ItemTouchHelper itemTouchHelper = new
@@ -85,12 +101,92 @@ public class InsideListViewModel extends AppCompatActivity implements DialogClos
             @Override
             public void onClick(View v) {
                 addItemFloatingButton.hide();
+                comparePricesButton.setVisibility(View.INVISIBLE);
                 Bundle bundle = new Bundle();
                 bundle.putInt("LIST_ID", listId);
                 bundle.putString("ITEM_NAME", "");
                 AddNewItemViewModel fragment = new AddNewItemViewModel();
                 fragment.setArguments(bundle);
                 fragment.show(getSupportFragmentManager(), AddNewItemViewModel.TAG);
+            }
+        });
+
+        // Volley request queue
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+
+        comparePricesButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                db.clearResults();
+
+                // Asda scraper
+                for (int i = 0; i < itemsList.size(); i++) {
+                    int itemId = itemsList.get(i).getId();
+                    String url = "https://groceries.asda.com/cmscontent/v2/items/autoSuggest?requestorigin=gi&searchTerm="
+                            + itemsList.get(i).getName();
+
+                    JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
+                            new Response.Listener<JSONObject>() {
+                                @Override
+                                public void onResponse(JSONObject response) {
+                                    try {
+                                        JSONObject jsonObject = response.getJSONObject("payload");
+                                        JSONArray items = jsonObject.getJSONArray("autoSuggestionItems");
+
+                                        for (int i = 0; i < 5; i++) {
+                                            JSONObject item = items.getJSONObject(i);
+                                            String name = item.getString("skuName");
+                                            String price = item.getString("price");
+                                            String weight = item.getString("weight");
+                                            String pricePerUnit = item.getString("pricePerUOM");
+
+                                            ItemModel itemModel = new ItemModel(listId, name);
+                                            // StoreId for ASDA = 0
+                                            itemModel.setStoreId(0);
+                                            itemModel.setPrice(price.replace("£", ""));
+                                            itemModel.setQuantity(weight);
+                                            itemModel.setPricePerUnit(pricePerUnit);
+                                            itemModel.setId(itemId);
+                                            db.addResults(itemModel);
+                                        }
+
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Toast.makeText(InsideListViewModel.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    requestQueue.add(request);
+                }
+
+                // Sainsbury's scraper
+                for (int i = 0; i < itemsList.size(); i++) {
+                    int itemId = itemsList.get(i).getId();
+
+                    String url = "https://www.sainsburys.co.uk/groceries-api/gol-services/product/v1/product?filter[keyword]="
+                            + itemsList.get(i).getName();
+
+                    JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
+                            new Response.Listener<JSONObject>() {
+                                @Override
+                                public void onResponse(JSONObject response) {
+                                    ArrayList<ArrayList<String>> finalResult = new ArrayList<ArrayList<String>>();
+                                    SainsburysScraper scraper = new SainsburysScraper();
+                                    finalResult = scraper.scrape(response.toString());
+                                    sorter(finalResult, listId, itemId);
+                                }
+                            }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Toast.makeText(InsideListViewModel.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    requestQueue.add(request);
+                }
             }
         });
     }
@@ -101,5 +197,20 @@ public class InsideListViewModel extends AppCompatActivity implements DialogClos
         insideListAdapter.setItemsList(itemsList);
         insideListAdapter.notifyDataSetChanged();
         addItemFloatingButton.show();
+        comparePricesButton.setVisibility(View.VISIBLE);
+    }
+
+    public void sorter(ArrayList<ArrayList<String>> result, int listId, int itemId) {
+
+        // create itemModels from the results
+        for (int i = 0; i < result.size(); i++) {
+            ItemModel itemModel = new ItemModel(listId, result.get(i).get(0));
+            itemModel.setStoreId(1);
+            itemModel.setId(itemId);
+            itemModel.setPrice(result.get(i).get(1));
+            itemModel.setQuantity(result.get(i).get(2));
+            itemModel.setPricePerUnit(result.get(i).get(3));
+            db.addResults(itemModel);
+        }
     }
 }

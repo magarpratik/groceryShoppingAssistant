@@ -10,6 +10,7 @@ public class ItemModel {
     private String unit;
     private String pricePerUnit;
     private String price;
+    private int storeId;
     private BigDecimal inStorePrice;
     private BigDecimal estimatedPrice;
 
@@ -95,5 +96,13 @@ public class ItemModel {
 
     public void setPrice(String price) {
         this.price = price;
+    }
+
+    public int getStoreId() {
+        return storeId;
+    }
+
+    public void setStoreId(int storeId) {
+        this.storeId = storeId;
     }
 }
