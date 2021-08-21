@@ -12,15 +12,15 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class TescoScraper {
-    public ArrayList<ArrayList<String>> scrape(String searchTerm) {
+    public ArrayList<ArrayList<String>> scrape(Document page) {
         ArrayList<ArrayList<String>> finalResult = new ArrayList<ArrayList<String>>();
 
-        Document page = null;
+        /*Document page = null;
         try {
             page = Jsoup.connect("https://www.tesco.com/groceries/en-GB/search?query=" + URLEncoder.encode(searchTerm, "UTF-8")).get();
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        }*/
 
         // scrape prices
         ArrayList<ArrayList<String>> result = new ArrayList<ArrayList<String>>();

@@ -26,6 +26,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.groceryapp.DialogCloseListener;
 import com.example.groceryapp.R;
@@ -34,12 +35,15 @@ import com.example.groceryapp.database.DatabaseHandler;
 import com.example.groceryapp.model.ItemModel;
 import com.example.groceryapp.scraper.AsdaScraper;
 import com.example.groceryapp.scraper.SainsburysScraper;
+import com.example.groceryapp.scraper.TescoScraper;
 import com.example.groceryapp.touchHelper.InsideListTouchHelper;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -177,12 +181,37 @@ public class InsideListViewModel extends AppCompatActivity implements DialogClos
                                     ArrayList<ArrayList<String>> finalResult = new ArrayList<ArrayList<String>>();
                                     SainsburysScraper scraper = new SainsburysScraper();
                                     finalResult = scraper.scrape(response.toString());
-                                    sorter(finalResult, listId, itemId);
+                                    sorter(finalResult, listId, itemId, 1);
                                 }
                             }, new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
-                            Toast.makeText(InsideListViewModel.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+                            error.printStackTrace();
+                        }
+                    });
+                    requestQueue.add(request);
+                }
+
+                // Tesco Scraper
+                for (int i = 0; i < itemsList.size(); i++) {
+                    int itemId = itemsList.get(i).getId();
+
+                    String url = "https://www.tesco.com/groceries/en-GB/search?query=" + itemsList.get(i).getName();
+
+                    StringRequest request = new StringRequest(Request.Method.GET, url,
+                            new Response.Listener<String>() {
+                                @Override
+                                public void onResponse(String response) {
+                                    Document document = Jsoup.parse(response);
+
+                                    TescoScraper tescoScraper = new TescoScraper();
+                                    ArrayList<ArrayList<String>> finalResult = tescoScraper.scrape(document);
+                                    sorter(finalResult, listId, itemId, 2);
+                                }
+                            }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            error.printStackTrace();
                         }
                     });
                     requestQueue.add(request);
@@ -200,12 +229,12 @@ public class InsideListViewModel extends AppCompatActivity implements DialogClos
         comparePricesButton.setVisibility(View.VISIBLE);
     }
 
-    public void sorter(ArrayList<ArrayList<String>> result, int listId, int itemId) {
+    public void sorter(ArrayList<ArrayList<String>> result, int listId, int itemId, int storeId) {
 
         // create itemModels from the results
         for (int i = 0; i < result.size(); i++) {
             ItemModel itemModel = new ItemModel(listId, result.get(i).get(0));
-            itemModel.setStoreId(1);
+            itemModel.setStoreId(storeId);
             itemModel.setId(itemId);
             itemModel.setPrice(result.get(i).get(1));
             itemModel.setQuantity(result.get(i).get(2));
