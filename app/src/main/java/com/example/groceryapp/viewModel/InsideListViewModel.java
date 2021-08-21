@@ -137,7 +137,7 @@ public class InsideListViewModel extends AppCompatActivity implements DialogClos
                                         JSONObject jsonObject = response.getJSONObject("payload");
                                         JSONArray items = jsonObject.getJSONArray("autoSuggestionItems");
 
-                                        for (int i = 0; i < 5; i++) {
+                                        for (int i = 0; i < items.length(); i++) {
                                             JSONObject item = items.getJSONObject(i);
                                             String name = item.getString("skuName");
                                             String price = item.getString("price");

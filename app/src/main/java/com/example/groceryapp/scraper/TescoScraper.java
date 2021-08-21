@@ -50,7 +50,7 @@ public class TescoScraper {
     public static void priceScraper(Elements price, ArrayList<ArrayList<String>> result) {
         ArrayList<String> priceList = new ArrayList<String>();
 
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 20; i++) {
             if (i%2 == 0) {
                 priceList.add(price.get(i).text());
             }
@@ -61,7 +61,7 @@ public class TescoScraper {
 
     public static void quantityScraper(Elements price, Elements unit, ArrayList<ArrayList<String>> result) {
         ArrayList<String> unitList = new ArrayList<String>();
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 10; i++) {
             unitList.add(price.get(i * 2 + 1).text() + unit.get(i).text());
         }
         result.add(unitList);
@@ -71,7 +71,7 @@ public class TescoScraper {
         ArrayList<String> nameList = new ArrayList<String>();
         ArrayList<String> quantityList = new ArrayList<String>();
 
-        for (int j = 0; j < 5; j++) {
+        for (int j = 0; j < 10; j++) {
             String[] dirtyName = name.get(j).text().split(" ");
             StringBuilder itemName = new StringBuilder();
             if(dirtyName[dirtyName.length - 1].equals("Pack") && dirtyName[dirtyName.length - 3].equals("Minimum")) {
@@ -173,7 +173,7 @@ public class TescoScraper {
         ArrayList<String> quantityList = new ArrayList<String>();
         String regex = "(Loose)|(\\d+g)|(\\s\\d+\\.\\d+L)|(\\s\\d+\\.?\\s?(G|Ml|Litre|Kg|Pint|Pints)?)";
         Pattern pattern = Pattern.compile(regex);
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 10; i++) {
             Matcher matcher = pattern.matcher(name.get(i).text());
             int count = 0;
             String quantity = "";

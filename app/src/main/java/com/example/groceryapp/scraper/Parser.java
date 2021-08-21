@@ -18,7 +18,7 @@ public class Parser {
         String nextKeys;
 
         // Get info for top 5 search results only
-        if (counter < 5) {
+        if (counter < 10) {
             // Go to the inner level of the JSON object if key not found on the outer level
             if (!exists) {
                 keys = jsonObject.keys();
