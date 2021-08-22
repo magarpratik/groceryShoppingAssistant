@@ -53,11 +53,13 @@ public class InsideListViewModel extends AppCompatActivity implements DialogClos
     private List<ItemModel> itemsList;
     private RecyclerView insideListRecyclerView;
     private InsideListAdapter insideListAdapter;
+    private InsideListViewModel insideListViewModel = this;
 
     private FloatingActionButton addItemFloatingButton;
     private Button comparePricesButton;
     private DatabaseHandler db;
     private int listId;
+    private String listName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +75,7 @@ public class InsideListViewModel extends AppCompatActivity implements DialogClos
 
         // unpack the intent and set up the activity
         Intent i = getIntent();
-        String listName = i.getStringExtra("listName");
+        listName = i.getStringExtra("listName");
         listId = i.getIntExtra("listId", 0);
 
         TextView listNameTextView = findViewById(R.id.listNameTextView);
@@ -216,6 +218,12 @@ public class InsideListViewModel extends AppCompatActivity implements DialogClos
                     });
                     requestQueue.add(request);
                 }
+
+                // start a new activity when you click on an item
+                Intent intent = new Intent(insideListViewModel, ComparisonViewModel.class);
+                intent.putExtra("listName", listName);
+                intent.putExtra("listId", listId);
+                insideListViewModel.startActivity(intent);
             }
         });
     }
