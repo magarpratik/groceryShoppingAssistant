@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.groceryapp.R;
 import com.example.groceryapp.adapter.ComparisonAdapter;
 import com.example.groceryapp.database.DatabaseHandler;
+import com.example.groceryapp.model.ItemModel;
 import com.example.groceryapp.model.ShoppingListModel;
 
 import java.util.ArrayList;
@@ -23,6 +24,7 @@ public class ComparisonViewModel extends AppCompatActivity {
     private ComparisonAdapter adapter;
     private DatabaseHandler db;
     private ArrayList<ShoppingListModel> list;
+    private ArrayList<ItemModel> itemsList;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -33,9 +35,10 @@ public class ComparisonViewModel extends AppCompatActivity {
         getSupportActionBar().hide();
 
         // unpack the intent and set up the activity
-        Intent i = getIntent();
-        listName = i.getStringExtra("listName");
-        listId = i.getIntExtra("listId", 0);
+        Bundle bundle = getIntent().getExtras();
+        itemsList = (ArrayList<ItemModel>) bundle.getSerializable("itemsList");
+        listName = bundle.getString("listName");
+        listId = bundle.getInt("listId");
 
         // List name at the top of the screen
         TextView listNameTextView = findViewById(R.id.comparisonListNameTextView);

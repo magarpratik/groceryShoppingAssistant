@@ -10,6 +10,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.DataSetObserver;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,6 +46,7 @@ import org.json.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -221,8 +223,12 @@ public class InsideListViewModel extends AppCompatActivity implements DialogClos
 
                 // start a new activity when you click on an item
                 Intent intent = new Intent(insideListViewModel, ComparisonViewModel.class);
-                intent.putExtra("listName", listName);
-                intent.putExtra("listId", listId);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("itemsList", (Serializable) itemsList);
+                bundle.putString("listName", listName);
+                bundle.putInt("listId", listId);
+
+                intent.putExtras(bundle);
                 insideListViewModel.startActivity(intent);
             }
         });

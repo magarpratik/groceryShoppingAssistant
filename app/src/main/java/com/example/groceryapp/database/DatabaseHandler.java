@@ -11,6 +11,7 @@ import androidx.annotation.Nullable;
 import com.example.groceryapp.model.ItemModel;
 import com.example.groceryapp.model.ShoppingListModel;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -274,6 +275,17 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
         return result;
     }
+
+
+
+
+    // get comparison price
+    public ArrayList<BigDecimal> getComparisonPrices(ArrayList<ItemModel> itemsList) {
+        ArrayList<BigDecimal> prices = null;
+        return prices;
+    }
+
+
 
 
 

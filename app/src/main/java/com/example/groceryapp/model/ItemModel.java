@@ -2,7 +2,9 @@ package com.example.groceryapp.model;
 
 import android.icu.math.BigDecimal;
 
-public class ItemModel {
+import java.io.Serializable;
+
+public class ItemModel implements Serializable {
     private int listId;
     private int id;
     private String name;

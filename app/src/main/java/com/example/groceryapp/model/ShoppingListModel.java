@@ -1,5 +1,6 @@
 package com.example.groceryapp.model;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,9 +9,18 @@ public class  ShoppingListModel {
     private String name;
     private String store = "";
     private List<ItemModel> list = new ArrayList<>();
+    private BigDecimal comparisonPrice;
 
     public ShoppingListModel (String name) {
         this.name = name;
+    }
+
+    public BigDecimal getComparisonPrice() {
+        return comparisonPrice;
+    }
+
+    public void setComparisonPrice(BigDecimal comparisonPrice) {
+        this.comparisonPrice = comparisonPrice;
     }
 
     public int getId() { return id; }

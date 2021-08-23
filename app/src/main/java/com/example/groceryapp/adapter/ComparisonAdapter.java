@@ -40,7 +40,7 @@ public class ComparisonAdapter extends RecyclerView.Adapter<ComparisonAdapter.Vi
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.comparisonTextView.setText(list.get(position).getName());
+        holder.comparisonTextView.setText("Hello");
         switch (position) {
             case 0:
                 holder.logoImageView.setImageResource(R.drawable.asda_logo);
