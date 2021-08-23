@@ -43,6 +43,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public static final String RESULTS_STORE_ID = "RESULTS_STORE_ID";
     public static final String RESULTS_PRICE = "RESULTS_PRICE";
     public static final String RESULTS_PPU = "RESULTS_PPU";
+    public static final String RESULTS_PPU_EXTRACTED = "RESULTS_PPU_EXTRACTED";
 
     private SQLiteDatabase db;
 
@@ -67,7 +68,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 + LIST_ID + " INTEGER, " + ITEM_NAME + " TEXT, " + ITEM_QUANTITY + " TEXT, " + ITEM_UNIT + " TEXT)";
         String createResultsTableStatement = "CREATE TABLE " + RESULTS_TABLE + " (" + RESULTS_LIST_ID + " INTEGER, " + RESULTS_ITEM_ID
                 + " INTEGER, " + RESULTS_STORE_ID + " INTEGER, " + RESULTS_NAME + " TEXT, " + RESULTS_PRICE + " TEXT, "
-                + RESULTS_QTY + " TEXT, " + RESULTS_PPU + " TEXT)";
+                + RESULTS_QTY + " TEXT, " + RESULTS_PPU + " TEXT, " + RESULTS_PPU_EXTRACTED + " TEXT)";
 
         db.execSQL(createListTableStatement);
         db.execSQL(createItemTableStatement);
@@ -97,6 +98,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         cv.put(RESULTS_STORE_ID, itemModel.getStoreId());
         cv.put(RESULTS_PRICE, itemModel.getPrice());
         cv.put(RESULTS_PPU, itemModel.getPricePerUnit());
+        cv.put(RESULTS_PPU_EXTRACTED, itemModel.getExtractedPPU());
 
         db.insert(RESULTS_TABLE, null, cv);
     }

@@ -1,5 +1,6 @@
 package com.example.groceryapp.viewModel;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -9,6 +10,7 @@ import android.content.ClipData;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.DataSetObserver;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.Log;
@@ -135,6 +137,7 @@ public class InsideListViewModel extends AppCompatActivity implements DialogClos
 
                     JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
                             new Response.Listener<JSONObject>() {
+                                @RequiresApi(api = Build.VERSION_CODES.N)
                                 @Override
                                 public void onResponse(JSONObject response) {
                                     try {
@@ -154,6 +157,7 @@ public class InsideListViewModel extends AppCompatActivity implements DialogClos
                                             itemModel.setPrice(price.replace("£", ""));
                                             itemModel.setQuantity(weight);
                                             itemModel.setPricePerUnit(pricePerUnit);
+                                            itemModel.extractPPU(pricePerUnit);
                                             itemModel.setId(itemId);
                                             db.addResults(itemModel);
                                         }
@@ -180,6 +184,7 @@ public class InsideListViewModel extends AppCompatActivity implements DialogClos
 
                     JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
                             new Response.Listener<JSONObject>() {
+                                @RequiresApi(api = Build.VERSION_CODES.N)
                                 @Override
                                 public void onResponse(JSONObject response) {
                                     ArrayList<ArrayList<String>> finalResult = new ArrayList<ArrayList<String>>();
@@ -204,6 +209,7 @@ public class InsideListViewModel extends AppCompatActivity implements DialogClos
 
                     StringRequest request = new StringRequest(Request.Method.GET, url,
                             new Response.Listener<String>() {
+                                @RequiresApi(api = Build.VERSION_CODES.N)
                                 @Override
                                 public void onResponse(String response) {
                                     Document document = Jsoup.parse(response);
@@ -243,6 +249,7 @@ public class InsideListViewModel extends AppCompatActivity implements DialogClos
         comparePricesButton.setVisibility(View.VISIBLE);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public void sorter(ArrayList<ArrayList<String>> result, int listId, int itemId, int storeId) {
 
         // create itemModels from the results
@@ -253,6 +260,7 @@ public class InsideListViewModel extends AppCompatActivity implements DialogClos
             itemModel.setPrice(result.get(i).get(1));
             itemModel.setQuantity(result.get(i).get(2));
             itemModel.setPricePerUnit(result.get(i).get(3));
+            itemModel.extractPPU(result.get(i).get(3));
             db.addResults(itemModel);
         }
     }

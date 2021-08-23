@@ -1,8 +1,12 @@
 package com.example.groceryapp.model;
 
 import android.icu.math.BigDecimal;
+import android.os.Build;
+
+import androidx.annotation.RequiresApi;
 
 import java.io.Serializable;
+import java.math.RoundingMode;
 
 public class ItemModel implements Serializable {
     private int listId;
@@ -15,6 +19,7 @@ public class ItemModel implements Serializable {
     private int storeId;
     private BigDecimal inStorePrice;
     private BigDecimal estimatedPrice;
+    private String extractedPPU;
 
     public ItemModel(int listId, String name) {
         this.listId = listId;
@@ -26,6 +31,14 @@ public class ItemModel implements Serializable {
         this.name = name;
         this.quantity = quantity;
         this.unit = unit;
+    }
+
+    public String getExtractedPPU() {
+        return extractedPPU;
+    }
+
+    public void setExtractedPPU(String extractedPPU) {
+        this.extractedPPU = extractedPPU;
     }
 
     public int getListId() {
@@ -106,5 +119,31 @@ public class ItemModel implements Serializable {
 
     public void setStoreId(int storeId) {
         this.storeId = storeId;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public void extractPPU(String pricePerUnit) {
+        String[] result = pricePerUnit.split("/");
+        String res = null;
+        if(result[0].contains("p")) {
+            StringBuilder num = new StringBuilder();
+            num.append(result[0]);
+            num.setLength(num.length() - 1);
+
+            BigDecimal bigDecimal = new BigDecimal(num.toString());
+            BigDecimal divisor = new BigDecimal("100");
+            BigDecimal answer = bigDecimal.divide(divisor, 4, BigDecimal.ROUND_HALF_EVEN);
+            res = answer.toString();
+        }
+        else if(result[0].contains("£")) {
+            StringBuilder num = new StringBuilder();
+            num.append(result[0]);
+            num.delete(0, 1);
+            res = num.toString();
+        }
+        else {
+            res = result[0];
+        }
+        setExtractedPPU(res);
     }
 }

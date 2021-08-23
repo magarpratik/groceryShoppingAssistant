@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.groceryapp.R;
 import com.example.groceryapp.database.DatabaseHandler;
+import com.example.groceryapp.model.ItemModel;
 import com.example.groceryapp.model.ShoppingListModel;
 import com.example.groceryapp.viewModel.ComparisonViewModel;
 
@@ -21,10 +22,12 @@ public class ComparisonAdapter extends RecyclerView.Adapter<ComparisonAdapter.Vi
     private ArrayList<ShoppingListModel> list = new ArrayList<>();
     private ComparisonViewModel comparisonViewModel;
     private DatabaseHandler db;
+    private ArrayList<ItemModel> itemsList;
 
-    public ComparisonAdapter(ComparisonViewModel comparisonViewModel, DatabaseHandler db) {
+    public ComparisonAdapter(ComparisonViewModel comparisonViewModel, DatabaseHandler db, ArrayList<ItemModel> itemsList) {
         this.comparisonViewModel = comparisonViewModel;
         this.db = db;
+        this.itemsList = itemsList;
     }
 
     public Context getContext() { return comparisonViewModel; }
@@ -74,4 +77,6 @@ public class ComparisonAdapter extends RecyclerView.Adapter<ComparisonAdapter.Vi
         this.list = list;
         notifyDataSetChanged();
     }
+
+
 }
