@@ -19,7 +19,10 @@
             android:id="@+id/listNameTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="6sp"
             android:text="Testing"
+            android:layout_marginBottom="8sp"
             android:textColor="@color/blackText"
             android:textSize="32sp" />
     </RelativeLayout>

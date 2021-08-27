@@ -66,7 +66,7 @@ public class MainActivityViewModel extends AppCompatActivity implements DialogCl
 
         listOfShoppingLists = db.getAllLists();
         // reverse the order so the latest ones are at the top
-        Collections.reverse(listOfShoppingLists);
+        // Collections.reverse(listOfShoppingLists);
         mainActivityAdapter.setListOfShoppingLists(listOfShoppingLists);
 
 
@@ -85,7 +85,7 @@ public class MainActivityViewModel extends AppCompatActivity implements DialogCl
     public void handleDialogClose(DialogInterface dialog) {
         listOfShoppingLists = db.getAllLists();
         // reverse the order so the latest ones are at the top
-        Collections.reverse(listOfShoppingLists);
+        // Collections.reverse(listOfShoppingLists);
         mainActivityAdapter.setListOfShoppingLists(listOfShoppingLists);
         mainActivityAdapter.notifyDataSetChanged();
         addFloatingButton.show();
