@@ -52,10 +52,18 @@
 
     <Button
         android:id="@+id/hiddenButton"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Button"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="64dp"
+        android:layout_marginEnd="32dp"
+        android:backgroundTint="@color/primary3"
+        android:text="view prices"
+        android:textColor="@color/whiteText"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="@+id/comparisonRecyclerView"
-        app:layout_constraintStart_toStartOf="@+id/comparisonRecyclerView" />
+        app:layout_constraintEnd_toEndOf="@+id/comparisonRecyclerView"
+        app:layout_constraintStart_toStartOf="@+id/comparisonRecyclerView"
+        app:layout_constraintTop_toTopOf="@+id/comparisonRecyclerView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
