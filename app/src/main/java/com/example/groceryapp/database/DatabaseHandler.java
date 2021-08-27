@@ -5,15 +5,22 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.icu.math.BigDecimal;
+import android.os.Build;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 
 import com.example.groceryapp.model.ItemModel;
 import com.example.groceryapp.model.ShoppingListModel;
 
-import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.nio.CharBuffer;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class DatabaseHandler extends SQLiteOpenHelper {
     // database details
@@ -56,6 +63,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public void openDatabase() {
         db = this.getWritableDatabase();
     }
+
+    public void getReadableDB() { db = this.getReadableDatabase(); }
 
     // This is called when a database is accessed for the first time
     // There should be code here to create a new database
@@ -212,7 +221,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     // get the list table from the database
     public List<ItemModel> getListOfItems(int listId) {
-        List<ItemModel> listOfItems= new ArrayList<>();
+        List<ItemModel> listOfItems = new ArrayList<>();
 
         // Cursor is resultset
         Cursor cursor = null;
@@ -250,6 +259,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
 
 
+
     // Get the list of items of a particular list
     public ArrayList<ItemModel> getItemsList(int listId) {
         ArrayList<ItemModel> result = new ArrayList<>();
@@ -281,9 +291,60 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
 
 
+
     // get comparison price
-    public ArrayList<BigDecimal> getComparisonPrices(ArrayList<ItemModel> itemsList) {
-        ArrayList<BigDecimal> prices = null;
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public ArrayList<String> getComparisonPrices(ArrayList<ItemModel> itemsList) {
+        ArrayList<String> prices = new ArrayList<>();
+        int count = 0;
+
+        db.beginTransaction();
+        try {
+            // Loop through stores
+            for (int i = 0; i < 3; i++) {
+                String storeId = String.valueOf(i);
+                int result = 0;
+
+                // loop through items
+                for (int j = 0; j < itemsList.size(); j++) {
+                    String itemId = String.valueOf(itemsList.get(j).getId());
+                    String res = "";
+
+                    // Cursor is resultset
+                    Cursor cursor = null;
+
+                    String[] columns = {RESULTS_PRICE, RESULTS_PPU_EXTRACTED};
+                    String selection = RESULTS_STORE_ID + " = " + storeId +
+                            " AND " + RESULTS_ITEM_ID + " = " + itemId;
+                    String orderBy = RESULTS_PPU_EXTRACTED;
+
+                    cursor = db.query(RESULTS_TABLE, null, RESULTS_STORE_ID + " = " + storeId +
+                            " AND " + RESULTS_ITEM_ID + " = " + itemId, null, null, null, orderBy);
+                    //String[] args = {storeId, itemId};
+                    /*cursor = db.rawQuery("SELECT " + RESULTS_PRICE + ", " + "MIN(" + RESULTS_PPU_EXTRACTED + ") FROM " +
+                        "(SELECT " + RESULTS_PRICE + ", " + RESULTS_PPU_EXTRACTED + " FROM " + RESULTS_TABLE + " WHERE " +
+                        RESULTS_STORE_ID + " =? AND " + RESULTS_ITEM_ID + " =?)", args);*/
+
+                    if (cursor != null && cursor.moveToFirst()) {
+                        res = cursor.getString(cursor.getColumnIndex(RESULTS_PRICE));
+                    }
+                    cursor.close();
+
+                    BigDecimal bigDecimal = new BigDecimal(res);
+                    BigDecimal multiplier = new BigDecimal("100");
+                    BigDecimal answer = bigDecimal.multiply(multiplier);
+                    result = result + answer.intValue();
+                }
+                BigDecimal finalResult = new BigDecimal(String.valueOf(result));
+                BigDecimal divisor = new BigDecimal("100");
+                BigDecimal finalFinalResult = finalResult.divide(divisor, 2, BigDecimal.ROUND_HALF_EVEN);
+                prices.add(String.valueOf(finalFinalResult));
+            }
+        }
+        finally {
+                count = 0;
+                db.endTransaction();
+        }
         return prices;
     }
 
@@ -320,3 +381,4 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         }
     }*/
 }
+

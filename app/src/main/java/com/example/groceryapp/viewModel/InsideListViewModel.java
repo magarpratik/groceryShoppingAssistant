@@ -121,111 +121,12 @@ public class InsideListViewModel extends AppCompatActivity implements DialogClos
             }
         });
 
-        // Volley request queue
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-
         comparePricesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 db.clearResults();
 
-                // Asda scraper
-                for (int i = 0; i < itemsList.size(); i++) {
-                    int itemId = itemsList.get(i).getId();
-                    String url = "https://groceries.asda.com/cmscontent/v2/items/autoSuggest?requestorigin=gi&searchTerm="
-                            + itemsList.get(i).getName();
-
-                    JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
-                            new Response.Listener<JSONObject>() {
-                                @RequiresApi(api = Build.VERSION_CODES.N)
-                                @Override
-                                public void onResponse(JSONObject response) {
-                                    try {
-                                        JSONObject jsonObject = response.getJSONObject("payload");
-                                        JSONArray items = jsonObject.getJSONArray("autoSuggestionItems");
-
-                                        for (int i = 0; i < items.length(); i++) {
-                                            JSONObject item = items.getJSONObject(i);
-                                            String name = item.getString("skuName");
-                                            String price = item.getString("price");
-                                            String weight = item.getString("weight");
-                                            String pricePerUnit = item.getString("pricePerUOM");
-
-                                            ItemModel itemModel = new ItemModel(listId, name);
-                                            // StoreId for ASDA = 0
-                                            itemModel.setStoreId(0);
-                                            itemModel.setPrice(price.replace("£", ""));
-                                            itemModel.setQuantity(weight);
-                                            itemModel.setPricePerUnit(pricePerUnit);
-                                            itemModel.extractPPU(pricePerUnit);
-                                            itemModel.setId(itemId);
-                                            db.addResults(itemModel);
-                                        }
-
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-                            }, new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            Toast.makeText(InsideListViewModel.this, error.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                    requestQueue.add(request);
-                }
-
-                // Sainsbury's scraper
-                for (int i = 0; i < itemsList.size(); i++) {
-                    int itemId = itemsList.get(i).getId();
-
-                    String url = "https://www.sainsburys.co.uk/groceries-api/gol-services/product/v1/product?filter[keyword]="
-                            + itemsList.get(i).getName();
-
-                    JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
-                            new Response.Listener<JSONObject>() {
-                                @RequiresApi(api = Build.VERSION_CODES.N)
-                                @Override
-                                public void onResponse(JSONObject response) {
-                                    ArrayList<ArrayList<String>> finalResult = new ArrayList<ArrayList<String>>();
-                                    SainsburysScraper scraper = new SainsburysScraper();
-                                    finalResult = scraper.scrape(response.toString());
-                                    sorter(finalResult, listId, itemId, 1);
-                                }
-                            }, new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            error.printStackTrace();
-                        }
-                    });
-                    requestQueue.add(request);
-                }
-
-                // Tesco Scraper
-                for (int i = 0; i < itemsList.size(); i++) {
-                    int itemId = itemsList.get(i).getId();
-
-                    String url = "https://www.tesco.com/groceries/en-GB/search?query=" + itemsList.get(i).getName();
-
-                    StringRequest request = new StringRequest(Request.Method.GET, url,
-                            new Response.Listener<String>() {
-                                @RequiresApi(api = Build.VERSION_CODES.N)
-                                @Override
-                                public void onResponse(String response) {
-                                    Document document = Jsoup.parse(response);
-
-                                    TescoScraper tescoScraper = new TescoScraper();
-                                    ArrayList<ArrayList<String>> finalResult = tescoScraper.scrape(document);
-                                    sorter(finalResult, listId, itemId, 2);
-                                }
-                            }, new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            error.printStackTrace();
-                        }
-                    });
-                    requestQueue.add(request);
-                }
+                scraper();
 
                 // start a new activity when you click on an item
                 Intent intent = new Intent(insideListViewModel, ComparisonViewModel.class);
@@ -262,6 +163,109 @@ public class InsideListViewModel extends AppCompatActivity implements DialogClos
             itemModel.setPricePerUnit(result.get(i).get(3));
             itemModel.extractPPU(result.get(i).get(3));
             db.addResults(itemModel);
+        }
+    }
+
+    public void scraper() {
+        // Volley request queue
+        RequestQueue requestQueue = Volley.newRequestQueue(insideListViewModel);
+
+        // Asda scraper
+        for (int i = 0; i < itemsList.size(); i++) {
+            int itemId = itemsList.get(i).getId();
+            String url = "https://groceries.asda.com/cmscontent/v2/items/autoSuggest?requestorigin=gi&searchTerm="
+                    + itemsList.get(i).getName();
+
+            JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
+                    new Response.Listener<JSONObject>() {
+                        @RequiresApi(api = Build.VERSION_CODES.N)
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            try {
+                                JSONObject jsonObject = response.getJSONObject("payload");
+                                JSONArray items = jsonObject.getJSONArray("autoSuggestionItems");
+
+                                for (int i = 0; i < items.length(); i++) {
+                                    JSONObject item = items.getJSONObject(i);
+                                    String name = item.getString("skuName");
+                                    String price = item.getString("price");
+                                    String weight = item.getString("weight");
+                                    String pricePerUnit = item.getString("pricePerUOM");
+
+                                    ItemModel itemModel = new ItemModel(listId, name);
+                                    // StoreId for ASDA = 0
+                                    itemModel.setStoreId(0);
+                                    itemModel.setPrice(price.replace("£", ""));
+                                    itemModel.setQuantity(weight);
+                                    itemModel.setPricePerUnit(pricePerUnit);
+                                    itemModel.extractPPU(pricePerUnit);
+                                    itemModel.setId(itemId);
+                                    db.addResults(itemModel);
+                                }
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Toast.makeText(InsideListViewModel.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+            requestQueue.add(request);
+        }
+
+        // Sainsbury's scraper
+        for (int i = 0; i < itemsList.size(); i++) {
+            int itemId = itemsList.get(i).getId();
+
+            String url = "https://www.sainsburys.co.uk/groceries-api/gol-services/product/v1/product?filter[keyword]="
+                    + itemsList.get(i).getName();
+
+            JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
+                    new Response.Listener<JSONObject>() {
+                        @RequiresApi(api = Build.VERSION_CODES.N)
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            ArrayList<ArrayList<String>> finalResult = new ArrayList<ArrayList<String>>();
+                            SainsburysScraper scraper = new SainsburysScraper();
+                            finalResult = scraper.scrape(response.toString());
+                            sorter(finalResult, listId, itemId, 1);
+                        }
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    error.printStackTrace();
+                }
+            });
+            requestQueue.add(request);
+        }
+
+        // Tesco Scraper
+        for (int i = 0; i < itemsList.size(); i++) {
+            int itemId = itemsList.get(i).getId();
+
+            String url = "https://www.tesco.com/groceries/en-GB/search?query=" + itemsList.get(i).getName();
+
+            StringRequest request = new StringRequest(Request.Method.GET, url,
+                    new Response.Listener<String>() {
+                        @RequiresApi(api = Build.VERSION_CODES.N)
+                        @Override
+                        public void onResponse(String response) {
+                            Document document = Jsoup.parse(response);
+
+                            TescoScraper tescoScraper = new TescoScraper();
+                            ArrayList<ArrayList<String>> finalResult = tescoScraper.scrape(document);
+                            sorter(finalResult, listId, itemId, 2);
+                        }
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    error.printStackTrace();
+                }
+            });
+            requestQueue.add(request);
         }
     }
 }

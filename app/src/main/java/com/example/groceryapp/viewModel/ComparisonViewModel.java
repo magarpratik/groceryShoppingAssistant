@@ -1,10 +1,14 @@
 package com.example.groceryapp.viewModel;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -26,6 +30,7 @@ public class ComparisonViewModel extends AppCompatActivity {
     private ArrayList<ShoppingListModel> list;
     private ArrayList<ItemModel> itemsList;
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,7 +51,7 @@ public class ComparisonViewModel extends AppCompatActivity {
 
         // Database
         db = new DatabaseHandler(this);
-        db.openDatabase();
+        db.getReadableDB();
 
         // RecyclerView
         recyclerView = findViewById(R.id.comparisonRecyclerView);
@@ -56,8 +61,6 @@ public class ComparisonViewModel extends AppCompatActivity {
         adapter = new ComparisonAdapter(this, db, itemsList);
         recyclerView.setAdapter(adapter);
 
-
-
         // Arraylist
         list = new ArrayList<>();
         for (int j = 0; j < 3; j++) {
@@ -65,5 +68,15 @@ public class ComparisonViewModel extends AppCompatActivity {
             list.add(shoppingListModel);
         }
         adapter.setList(list);
+
+        Button hiddenButton = findViewById(R.id.hiddenButton);
+        hiddenButton.setText("View Prices");
+        hiddenButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ArrayList<String> prices = db.getComparisonPrices(itemsList);
+                adapter.setPrices(prices);
+            }
+        });
     }
 }

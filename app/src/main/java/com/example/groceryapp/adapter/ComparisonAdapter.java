@@ -1,6 +1,7 @@
 package com.example.groceryapp.adapter;
 
 import android.content.Context;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.groceryapp.R;
@@ -23,11 +25,16 @@ public class ComparisonAdapter extends RecyclerView.Adapter<ComparisonAdapter.Vi
     private ComparisonViewModel comparisonViewModel;
     private DatabaseHandler db;
     private ArrayList<ItemModel> itemsList;
+    private ArrayList<String> prices = new ArrayList<>();
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public ComparisonAdapter(ComparisonViewModel comparisonViewModel, DatabaseHandler db, ArrayList<ItemModel> itemsList) {
         this.comparisonViewModel = comparisonViewModel;
         this.db = db;
         this.itemsList = itemsList;
+        prices.add("0");
+        prices.add("0");
+        prices.add("0");
     }
 
     public Context getContext() { return comparisonViewModel; }
@@ -43,7 +50,7 @@ public class ComparisonAdapter extends RecyclerView.Adapter<ComparisonAdapter.Vi
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.comparisonTextView.setText("Hello");
+        holder.comparisonTextView.setText("£" + prices.get(position));
         switch (position) {
             case 0:
                 holder.logoImageView.setImageResource(R.drawable.asda_logo);
@@ -78,5 +85,8 @@ public class ComparisonAdapter extends RecyclerView.Adapter<ComparisonAdapter.Vi
         notifyDataSetChanged();
     }
 
-
+    public void setPrices(ArrayList<String> prices) {
+        this.prices = prices;
+        notifyDataSetChanged();
+    }
 }
