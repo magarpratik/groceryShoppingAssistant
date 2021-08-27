@@ -38,6 +38,7 @@ public class InsideListAdapter extends RecyclerView.Adapter<InsideListAdapter.Vi
     public Context getContext() { return insideListViewModel; }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
+        private TextView numberTextView;
         private TextView itemNameTextView;
         private TextView itemQtyTextView;
 
@@ -45,6 +46,7 @@ public class InsideListAdapter extends RecyclerView.Adapter<InsideListAdapter.Vi
             super(view);
             itemNameTextView = view.findViewById(R.id.itemNameTextView);
             itemQtyTextView = view.findViewById(R.id.itemQtyTextView);
+            numberTextView = view.findViewById(R.id.numberTextView);
         }
     }
 
@@ -60,6 +62,7 @@ public class InsideListAdapter extends RecyclerView.Adapter<InsideListAdapter.Vi
     @Override
     // populates the RecyclerView
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        holder.numberTextView.setText(String.valueOf(position + 1));
         holder.itemNameTextView.setText(itemsList.get(position).getName());
         if (itemsList.get(position).getQuantity() != null) {
             holder.itemQtyTextView.setText(itemsList.get(position).getQuantity()

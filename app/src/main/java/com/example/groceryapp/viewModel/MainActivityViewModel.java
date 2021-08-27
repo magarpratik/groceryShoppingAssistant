@@ -69,8 +69,6 @@ public class MainActivityViewModel extends AppCompatActivity implements DialogCl
         // Collections.reverse(listOfShoppingLists);
         mainActivityAdapter.setListOfShoppingLists(listOfShoppingLists);
 
-
-
         // adding a new list
         addFloatingButton.setOnClickListener(new View.OnClickListener() {
             @Override
