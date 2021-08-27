@@ -47,11 +47,13 @@ public class MainActivityAdapter extends RecyclerView.Adapter<MainActivityAdapte
         // declare view elements from the list_item.xml
         private TextView listNameTextView;
         private CardView listNameCardView;
+        private TextView listNumberTextView;
 
         ViewHolder(View view) {
             super(view);
             listNameTextView = view.findViewById(R.id.listNameTextView);
             listNameCardView = view.findViewById(R.id.listNameCardView);
+            listNumberTextView = view.findViewById(R.id.listNumberTextView);
         }
     }
 
@@ -70,6 +72,7 @@ public class MainActivityAdapter extends RecyclerView.Adapter<MainActivityAdapte
     @Override
     public void onBindViewHolder(@NonNull MainActivityAdapter.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         holder.listNameTextView.setText(listOfShoppingLists.get(position).getName());
+        holder.listNumberTextView.setText(String.valueOf(position + 1));
 
         // YOU CAN SET OnClickListeners FOR EVERY UI ELEMENT
 

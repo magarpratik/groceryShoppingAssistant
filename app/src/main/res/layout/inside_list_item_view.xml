@@ -26,7 +26,8 @@
                 android:layout_height="wrap_content"
                 android:text="1"
                 android:textColor="#000"
-                android:textSize="36sp"
+                android:textSize="32sp"
+                android:layout_marginLeft="16sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -39,7 +40,7 @@
                 android:layout_marginStart="24dp"
                 android:text="Item Name"
                 android:textColor="@color/blackText"
-                android:textSize="30sp"
+                android:textSize="26sp"
                 app:layout_constraintBottom_toBottomOf="@+id/numberTextView"
                 app:layout_constraintStart_toEndOf="@+id/numberTextView"
                 app:layout_constraintTop_toTopOf="@+id/numberTextView" />
@@ -51,7 +52,7 @@
                 android:layout_marginEnd="16dp"
                 android:text="1kg"
                 android:textColor="@color/blackText"
-                android:textSize="24sp"
+                android:textSize="20sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />

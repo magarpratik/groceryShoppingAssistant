@@ -11,18 +11,31 @@
     android:id="@+id/listNameCardView">
 
     <RelativeLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="8dp">
+
+        <TextView
+            android:id="@+id/listNumberTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1"
+            android:layout_marginLeft="18sp"
+            android:textSize="40sp"
+            android:textStyle="bold"
+            android:layout_centerVertical="true"
+            android:textColor="@color/blackText"
+            />
 
         <TextView
             android:id="@+id/listNameTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_marginTop="6sp"
-            android:text="Testing"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="68sp"
             android:layout_marginBottom="8sp"
+            android:text="Testing"
             android:textColor="@color/blackText"
             android:textSize="32sp" />
     </RelativeLayout>
