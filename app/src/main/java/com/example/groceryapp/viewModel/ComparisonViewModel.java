@@ -58,7 +58,7 @@ public class ComparisonViewModel extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         // Adapter
-        adapter = new ComparisonAdapter(this, db, itemsList);
+        adapter = new ComparisonAdapter(this, db, itemsList, listId, listName);
         recyclerView.setAdapter(adapter);
 
         // Arraylist

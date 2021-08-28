@@ -316,10 +316,15 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                     String[] columns = {RESULTS_PRICE, RESULTS_PPU_EXTRACTED};
                     String selection = RESULTS_STORE_ID + " = " + storeId +
                             " AND " + RESULTS_ITEM_ID + " = " + itemId;
-                    String orderBy = RESULTS_PPU_EXTRACTED;
+                    String orderBy = RESULTS_PPU_EXTRACTED + ", " + RESULTS_PRICE;
 
-                    cursor = db.query(RESULTS_TABLE, null, RESULTS_STORE_ID + " = " + storeId +
-                            " AND " + RESULTS_ITEM_ID + " = " + itemId, null, null, null, orderBy);
+                    cursor = db.query(RESULTS_TABLE,
+                            columns,
+                            selection,
+                            null,
+                            null,
+                            null,
+                            orderBy);
                     //String[] args = {storeId, itemId};
                     /*cursor = db.rawQuery("SELECT " + RESULTS_PRICE + ", " + "MIN(" + RESULTS_PPU_EXTRACTED + ") FROM " +
                         "(SELECT " + RESULTS_PRICE + ", " + RESULTS_PPU_EXTRACTED + " FROM " + RESULTS_TABLE + " WHERE " +
@@ -358,6 +363,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + ITEM_TABLE);
         db.execSQL("DROP TABLE IF EXISTS " + RESULTS_TABLE);
     }
+
+
 
     // EXAMPLE
     // add a new list
