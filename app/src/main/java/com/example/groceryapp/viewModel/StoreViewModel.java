@@ -2,6 +2,8 @@ package com.example.groceryapp.viewModel;
 
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,6 +26,12 @@ public class StoreViewModel extends AppCompatActivity {
     private Button chooseStore;
     private DatabaseHandler db;
 
+    private String listName;
+    private int listId;
+    private int storeId;
+    private TextView storeTextView;
+    private ImageView storeImageView;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +49,28 @@ public class StoreViewModel extends AppCompatActivity {
         recyclerView = findViewById(R.id.storeRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        //adapter = new StoreAdapter(this, db);
+        // unpack the intent and set up the activity
+        Bundle bundle = getIntent().getExtras();
+        itemsList = (ArrayList<ItemModel>) bundle.getSerializable("itemsList");
+        listName = bundle.getString("listName");
+        listId = bundle.getInt("listId");
+        storeId = bundle.getInt("storeId");
+
+        storeTextView = findViewById(R.id.storeTextView);
+        storeTextView.setText(listName);
+
+        storeImageView = findViewById(R.id.storeImageView);
+
+        switch (storeId) {
+            case 0:
+                storeImageView.setImageResource(R.drawable.asda_logo);
+                break;
+            case 1:
+                storeImageView.setImageResource(R.drawable.sainsburys_logo);
+                break;
+            case 2:
+                storeImageView.setImageResource(R.drawable.tesco_logo);
+                break;
+        }
     }
 }
