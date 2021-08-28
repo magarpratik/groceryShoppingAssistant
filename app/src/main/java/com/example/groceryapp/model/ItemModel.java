@@ -20,6 +20,8 @@ public class ItemModel implements Serializable {
     private BigDecimal inStorePrice;
     private BigDecimal estimatedPrice;
     private String extractedPPU;
+    private String weight;
+    private int realQuantity;
 
     public ItemModel(int listId, String name) {
         this.listId = listId;
@@ -31,6 +33,22 @@ public class ItemModel implements Serializable {
         this.name = name;
         this.quantity = quantity;
         this.unit = unit;
+    }
+
+    public String getWeight() {
+        return weight;
+    }
+
+    public void setWeight(String weight) {
+        this.weight = weight;
+    }
+
+    public int getRealQuantity() {
+        return realQuantity;
+    }
+
+    public void setRealQuantity(int realQuantity) {
+        this.realQuantity = realQuantity;
     }
 
     public String getExtractedPPU() {

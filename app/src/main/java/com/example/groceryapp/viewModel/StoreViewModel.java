@@ -31,6 +31,7 @@ public class StoreViewModel extends AppCompatActivity {
     private int storeId;
     private TextView storeTextView;
     private ImageView storeImageView;
+    private ArrayList<ItemModel> comparisonList;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -46,6 +47,7 @@ public class StoreViewModel extends AppCompatActivity {
 
         itemsList = new ArrayList<>();
 
+        // RecyclerView
         recyclerView = findViewById(R.id.storeRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -59,8 +61,8 @@ public class StoreViewModel extends AppCompatActivity {
         storeTextView = findViewById(R.id.storeTextView);
         storeTextView.setText(listName);
 
+        // store logo
         storeImageView = findViewById(R.id.storeImageView);
-
         switch (storeId) {
             case 0:
                 storeImageView.setImageResource(R.drawable.asda_logo);
@@ -72,5 +74,15 @@ public class StoreViewModel extends AppCompatActivity {
                 storeImageView.setImageResource(R.drawable.tesco_logo);
                 break;
         }
+
+        // Adapter
+        adapter = new StoreAdapter(this, db);
+        recyclerView.setAdapter(adapter);
+
+        // get the comparison list from the database
+        comparisonList = db.getComparisonList(itemsList, listId, storeId);
+        adapter.setFinalList(comparisonList);
+
+        
     }
 }
