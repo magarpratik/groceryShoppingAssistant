@@ -84,6 +84,10 @@ public class ComparisonAdapter extends RecyclerView.Adapter<ComparisonAdapter.Vi
                 bundle.putString("listName", listName);
                 bundle.putInt("listId", listId);
                 bundle.putInt("storeId", holder.getAdapterPosition());
+                ArrayList<ItemModel> comparisonList = new ArrayList<>();
+                comparisonList = db.getComparisonList(itemsList, listId, holder.getAdapterPosition());
+                bundle.putSerializable("comparisonList", (Serializable) comparisonList);
+
 
                 intent.putExtras(bundle);
                 comparisonViewModel.startActivity(intent);

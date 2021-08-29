@@ -63,5 +63,29 @@
         app:layout_constraintStart_toStartOf="parent"
         android:backgroundTint="@color/primary2"/>
 
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="110dp"
+        android:layout_marginBottom="32dp"
+        android:text="Total Price: "
+        android:textColor="@color/blackText"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/button"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/totalPriceTextView"
+        app:layout_constraintStart_toEndOf="@id/textView2"
+        android:text="£40"
+        android:textStyle="bold"
+        android:textSize="28sp"
+        android:textColor="@color/blackText"
+        app:layout_constraintTop_toTopOf="@id/textView2"/>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
