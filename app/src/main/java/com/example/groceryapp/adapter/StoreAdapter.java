@@ -60,7 +60,10 @@ public class StoreAdapter extends RecyclerView.Adapter<StoreAdapter.ViewHolder> 
         holder.itemNameTextView.setText(finalList.get(position).getName());
         holder.weightTextView.setText(finalList.get(position).getWeight());
         holder.pricePerUnitTextView.setText(finalList.get(position).getPricePerUnit());
-        holder.itemPriceTextView.setText("£" + finalList.get(position).getPrice());
+        BigDecimal price = new BigDecimal(finalList.get(position).getPrice());
+        BigDecimal multiply = price.multiply(new BigDecimal("100"));
+        BigDecimal result = multiply.divide(new BigDecimal("100"), 2, BigDecimal.ROUND_HALF_EVEN);
+        holder.itemPriceTextView.setText("£" + result);
 
         // Sum total of the price
 
