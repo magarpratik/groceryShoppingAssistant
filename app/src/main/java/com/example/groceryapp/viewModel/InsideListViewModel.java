@@ -64,6 +64,8 @@ public class InsideListViewModel extends AppCompatActivity implements DialogClos
     private DatabaseHandler db;
     private int listId;
     private String listName;
+    private TextView textView;
+    private TextView textView1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,14 +95,22 @@ public class InsideListViewModel extends AppCompatActivity implements DialogClos
         insideListAdapter = new InsideListAdapter(this, db);
         insideListRecyclerView.setAdapter(insideListAdapter);
 
+        // add a new item button
+        addItemFloatingButton = findViewById(R.id.addItemFloatingButton);
+        comparePricesButton = findViewById(R.id.comparePricesButton);
+
         // list of items on the list
         itemsList = new ArrayList<>();
         itemsList = db.getListOfItems(listId);
         insideListAdapter.setItemsList(itemsList);
 
-        // add a new item button
-        addItemFloatingButton = findViewById(R.id.addItemFloatingButton);
-        comparePricesButton = findViewById(R.id.comparePricesButton);
+        textView = findViewById(R.id.textView3);
+        textView1 = findViewById(R.id.textView4);
+        if (itemsList.size() == 0) {
+            textView.setVisibility(View.INVISIBLE);
+            textView1.setVisibility(View.INVISIBLE);
+            comparePricesButton.setVisibility(View.INVISIBLE);
+        }
 
         // swipe functionality
         ItemTouchHelper itemTouchHelper = new
@@ -141,13 +151,27 @@ public class InsideListViewModel extends AppCompatActivity implements DialogClos
         });
     }
 
+    public void hideUI() {
+        textView = findViewById(R.id.textView3);
+        textView1 = findViewById(R.id.textView4);
+        comparePricesButton = findViewById(R.id.comparePricesButton);
+
+        textView.setVisibility(View.INVISIBLE);
+        textView1.setVisibility(View.INVISIBLE);
+        comparePricesButton.setVisibility(View.INVISIBLE);
+    }
+
     @Override
     public void handleDialogClose(DialogInterface dialog) {
         itemsList = db.getListOfItems(listId);
         insideListAdapter.setItemsList(itemsList);
         insideListAdapter.notifyDataSetChanged();
         addItemFloatingButton.show();
-        comparePricesButton.setVisibility(View.VISIBLE);
+        if (itemsList.size() != 0) {
+            comparePricesButton.setVisibility(View.VISIBLE);
+            textView.setVisibility(View.VISIBLE);
+            textView1.setVisibility(View.VISIBLE);
+        }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)

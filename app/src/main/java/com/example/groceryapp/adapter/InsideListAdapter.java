@@ -87,6 +87,9 @@ public class InsideListAdapter extends RecyclerView.Adapter<InsideListAdapter.Vi
         db.deleteItem(itemModel.getId());
         itemsList.remove(position);
         notifyItemRemoved(position);
+        if (itemsList.size() == 0) {
+            insideListViewModel.hideUI();
+        }
     }
 
     public void editItem(int position) {
