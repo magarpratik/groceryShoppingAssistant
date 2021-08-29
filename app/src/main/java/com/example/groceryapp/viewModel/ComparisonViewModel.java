@@ -1,6 +1,7 @@
 package com.example.groceryapp.viewModel;
 
 import android.content.Intent;
+import android.icu.math.BigDecimal;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -71,6 +72,7 @@ public class ComparisonViewModel extends AppCompatActivity {
 
         Button hiddenButton = findViewById(R.id.hiddenButton);
         hiddenButton.setText("View Prices");
+
         hiddenButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -78,5 +80,33 @@ public class ComparisonViewModel extends AppCompatActivity {
                 adapter.setPrices(prices);
             }
         });
+
+        /*ArrayList<String> finalPrices = new ArrayList<>();
+
+        for (int j = 0; j < 3; j++) {
+            int storeId = j;
+            ArrayList<ItemModel> pricesList = new ArrayList<>();
+            pricesList = db.getComparisonList(itemsList, listId, storeId);
+
+            int total = 0;
+
+            // add the prices
+            for (int i = 0; i < pricesList.size(); i++) {
+                String price = pricesList.get(i).getPrice();
+                BigDecimal num = new BigDecimal(price.trim());
+                BigDecimal multiplier = new BigDecimal("100");
+                BigDecimal res = num.multiply(multiplier);
+                total = total + res.intValue();
+            }
+
+            BigDecimal num = new BigDecimal(String.valueOf(total));
+            BigDecimal divisor = new BigDecimal("100");
+            BigDecimal result = num.divide(divisor, 2, BigDecimal.ROUND_HALF_EVEN);
+
+            String totalPrice = String.valueOf(result);
+            finalPrices.add(totalPrice);
+        }
+
+        adapter.setPrices(finalPrices);*/
     }
 }

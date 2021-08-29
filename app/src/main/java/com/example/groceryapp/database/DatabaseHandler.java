@@ -356,7 +356,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
 
 
-
+    // get the cheapest items
     public ArrayList<ItemModel> getComparisonList(List<ItemModel> itemsList, int listId, int storeId) {
         ArrayList<ItemModel> result = new ArrayList<>();
 
@@ -375,6 +375,57 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                     RESULTS_STORE_ID + " = " + storeId,
                     null,
                     RESULTS_ITEM_ID,
+                    null,
+                    null);
+
+            if(cursor != null) {
+                // move to the first row of the table
+                if(cursor.moveToFirst()) {
+                    do{
+                        // Get the details about the lists from the resultset (cursor)
+                        // Go through the lists from the resultset
+                        // Add the lists from the resultset to the listOfLists ArrayList
+                        ItemModel item = new ItemModel(listId, cursor.getString(cursor.getColumnIndex(RESULTS_NAME)));
+                        item.setId(cursor.getInt(cursor.getColumnIndex(RESULTS_ITEM_ID)));
+                        item.setWeight(cursor.getString(cursor.getColumnIndex(RESULTS_QTY)));
+                        item.setStoreId(cursor.getInt(cursor.getColumnIndex(RESULTS_STORE_ID)));
+                        item.setPrice(cursor.getString(cursor.getColumnIndex(RESULTS_PRICE)));
+                        item.setPricePerUnit(cursor.getString(cursor.getColumnIndex(RESULTS_PPU)));
+
+                        result.add(item);
+                    }while(cursor.moveToNext());
+                }
+            }
+        }
+        finally {
+            // Atomic operation ends
+            db.endTransaction();
+            cursor.close();
+        }
+        return result;
+    }
+
+
+    // get items to choose from
+    public ArrayList<ItemModel> getOptionsList(int itemId, int listId, int storeId) {
+        ArrayList<ItemModel> result = new ArrayList<>();
+
+        // Cursor is resultset
+        Cursor cursor = null;
+
+        String[] columns = {RESULTS_ITEM_ID, RESULTS_STORE_ID, RESULTS_NAME, RESULTS_PRICE, RESULTS_QTY, RESULTS_PPU};
+
+        // Atomic operation starts
+        db.beginTransaction();
+        try {
+            // returns the whole table
+            cursor = db.query(RESULTS_TABLE,
+                    columns,
+                    RESULTS_LIST_ID + " = " + listId + " AND " +
+                            RESULTS_STORE_ID + " = " + storeId + " AND " +
+                           RESULTS_ITEM_ID + " = " + itemId,
+                    null,
+                    null,
                     null,
                     null);
 

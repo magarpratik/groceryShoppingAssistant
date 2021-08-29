@@ -84,12 +84,13 @@ public class StoreViewModel extends AppCompatActivity {
         }
 
         // Adapter
-        adapter = new StoreAdapter(this, db);
+        adapter = new StoreAdapter(this, db, listName);
         recyclerView.setAdapter(adapter);
 
         // get the comparison list from the database
         //comparisonList = db.getComparisonList(itemsList, listId, storeId);
         adapter.setFinalList(comparisonList);
+        adapter.setItemsList(itemsList);
 
         // Calculate the total price
         totalPriceTextView = findViewById(R.id.totalPriceTextView);

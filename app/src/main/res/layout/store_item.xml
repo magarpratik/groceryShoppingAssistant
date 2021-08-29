@@ -6,6 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/storeItemCardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="4sp"
@@ -34,13 +35,16 @@
 
             <TextView
                 android:id="@+id/itemNameTextView1"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
+                android:layout_marginStart="40dp"
                 android:layout_marginTop="4dp"
+                android:layout_marginEnd="8dp"
                 android:text="Item Name"
                 android:textColor="@color/blackText"
-                android:textSize="18sp"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toEndOf="@+id/numberTextView"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -48,32 +52,34 @@
                 android:id="@+id/weightTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:layout_marginBottom="2dp"
+                android:layout_marginStart="40dp"
+                android:layout_marginBottom="4dp"
                 android:text="500g"
-                android:textSize="14sp"
+                android:textSize="15sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/itemNameTextView1"
-                app:layout_constraintTop_toBottomOf="@+id/itemNameTextView1" />
+                app:layout_constraintStart_toStartOf="parent" />
 
             <TextView
                 android:id="@+id/pricePerUnitTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="40sp"
+                android:layout_marginStart="32dp"
                 android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
                 android:text="£1/kg"
-                android:textSize="14sp"
-                app:layout_constraintStart_toEndOf="@id/weightTextView"
-                app:layout_constraintTop_toBottomOf="@id/itemNameTextView1" />
+                android:textSize="15sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/weightTextView"
+                app:layout_constraintTop_toBottomOf="@+id/itemNameTextView1" />
 
             <TextView
                 android:id="@+id/itemPriceTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
                 android:text="£2.40"
                 android:textColor="@color/blackText"
-                android:textSize="18sp"
+                android:textSize="19sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
 

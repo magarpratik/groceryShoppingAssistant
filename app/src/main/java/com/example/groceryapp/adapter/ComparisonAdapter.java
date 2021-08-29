@@ -23,6 +23,7 @@ import com.example.groceryapp.viewModel.ComparisonViewModel;
 import com.example.groceryapp.viewModel.StoreViewModel;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
 public class ComparisonAdapter extends RecyclerView.Adapter<ComparisonAdapter.ViewHolder> {
@@ -46,7 +47,9 @@ public class ComparisonAdapter extends RecyclerView.Adapter<ComparisonAdapter.Vi
         prices.add("0");
     }
 
-    public Context getContext() { return comparisonViewModel; }
+    public Context getContext() {
+        return comparisonViewModel;
+    }
 
     @NonNull
     @Override
@@ -61,6 +64,29 @@ public class ComparisonAdapter extends RecyclerView.Adapter<ComparisonAdapter.Vi
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         // Set logos and total prices for each store in the holders
         holder.comparisonTextView.setText("£" + prices.get(position));
+
+
+
+        /*ArrayList<ItemModel> pricesList = new ArrayList<>();
+        pricesList = db.getComparisonList(itemsList, listId, holder.getAdapterPosition());
+
+        int total = 0;
+        // add the prices
+        for (int i = 0; i < pricesList.size(); i++) {
+            String price = pricesList.get(i).getPrice();
+            BigDecimal num = new BigDecimal(price.trim());
+            BigDecimal multiplier = new BigDecimal("100");
+            BigDecimal res = num.multiply(multiplier);
+            total = total + res.intValue();
+        }
+
+        BigDecimal num = new BigDecimal(String.valueOf(total));
+        BigDecimal divisor = new BigDecimal("100");
+        BigDecimal result = num.divide(divisor, 2, BigDecimal.ROUND_HALF_EVEN);
+
+        String totalPrice = String.valueOf(result);
+        holder.comparisonTextView.setText("£" + totalPrice);*/
+
         switch (position) {
             case 0:
                 holder.logoImageView.setImageResource(R.drawable.asda_logo);
@@ -87,7 +113,6 @@ public class ComparisonAdapter extends RecyclerView.Adapter<ComparisonAdapter.Vi
                 ArrayList<ItemModel> comparisonList = new ArrayList<>();
                 comparisonList = db.getComparisonList(itemsList, listId, holder.getAdapterPosition());
                 bundle.putSerializable("comparisonList", (Serializable) comparisonList);
-
 
                 intent.putExtras(bundle);
                 comparisonViewModel.startActivity(intent);
