@@ -8,6 +8,7 @@ import android.view.View;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.groceryapp.R;
@@ -15,6 +16,7 @@ import com.example.groceryapp.adapter.SavedListsAdapter;
 import com.example.groceryapp.database.DatabaseHandler;
 import com.example.groceryapp.model.ShoppingListModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SavedListsViewModel extends AppCompatActivity {
@@ -40,5 +42,19 @@ public class SavedListsViewModel extends AppCompatActivity {
                 SavedListsViewModel.this.startActivity(i);
             }
         });
+
+        db = new DatabaseHandler(SavedListsViewModel.this);
+        db.openDatabase();
+
+        list = new ArrayList<>();
+
+        recyclerView = findViewById(R.id.listRecyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        adapter = new SavedListsAdapter(this, db);
+        recyclerView.setAdapter(adapter);
+
+        list = db.getAllLists(1);
+        adapter.setList(list);
     }
 }

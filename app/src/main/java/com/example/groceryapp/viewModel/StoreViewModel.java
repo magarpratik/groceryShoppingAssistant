@@ -1,5 +1,6 @@
 package com.example.groceryapp.viewModel;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
@@ -125,7 +126,15 @@ public class StoreViewModel extends AppCompatActivity {
         selectStoreButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                // change isSaved to 1
+                db.saveList(listId, storeId);
+                // delete old unneeded items
+                db.deleteOldItems(listId);
+                for (int i = 0; i < comparisonList.size(); i++) {
+                    db.addFinalItem(comparisonList.get(i));
+                }
+                Intent intent = new Intent(StoreViewModel.this, SavedListsViewModel.class);
+                StoreViewModel.this.startActivity(intent);
             }
         });
     }

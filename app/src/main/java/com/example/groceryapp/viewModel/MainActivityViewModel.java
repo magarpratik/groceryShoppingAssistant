@@ -68,7 +68,7 @@ public class MainActivityViewModel extends AppCompatActivity implements DialogCl
                 ItemTouchHelper(new MainActivityTouchHelper(mainActivityAdapter));
         itemTouchHelper.attachToRecyclerView(listRecyclerView);
 
-        listOfShoppingLists = db.getAllLists();
+        listOfShoppingLists = db.getAllLists(0);
         // reverse the order so the latest ones are at the top
         // Collections.reverse(listOfShoppingLists);
         mainActivityAdapter.setListOfShoppingLists(listOfShoppingLists);
@@ -94,7 +94,7 @@ public class MainActivityViewModel extends AppCompatActivity implements DialogCl
 
     @Override
     public void handleDialogClose(DialogInterface dialog) {
-        listOfShoppingLists = db.getAllLists();
+        listOfShoppingLists = db.getAllLists(0);
         // reverse the order so the latest ones are at the top
         // Collections.reverse(listOfShoppingLists);
         mainActivityAdapter.setListOfShoppingLists(listOfShoppingLists);

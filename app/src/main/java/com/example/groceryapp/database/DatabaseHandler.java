@@ -32,6 +32,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public static final String COLUMN_ID = "ID";
     public static final String COLUMN_LIST_NAME = "LIST_NAME";
     public static final String COLUMN_STORE = "STORE";
+    public static final String COLUMN_IS_SAVED = "COLUMN_IS_SAVED";
 
     // ITEM table details
     public static final String ITEM_TABLE = "ITEM_TABLE";
@@ -82,7 +83,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         // Create tables
         String createListTableStatement = "CREATE TABLE " + LIST_TABLE + " (" + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                + COLUMN_LIST_NAME + " TEXT, " + COLUMN_STORE + " TEXT)";
+                + COLUMN_LIST_NAME + " TEXT, " + COLUMN_IS_SAVED + " INTEGER, " + COLUMN_STORE + " INTEGER)";
         String createItemTableStatement = "CREATE TABLE " + ITEM_TABLE + " (" + ITEM_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + LIST_ID + " INTEGER, " + ITEM_NAME + " TEXT, " + ITEM_QUANTITY + " TEXT, " + ITEM_UNIT + " TEXT)";
         String createResultsTableStatement = "CREATE TABLE " + RESULTS_TABLE + " (" + RESULTS_LIST_ID + " INTEGER, " + RESULTS_ITEM_ID
@@ -140,6 +141,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         ContentValues cv = new ContentValues();
         cv.put(COLUMN_LIST_NAME, shoppingList.getName());
         cv.put(COLUMN_STORE, shoppingList.getStore());
+        cv.put(COLUMN_IS_SAVED, 0);
 
         // insert the cv to the database
         db.insert(LIST_TABLE, null, cv);
@@ -152,6 +154,13 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.update(LIST_TABLE, cv, COLUMN_ID + "=?", new String[] {String.valueOf(id)});
     }
 
+    public void saveList(int listId, int storeId) {
+        ContentValues cv = new ContentValues();
+        cv.put(COLUMN_IS_SAVED, 1);
+        cv.put(COLUMN_STORE, storeId);
+        db.update(LIST_TABLE, cv, COLUMN_ID + "=?", new String[] {String.valueOf(listId)});
+    }
+
     // delete a list
     public void deleteList(int id) {
         db.delete(LIST_TABLE, COLUMN_ID + "=?", new String[] {String.valueOf(id)});
@@ -159,7 +168,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     }
 
     // get the list table from the database
-    public List<ShoppingListModel> getAllLists() {
+    public List<ShoppingListModel> getAllLists(int isSaved) {
         List<ShoppingListModel> listOfLists= new ArrayList<>();
 
         // Cursor is resultset
@@ -169,7 +178,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.beginTransaction();
         try {
             // returns the whole table
-            cursor = db.query(LIST_TABLE, null, null, null, null, null,null, null);
+            cursor = db.query(LIST_TABLE, null, COLUMN_IS_SAVED + " = " + isSaved, null, null, null,null, null);
 
             if(cursor != null) {
                 // move to the first row of the table
@@ -230,6 +239,10 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     // delete a list
     public void deleteItem(int id) {
         db.delete(ITEM_TABLE, ITEM_ID + "=?", new String[] {String.valueOf(id)});
+    }
+
+    public void deleteOldItems(int listId) {
+        db.delete(ITEM_TABLE, LIST_ID + "=?", new String[] {String.valueOf(listId)});
     }
 
     // get the list table from the database
