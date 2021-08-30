@@ -37,11 +37,13 @@ public class StoreAdapter extends RecyclerView.Adapter<StoreAdapter.ViewHolder> 
     private boolean isOnTextChanged = false;
     private BigDecimal totalPrice = new BigDecimal("0");
     private String listName;
+    private int storeId;
 
-    public StoreAdapter(StoreViewModel storeViewModel, DatabaseHandler db, String listName) {
+    public StoreAdapter(StoreViewModel storeViewModel, DatabaseHandler db, String listName, int storeId) {
         this.storeViewModel = storeViewModel;
         this.db = db;
         this.listName = listName;
+        this.storeId = storeId;
     }
 
     public void setFinalList(List<ItemModel> finalList) {
@@ -83,7 +85,7 @@ public class StoreAdapter extends RecyclerView.Adapter<StoreAdapter.ViewHolder> 
                 //bundle.putSerializable("itemsList", (Serializable) itemsList);
                 //bundle.putString("listName", listName);
                 bundle.putInt("listId", itemsList.get(position).getListId());
-                bundle.putInt("storeId", itemsList.get(position).getStoreId());
+                bundle.putInt("storeId", storeId);
                 //ArrayList<ItemModel> comparisonList = new ArrayList<>();
                 //comparisonList = db.getComparisonList(itemsList, listId, holder.getAdapterPosition());
                 //bundle.putSerializable("comparisonList", (Serializable) comparisonList);

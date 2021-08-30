@@ -63,7 +63,7 @@ public class SelectItemViewModel extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         // Adapter
-        adapter = new SelectItemAdapter(this, db, listName);
+        adapter = new SelectItemAdapter(this, db, listName, storeId);
         recyclerView.setAdapter(adapter);
 
         // get the items from the database

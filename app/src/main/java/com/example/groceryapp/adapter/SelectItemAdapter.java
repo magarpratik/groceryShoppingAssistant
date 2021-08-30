@@ -33,11 +33,13 @@ public class SelectItemAdapter extends RecyclerView.Adapter<SelectItemAdapter.Vi
     private List<ItemModel> finalList;
     private int itemPosition;
     private List<ItemModel> itemsList;
+    private int storeId;
 
-    public SelectItemAdapter(SelectItemViewModel selectItemViewModel, DatabaseHandler db, String listName) {
+    public SelectItemAdapter(SelectItemViewModel selectItemViewModel, DatabaseHandler db, String listName, int storeId) {
         this.selectItemViewModel = selectItemViewModel;
         this.db = db;
         this.listName = listName;
+        this.storeId = storeId;
     }
 
     @NonNull

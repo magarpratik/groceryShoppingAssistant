@@ -84,7 +84,7 @@ public class StoreViewModel extends AppCompatActivity {
         }
 
         // Adapter
-        adapter = new StoreAdapter(this, db, listName);
+        adapter = new StoreAdapter(this, db, listName, storeId);
         recyclerView.setAdapter(adapter);
 
         // get the comparison list from the database
