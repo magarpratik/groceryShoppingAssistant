@@ -1,7 +1,10 @@
 package com.example.groceryapp.adapter;
 
+import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.icu.math.BigDecimal;
 import android.os.Build;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,19 +19,25 @@ import com.example.groceryapp.R;
 import com.example.groceryapp.database.DatabaseHandler;
 import com.example.groceryapp.model.ItemModel;
 import com.example.groceryapp.viewModel.SelectItemViewModel;
+import com.example.groceryapp.viewModel.StoreViewModel;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 public class SelectItemAdapter extends RecyclerView.Adapter<SelectItemAdapter.ViewHolder> {
     private SelectItemViewModel selectItemViewModel;
     private DatabaseHandler db;
-    private List<ItemModel> listOfItems;
+    private List<ItemModel> listOfItems; // optionsList that is displayed
+    private String listName;
+    private List<ItemModel> finalList;
+    private int itemPosition;
+    private List<ItemModel> itemsList;
 
-
-    public SelectItemAdapter(SelectItemViewModel selectItemViewModel, DatabaseHandler db) {
+    public SelectItemAdapter(SelectItemViewModel selectItemViewModel, DatabaseHandler db, String listName) {
         this.selectItemViewModel = selectItemViewModel;
         this.db = db;
+        this.listName = listName;
     }
 
     @NonNull
@@ -41,7 +50,7 @@ public class SelectItemAdapter extends RecyclerView.Adapter<SelectItemAdapter.Vi
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
-    public void onBindViewHolder(@NonNull SelectItemAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull SelectItemAdapter.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         holder.numberTextView.setText(String.valueOf(position + 1));
         holder.itemNameTextView.setText(listOfItems.get(position).getName());
         holder.weightTextView.setText(listOfItems.get(position).getWeight());
@@ -57,7 +66,24 @@ public class SelectItemAdapter extends RecyclerView.Adapter<SelectItemAdapter.Vi
         holder.storeItemCardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent intent = new Intent(selectItemViewModel, StoreViewModel.class);
+                Bundle bundle = new Bundle();
+                //bundle.putSerializable("itemsList", (Serializable) itemsList);
+                //bundle.putString("listName", listName);
+                bundle.putInt("listId", listOfItems.get(position).getListId());
+                bundle.putInt("storeId", listOfItems.get(position).getStoreId());
+                //ArrayList<ItemModel> comparisonList = new ArrayList<>();
+                //comparisonList = db.getComparisonList(itemsList, listId, holder.getAdapterPosition());
+                //bundle.putSerializable("comparisonList", (Serializable) comparisonList);
+                //bundle.putInt("itemId", listOfItems.get(position).getId());
+                bundle.putString("listName", listName);
+                bundle.putSerializable("itemsList", (Serializable) itemsList);
+                //finalList.remove(itemPosition);
+                //finalList.add(itemPosition, listOfItems.get(position));
+                bundle.putSerializable("comparisonList", (Serializable) finalList);
 
+                intent.putExtras(bundle);
+                selectItemViewModel.startActivity(intent);
             }
         });
     }
@@ -88,5 +114,20 @@ public class SelectItemAdapter extends RecyclerView.Adapter<SelectItemAdapter.Vi
 
     public void setListOfItems(ArrayList<ItemModel> optionsList) {
         this.listOfItems = optionsList;
+    }
+
+    public void setFinalList(ArrayList<ItemModel> finalList) {
+        this.finalList = finalList;
+        notifyDataSetChanged();
+    }
+
+    public void setItemPosition(int position) {
+        this.itemPosition = position;
+        notifyDataSetChanged();
+    }
+
+    public void setItemsList(List<ItemModel> itemsList) {
+        this.itemsList = itemsList;
+        notifyDataSetChanged();
     }
 }

@@ -32,7 +32,7 @@ import java.util.List;
 public class StoreAdapter extends RecyclerView.Adapter<StoreAdapter.ViewHolder> {
     private StoreViewModel storeViewModel;
     private DatabaseHandler db;
-    private List<ItemModel> finalList;
+    private List<ItemModel> finalList; // list being displayed
     private List<ItemModel> itemsList;
     private boolean isOnTextChanged = false;
     private BigDecimal totalPrice = new BigDecimal("0");
@@ -91,6 +91,7 @@ public class StoreAdapter extends RecyclerView.Adapter<StoreAdapter.ViewHolder> 
                 bundle.putString("listName", listName);
                 bundle.putSerializable("itemsList", (Serializable) itemsList);
                 bundle.putSerializable("comparisonList", (Serializable) finalList);
+                bundle.putInt("position", position);
 
                 intent.putExtras(bundle);
                 storeViewModel.startActivity(intent);

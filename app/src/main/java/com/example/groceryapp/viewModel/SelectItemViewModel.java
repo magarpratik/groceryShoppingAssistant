@@ -25,6 +25,7 @@ public class SelectItemViewModel extends AppCompatActivity {
     private int itemId;
     private List<ItemModel> itemsList;
     private List<ItemModel> finalList;
+    private int position;
 
     private RecyclerView recyclerView;
     private SelectItemAdapter adapter;
@@ -49,7 +50,10 @@ public class SelectItemViewModel extends AppCompatActivity {
         storeId = bundle.getInt("storeId");
         itemId = bundle.getInt("itemId");
         itemsList = (List<ItemModel>) bundle.getSerializable("itemsList");
+        // list being displayed
         finalList = (List<ItemModel>) bundle.getSerializable("comparisonList");
+        position = bundle.getInt("position");
+
 
         TextView selectItemTextView = findViewById(R.id.selectItemTextView);
         selectItemTextView.setText(listName);
@@ -59,13 +63,17 @@ public class SelectItemViewModel extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         // Adapter
-        adapter = new SelectItemAdapter(this, db);
+        adapter = new SelectItemAdapter(this, db, listName);
         recyclerView.setAdapter(adapter);
 
         // get the items from the database
         ArrayList<ItemModel> optionsList = new ArrayList<>();
         optionsList = db.getOptionsList(itemId, listId, storeId);
 
+
         adapter.setListOfItems(optionsList);
+        adapter.setFinalList((ArrayList<ItemModel>) finalList);
+        adapter.setItemPosition(position);
+        adapter.setItemsList(itemsList);
     }
 }
