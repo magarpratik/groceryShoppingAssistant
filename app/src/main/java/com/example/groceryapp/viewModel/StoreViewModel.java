@@ -4,6 +4,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -38,6 +39,7 @@ public class StoreViewModel extends AppCompatActivity {
     private ImageView storeImageView;
     private ArrayList<ItemModel> comparisonList;
     private TextView totalPriceTextView;
+    private Button selectStoreButton;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -89,6 +91,12 @@ public class StoreViewModel extends AppCompatActivity {
 
         // get the comparison list from the database
         //comparisonList = db.getComparisonList(itemsList, listId, storeId);
+
+        // add list to database
+        /*for (int i = 0; i < comparisonList.size(); i++) {
+            db.addFinalItem(comparisonList.get(i));
+        }*/
+
         adapter.setFinalList(comparisonList);
         adapter.setItemsList(itemsList);
 
@@ -112,5 +120,13 @@ public class StoreViewModel extends AppCompatActivity {
 
         String totalPrice = String.valueOf(result);
         totalPriceTextView.setText("£" + totalPrice);
+
+        selectStoreButton = findViewById(R.id.selectStoreButton);
+        selectStoreButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 }

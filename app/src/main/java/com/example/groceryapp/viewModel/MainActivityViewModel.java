@@ -1,11 +1,13 @@
 package com.example.groceryapp.viewModel;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
@@ -56,6 +58,8 @@ public class MainActivityViewModel extends AppCompatActivity implements DialogCl
         mainActivityAdapter = new MainActivityAdapter(this, db);
         listRecyclerView.setAdapter(mainActivityAdapter);
 
+
+
         // add a new list button
         addFloatingButton = findViewById(R.id.addFloatingButton);
 
@@ -75,6 +79,15 @@ public class MainActivityViewModel extends AppCompatActivity implements DialogCl
             public void onClick(View v) {
                 addFloatingButton.hide();
                 AddNewListViewModel.newInstance().show(getSupportFragmentManager(), AddNewListViewModel.TAG);
+            }
+        });
+
+        ConstraintLayout shoppingListButton = findViewById(R.id.shoppingListButton);
+        shoppingListButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(MainActivityViewModel.this, SavedListsViewModel.class);
+                MainActivityViewModel.this.startActivity(i);
             }
         });
     }
