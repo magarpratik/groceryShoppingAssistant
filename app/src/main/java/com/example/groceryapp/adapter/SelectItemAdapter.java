@@ -82,6 +82,9 @@ public class SelectItemAdapter extends RecyclerView.Adapter<SelectItemAdapter.Vi
                 bundle.putSerializable("itemsList", (Serializable) itemsList);
                 //finalList.remove(itemPosition);
                 //finalList.add(itemPosition, listOfItems.get(position));
+
+                finalList.remove(itemPosition);
+                finalList.add(itemPosition, listOfItems.get(position));
                 bundle.putSerializable("comparisonList", (Serializable) finalList);
 
                 intent.putExtras(bundle);

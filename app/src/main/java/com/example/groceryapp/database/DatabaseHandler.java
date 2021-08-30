@@ -52,6 +52,16 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public static final String RESULTS_PPU = "RESULTS_PPU";
     public static final String RESULTS_PPU_EXTRACTED = "RESULTS_PPU_EXTRACTED";
 
+    // FINAL table details
+    public static final String FINAL_TABLE = "FINAL_TABLE";
+    public static final String FINAL_ITEM_ID = "FINAL_ITEM_ID";
+    public static final String FINAL_NAME = "FINAL_NAME";
+    public static final String FINAL_QTY = "FINAL_QTY";
+    public static final String FINAL_LIST_ID = "FINAL_LIST_ID";
+    public static final String FINAL_STORE_ID = "FINAL_STORE_ID";
+    public static final String FINAL_PRICE = "FINAL_PRICE";
+    public static final String FINAL_PPU = "FINAL_PPU";
+
     private SQLiteDatabase db;
 
     // Constructor
@@ -78,10 +88,14 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         String createResultsTableStatement = "CREATE TABLE " + RESULTS_TABLE + " (" + RESULTS_LIST_ID + " INTEGER, " + RESULTS_ITEM_ID
                 + " INTEGER, " + RESULTS_STORE_ID + " INTEGER, " + RESULTS_NAME + " TEXT, " + RESULTS_PRICE + " TEXT, "
                 + RESULTS_QTY + " TEXT, " + RESULTS_PPU + " TEXT, " + RESULTS_PPU_EXTRACTED + " TEXT)";
+        String createFinalTableStatement = "CREATE TABLE " + FINAL_TABLE + " (" + FINAL_LIST_ID + " INTEGER, " + FINAL_ITEM_ID
+                + " INTEGER, " + FINAL_STORE_ID + " INTEGER, " + FINAL_NAME + " TEXT, " + FINAL_PRICE + " TEXT, "
+                + FINAL_QTY + " TEXT, " + FINAL_PPU + " TEXT)";
 
         db.execSQL(createListTableStatement);
         db.execSQL(createItemTableStatement);
         db.execSQL(createResultsTableStatement);
+        db.execSQL(createFinalTableStatement);
     }
 
     // called when the database version number changes
@@ -92,6 +106,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + LIST_TABLE);
         db.execSQL("DROP TABLE IF EXISTS " + ITEM_TABLE);
         db.execSQL("DROP TABLE IF EXISTS " + RESULTS_TABLE);
+        db.execSQL("DROP TABLE IF EXISTS " + FINAL_TABLE);
 
         // Create tables again
         onCreate(db);
@@ -112,11 +127,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.insert(RESULTS_TABLE, null, cv);
     }
 
-    public void clearResults() {
-        db.execSQL("DELETE FROM " + RESULTS_TABLE);
+    public void clearResults(int listId) {
+        db.execSQL("DELETE FROM " + RESULTS_TABLE + " WHERE " + RESULTS_LIST_ID + " = " + listId);
     }
-
-
 
 
 
@@ -403,6 +416,70 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             cursor.close();
         }
         return result;
+    }
+
+
+
+
+    // get the cheapest items
+    public void addCheapestItems(int listId, int storeId) {
+        //ArrayList<ItemModel> result = new ArrayList<>();
+
+        // Cursor is resultset
+        Cursor cursor = null;
+
+        String[] columns = {RESULTS_LIST_ID, RESULTS_ITEM_ID, RESULTS_STORE_ID, RESULTS_NAME, RESULTS_PRICE, RESULTS_QTY, RESULTS_PPU, "MIN(" + RESULTS_PPU_EXTRACTED + ")"};
+
+        // Atomic operation starts
+        db.beginTransaction();
+        try {
+            // returns the whole table
+            cursor = db.query(RESULTS_TABLE,
+                    columns,
+                    RESULTS_LIST_ID + " = " + listId + " AND " +
+                            RESULTS_STORE_ID + " = " + storeId,
+                    null,
+                    RESULTS_ITEM_ID,
+                    null,
+                    null);
+
+            if(cursor != null) {
+                // move to the first row of the table
+                if(cursor.moveToFirst()) {
+                    do{
+                        // Get the details about the lists from the resultset (cursor)
+                        // Go through the lists from the resultset
+                        // Add the lists from the resultset to the listOfLists ArrayList
+                        ItemModel item = new ItemModel(listId, cursor.getString(cursor.getColumnIndex(RESULTS_NAME)));
+                        item.setId(cursor.getInt(cursor.getColumnIndex(RESULTS_ITEM_ID)));
+                        item.setWeight(cursor.getString(cursor.getColumnIndex(RESULTS_QTY)));
+                        item.setStoreId(cursor.getInt(cursor.getColumnIndex(RESULTS_STORE_ID)));
+                        item.setPrice(cursor.getString(cursor.getColumnIndex(RESULTS_PRICE)));
+                        item.setPricePerUnit(cursor.getString(cursor.getColumnIndex(RESULTS_PPU)));
+
+                        addFinalItem(item);
+                    }while(cursor.moveToNext());
+                }
+            }
+        }
+        finally {
+            // Atomic operation ends
+            db.endTransaction();
+            cursor.close();
+        }
+    }
+
+    public void addFinalItem(ItemModel itemModel) {
+        ContentValues cv = new ContentValues();
+        cv.put(FINAL_LIST_ID, itemModel.getListId());
+        cv.put(FINAL_ITEM_ID, itemModel.getId());
+        cv.put(FINAL_NAME, itemModel.getName());
+        cv.put(FINAL_QTY, itemModel.getQuantity());
+        cv.put(FINAL_STORE_ID, itemModel.getStoreId());
+        cv.put(FINAL_PRICE, itemModel.getPrice());
+        cv.put(FINAL_PPU, itemModel.getPricePerUnit());
+
+        db.insert(FINAL_TABLE, null, cv);
     }
 
 
