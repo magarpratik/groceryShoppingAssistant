@@ -1,5 +1,6 @@
 package com.example.groceryapp.adapter;
 
+import android.content.Intent;
 import android.icu.math.BigDecimal;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.groceryapp.R;
 import com.example.groceryapp.database.DatabaseHandler;
 import com.example.groceryapp.model.ShoppingListModel;
+import com.example.groceryapp.viewModel.InsideSavedListViewModel;
 import com.example.groceryapp.viewModel.SavedListsViewModel;
 
 import java.util.ArrayList;
@@ -39,9 +41,12 @@ public class SavedListsAdapter extends RecyclerView.Adapter<SavedListsAdapter.Vi
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.listNameTextView.setText(list.get(position).getName());
+        String listName = list.get(position).getName();
+        holder.listNameTextView.setText(listName);
         holder.listNumberTextView.setText(String.valueOf(position + 1));
-        switch (Integer.valueOf(list.get(position).getStore().trim())) {
+
+        int storeId = Integer.valueOf(list.get(position).getStore().trim());
+        switch (storeId) {
             case 0:
                 holder.logoImageView1.setImageResource(R.drawable.asda_logo);
                 break;
@@ -52,6 +57,17 @@ public class SavedListsAdapter extends RecyclerView.Adapter<SavedListsAdapter.Vi
                 holder.logoImageView1.setImageResource(R.drawable.tesco_logo);
                 break;
         }
+
+        holder.listNameCardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(savedListsViewModel, InsideSavedListViewModel.class);
+                i.putExtra("storeId", storeId);
+                i.putExtra("listName", listName);
+                i.putExtra("listId", list.get(position).getId());
+                savedListsViewModel.startActivity(i);
+            }
+        });
     }
 
     @Override

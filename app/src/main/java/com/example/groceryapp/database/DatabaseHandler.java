@@ -434,6 +434,61 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
 
 
+
+
+
+    // get the cheapest items
+    public ArrayList<ItemModel> getSavedItemsList(int listId, int storeId) {
+        ArrayList<ItemModel> result = new ArrayList<>();
+
+        // Cursor is resultset
+        Cursor cursor = null;
+
+        // Atomic operation starts
+        db.beginTransaction();
+        try {
+            // returns the whole table
+            cursor = db.query(FINAL_TABLE,
+                    null,
+                    FINAL_LIST_ID + " = " + listId + " AND " +
+                            FINAL_STORE_ID + " = " + storeId,
+                    null,
+                    null,
+                    null,
+                    null);
+
+            if(cursor != null) {
+                // move to the first row of the table
+                if(cursor.moveToFirst()) {
+                    do{
+                        // Get the details about the lists from the resultset (cursor)
+                        // Go through the lists from the resultset
+                        // Add the lists from the resultset to the listOfLists ArrayList
+                        ItemModel item = new ItemModel(listId, cursor.getString(cursor.getColumnIndex(FINAL_NAME)));
+                        item.setId(cursor.getInt(cursor.getColumnIndex(FINAL_ITEM_ID)));
+                        item.setWeight(cursor.getString(cursor.getColumnIndex(FINAL_QTY)));
+                        item.setStoreId(cursor.getInt(cursor.getColumnIndex(FINAL_STORE_ID)));
+                        item.setPrice(cursor.getString(cursor.getColumnIndex(FINAL_PRICE)));
+                        item.setPricePerUnit(cursor.getString(cursor.getColumnIndex(FINAL_PPU)));
+
+                        result.add(item);
+                    }while(cursor.moveToNext());
+                }
+            }
+        }
+        finally {
+            // Atomic operation ends
+            db.endTransaction();
+            cursor.close();
+        }
+        return result;
+    }
+
+
+
+
+
+
     // get the cheapest items
     public void addCheapestItems(int listId, int storeId) {
         //ArrayList<ItemModel> result = new ArrayList<>();
@@ -487,7 +542,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         cv.put(FINAL_LIST_ID, itemModel.getListId());
         cv.put(FINAL_ITEM_ID, itemModel.getId());
         cv.put(FINAL_NAME, itemModel.getName());
-        cv.put(FINAL_QTY, itemModel.getQuantity());
+        cv.put(FINAL_QTY, itemModel.getWeight());
         cv.put(FINAL_STORE_ID, itemModel.getStoreId());
         cv.put(FINAL_PRICE, itemModel.getPrice());
         cv.put(FINAL_PPU, itemModel.getPricePerUnit());

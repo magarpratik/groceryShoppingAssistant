@@ -9,6 +9,7 @@
         <entry key="app/src/main/res/drawable/ic_baseline_list_alt_24.xml" value="0.4197916666666667" />
         <entry key="app/src/main/res/layout/activity_comparison.xml" value="0.4036458333333333" />
         <entry key="app/src/main/res/layout/activity_inside_list_view_model.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/activity_inside_saved_list.xml" value="0.33" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.38958333333333334" />
         <entry key="app/src/main/res/layout/activity_saved_lists.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_select_item.xml" value="0.33" />

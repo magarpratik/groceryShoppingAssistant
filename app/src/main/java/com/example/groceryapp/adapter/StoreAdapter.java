@@ -75,6 +75,7 @@ public class StoreAdapter extends RecyclerView.Adapter<StoreAdapter.ViewHolder> 
         BigDecimal result = multiply.divide(new BigDecimal("100"), 2, BigDecimal.ROUND_HALF_EVEN);
         holder.itemPriceTextView.setText("£" + result);
 
+
         // click on an item to look at all the options
         // start an activity to show all the other options for the same item
         holder.storeItemCardView.setOnClickListener(new View.OnClickListener() {
