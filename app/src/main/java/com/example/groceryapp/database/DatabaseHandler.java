@@ -189,7 +189,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                         // Add the lists from the resultset to the listOfLists ArrayList
                         ShoppingListModel shoppingList = new ShoppingListModel(cursor.getString(cursor.getColumnIndex(COLUMN_LIST_NAME)));
                         shoppingList.setId(cursor.getInt(cursor.getColumnIndex(COLUMN_ID)));
-                        shoppingList.setStore(cursor.getString(cursor.getColumnIndex(COLUMN_STORE)));
+                        shoppingList.setStore(String.valueOf(cursor.getInt(cursor.getColumnIndex(COLUMN_STORE))));
                         listOfLists.add(shoppingList);
                     }while(cursor.moveToNext());
                 }

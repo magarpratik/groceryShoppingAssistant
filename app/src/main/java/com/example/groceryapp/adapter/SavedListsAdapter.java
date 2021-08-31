@@ -4,6 +4,7 @@ import android.icu.math.BigDecimal;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -32,7 +33,7 @@ public class SavedListsAdapter extends RecyclerView.Adapter<SavedListsAdapter.Vi
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.list_item, parent, false);
+                .inflate(R.layout.saved_item, parent, false);
         return new ViewHolder(itemView);
     }
 
@@ -40,6 +41,17 @@ public class SavedListsAdapter extends RecyclerView.Adapter<SavedListsAdapter.Vi
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.listNameTextView.setText(list.get(position).getName());
         holder.listNumberTextView.setText(String.valueOf(position + 1));
+        switch (Integer.valueOf(list.get(position).getStore().trim())) {
+            case 0:
+                holder.logoImageView1.setImageResource(R.drawable.asda_logo);
+                break;
+            case 1:
+                holder.logoImageView1.setImageResource(R.drawable.sainsburys_logo);
+                break;
+            case 2:
+                holder.logoImageView1.setImageResource(R.drawable.tesco_logo);
+                break;
+        }
     }
 
     @Override
@@ -51,12 +63,14 @@ public class SavedListsAdapter extends RecyclerView.Adapter<SavedListsAdapter.Vi
         private TextView listNameTextView;
         private CardView listNameCardView;
         private TextView listNumberTextView;
+        private ImageView logoImageView1;
 
         public ViewHolder(@NonNull View view) {
             super(view);
             listNameTextView = view.findViewById(R.id.listNameTextView);
             listNameCardView = view.findViewById(R.id.listNameCardView);
             listNumberTextView = view.findViewById(R.id.listNumberTextView);
+            logoImageView1 = view.findViewById(R.id.logoImageView1);
         }
     }
 
