@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.math.RoundingMode;
 
 public class ItemModel implements Serializable {
+    boolean isCrossed = false;
     private int listId;
     private int id;
     private String name;
@@ -137,6 +138,14 @@ public class ItemModel implements Serializable {
 
     public void setStoreId(int storeId) {
         this.storeId = storeId;
+    }
+
+    public boolean isCrossed() {
+        return isCrossed;
+    }
+
+    public void setCrossed(boolean crossed) {
+        isCrossed = crossed;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)

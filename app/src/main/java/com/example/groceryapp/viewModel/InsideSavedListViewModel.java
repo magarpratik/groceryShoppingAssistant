@@ -77,7 +77,6 @@ public class InsideSavedListViewModel extends AppCompatActivity {
         // Calculate the total price
         TextView estimatedPriceTextView = findViewById(R.id.estimatedPriceTextView);
 
-
         int total = 0;
         // add the prices
         for (int j = 0; j < itemsList.size(); j++) {
@@ -95,5 +94,8 @@ public class InsideSavedListViewModel extends AppCompatActivity {
 
         String totalPrice = String.valueOf(result);
         estimatedPriceTextView.setText("£" + totalPrice);
+
+
     }
 }
+
