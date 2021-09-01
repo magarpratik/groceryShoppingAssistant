@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Paint;
 import android.icu.math.BigDecimal;
 import android.os.Build;
+import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -20,6 +21,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.groceryapp.R;
 import com.example.groceryapp.database.DatabaseHandler;
 import com.example.groceryapp.model.ItemModel;
+import com.example.groceryapp.viewModel.AddNewItemViewModel;
+import com.example.groceryapp.viewModel.AddNewSavedItemViewModel;
 import com.example.groceryapp.viewModel.InsideSavedListViewModel;
 
 import java.util.ArrayList;
@@ -41,6 +44,8 @@ public class InsideSavedListAdapter extends RecyclerView.Adapter<InsideSavedList
         this.insideSavedListViewModel = insideSavedListViewModel;
         this.db = db;
     }
+
+    public Context getContext() { return insideSavedListViewModel;}
 
     @NonNull
     @Override
@@ -160,5 +165,29 @@ public class InsideSavedListAdapter extends RecyclerView.Adapter<InsideSavedList
     public void setSavedItemsList(List<ItemModel> itemsList) {
         this.itemsList = itemsList;
         notifyDataSetChanged();
+    }
+
+    public void deleteItem(int position) {
+        ItemModel itemModel = itemsList.get(position);
+        db.deleteSavedItem(itemModel.getId());
+        itemsList.remove(position);
+        notifyItemRemoved(position);
+    }
+
+    // TODO
+    public void editItem(int position) {
+        ItemModel itemModel = itemsList.get(position);
+        Bundle bundle = new Bundle();
+        bundle.putInt("LIST_ID", itemModel.getListId());
+        bundle.putInt("ITEM_ID", itemModel.getId());
+        bundle.putString("ITEM_NAME", itemModel.getName());
+        bundle.putString("ITEM_WEIGHT", itemModel.getWeight());
+        bundle.putInt("STORE_ID", itemModel.getStoreId());
+        bundle.putString("ITEM_PRICE", itemModel.getPrice());
+
+
+        AddNewSavedItemViewModel fragment = new AddNewSavedItemViewModel();
+        fragment.setArguments(bundle);
+        fragment.show(insideSavedListViewModel.getSupportFragmentManager(), AddNewSavedItemViewModel.TAG);
     }
 }

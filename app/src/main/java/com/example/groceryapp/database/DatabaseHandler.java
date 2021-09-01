@@ -238,9 +238,40 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.update(ITEM_TABLE, cv, ITEM_ID + "=?", new String[] {String.valueOf(id)});
     }
 
+    public void updateSavedItem(int itemId, int listId, int storeId,
+                                String name, String qty, String unit, String price) {
+        ContentValues cv = new ContentValues();
+        cv.put(FINAL_NAME, name);
+        cv.put(FINAL_QTY, qty + unit);
+        cv.put(FINAL_PRICE, price);
+        cv.put(FINAL_PPU, "");
+        db.update(FINAL_TABLE, cv, FINAL_ITEM_ID+ "=?" + " AND " +
+                FINAL_STORE_ID + "=?" + " AND " + FINAL_LIST_ID + "=?",
+                new String[] {String.valueOf(itemId),
+                        String.valueOf(storeId), String.valueOf(listId)});
+    }
+
+    public void addNewSavedItem(ItemModel itemModel) {
+        ContentValues cv = new ContentValues();
+        cv.put(FINAL_ITEM_ID, itemModel.getId());
+        cv.put(FINAL_QTY, itemModel.getQuantity() + itemModel.getUnit());
+        cv.put(FINAL_NAME, itemModel.getName());
+        cv.put(FINAL_PRICE, itemModel.getPrice());
+        cv.put(FINAL_STORE_ID, itemModel.getStoreId());
+        cv.put(FINAL_LIST_ID, itemModel.getListId());
+        db.insert(FINAL_TABLE, null, cv);
+    }
+
+
+
     // delete a list
     public void deleteItem(int id) {
         db.delete(ITEM_TABLE, ITEM_ID + "=?", new String[] {String.valueOf(id)});
+    }
+
+    // delete saved item
+    public void deleteSavedItem(int id) {
+        db.delete(FINAL_TABLE, FINAL_ITEM_ID + "=?", new String[] {String.valueOf(id)});
     }
 
     public void deleteOldItems(int listId) {

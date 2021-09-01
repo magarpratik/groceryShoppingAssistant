@@ -1,5 +1,6 @@
 package com.example.groceryapp.viewModel;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -9,19 +10,22 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.groceryapp.DialogCloseListener;
 import com.example.groceryapp.R;
 import com.example.groceryapp.adapter.InsideSavedListAdapter;
 import com.example.groceryapp.database.DatabaseHandler;
 import com.example.groceryapp.model.ItemModel;
+import com.example.groceryapp.touchHelper.InsideSavedListTouchHelper;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-public class InsideSavedListViewModel extends AppCompatActivity {
+public class InsideSavedListViewModel extends AppCompatActivity implements DialogCloseListener {
     private DatabaseHandler db;
     private RecyclerView recyclerView;
     private InsideSavedListAdapter adapter;
@@ -30,6 +34,8 @@ public class InsideSavedListViewModel extends AppCompatActivity {
     private ImageView insideSavedImageView;
     private TextView basketPriceTextView;
     private TextView insideSavedTextView;
+    private int listId;
+    private int storeId;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -45,8 +51,8 @@ public class InsideSavedListViewModel extends AppCompatActivity {
         db.openDatabase();
 
         Intent i = getIntent();
-        int listId = i.getIntExtra("listId", 0);
-        int storeId = i.getIntExtra("storeId", 0);
+        listId = i.getIntExtra("listId", 0);
+        storeId = i.getIntExtra("storeId", 0);
         String listName = i.getStringExtra("listName");
 
         // set the store logo
@@ -116,6 +122,17 @@ public class InsideSavedListViewModel extends AppCompatActivity {
 
             basketPriceTextView.setText("£" + String.valueOf(res));
         }
+
+        ItemTouchHelper itemTouchHelper = new
+                ItemTouchHelper(new InsideSavedListTouchHelper(adapter));
+        itemTouchHelper.attachToRecyclerView(recyclerView);
+    }
+
+    @Override
+    public void handleDialogClose(DialogInterface dialog) {
+        itemsList = db.getSavedItemsList(listId, storeId);
+        adapter.setSavedItemsList(itemsList);
+        adapter.notifyDataSetChanged();
     }
 }
 

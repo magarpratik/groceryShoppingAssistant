@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <EditText
+        android:hint="Item name"
+        android:id="@+id/savedItemNameEditText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent="0.75" />
+
+    <EditText
+        android:hint="Qty"
+        android:id="@+id/savedItemQtyEditText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/savedItemNameEditText"
+        android:inputType="numberDecimal"
+        app:layout_constraintWidth_percent="0.155" />
+
+    <Spinner
+        android:id="@+id/savedUnitSpinner"
+        android:layout_width="82dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="@+id/savedItemQtyEditText"
+        app:layout_constraintStart_toEndOf="@+id/savedItemQtyEditText"
+        app:layout_constraintTop_toTopOf="@+id/savedItemQtyEditText" />
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="£"
+        android:textSize="22sp"
+        app:layout_constraintBottom_toBottomOf="@+id/savedItemPriceEditText"
+        app:layout_constraintEnd_toStartOf="@+id/savedItemPriceEditText"
+        app:layout_constraintTop_toTopOf="@+id/savedItemPriceEditText" />
+
+    <EditText
+
+        android:inputType="numberDecimal"
+        android:id="@+id/savedItemPriceEditText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Price"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/savedItemNameEditText"
+        app:layout_constraintTop_toBottomOf="@+id/savedItemNameEditText"
+        app:layout_constraintWidth_percent="0.25" />
+
+    <Button
+        android:textSize="20sp"
+        android:id="@+id/savedItemSaveButton"
+        android:layout_width="90sp"
+        android:layout_height="90sp"
+        android:text="SAVE"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/savedItemNameEditText"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
