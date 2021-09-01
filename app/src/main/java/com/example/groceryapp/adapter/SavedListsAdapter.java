@@ -1,7 +1,10 @@
 package com.example.groceryapp.adapter;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.icu.math.BigDecimal;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.groceryapp.R;
 import com.example.groceryapp.database.DatabaseHandler;
 import com.example.groceryapp.model.ShoppingListModel;
+import com.example.groceryapp.viewModel.AddNewListViewModel;
 import com.example.groceryapp.viewModel.InsideSavedListViewModel;
 import com.example.groceryapp.viewModel.SavedListsViewModel;
 
@@ -31,6 +35,8 @@ public class SavedListsAdapter extends RecyclerView.Adapter<SavedListsAdapter.Vi
         this.db = db;
     }
 
+    public Context getContext() {return savedListsViewModel;}
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -40,7 +46,7 @@ public class SavedListsAdapter extends RecyclerView.Adapter<SavedListsAdapter.Vi
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         String listName = list.get(position).getName();
         holder.listNameTextView.setText(listName);
         holder.listNumberTextView.setText(String.valueOf(position + 1));
@@ -93,5 +99,22 @@ public class SavedListsAdapter extends RecyclerView.Adapter<SavedListsAdapter.Vi
     public void setList(List<ShoppingListModel> list) {
         this.list = list;
         notifyDataSetChanged();
+    }
+
+    public void deleteItem(int position) {
+        ShoppingListModel item = list.get(position);
+        db.deleteList(item.getId());
+        list.remove(position);
+        notifyItemRemoved(position);
+    }
+
+    public void editItem(int position) {
+        ShoppingListModel item = list.get(position);
+        Bundle bundle = new Bundle();
+        bundle.putInt("ID", item.getId());
+        bundle.putString("LIST_NAME", item.getName());
+        AddNewListViewModel fragment = new AddNewListViewModel();
+        fragment.setArguments(bundle);
+        fragment.show(savedListsViewModel.getSupportFragmentManager(), AddNewListViewModel.TAG);
     }
 }
