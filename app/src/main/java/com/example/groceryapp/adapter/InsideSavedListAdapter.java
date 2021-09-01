@@ -59,6 +59,7 @@ public class InsideSavedListAdapter extends RecyclerView.Adapter<InsideSavedList
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onBindViewHolder(@NonNull InsideSavedListAdapter.ViewHolder holder, int position) {
+
         holder.numberTextView.setText(String.valueOf(position + 1));
         holder.itemNameTextView.setText(itemsList.get(position).getName());
         holder.weightTextView.setText(itemsList.get(position).getWeight());
@@ -67,6 +68,20 @@ public class InsideSavedListAdapter extends RecyclerView.Adapter<InsideSavedList
         BigDecimal multiply = price.multiply(new BigDecimal("100"));
         BigDecimal result = multiply.divide(new BigDecimal("100"), 2, BigDecimal.ROUND_HALF_EVEN);
         holder.itemPriceTextView.setText("£" + result);
+
+        // if item is crossed
+        if (itemsList.get(holder.getAdapterPosition()).isCrossed()) {
+            holder.itemNameTextView.setPaintFlags(holder.itemNameTextView.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+            holder.weightTextView.setPaintFlags(holder.weightTextView.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+            holder.pricePerUnitTextView.setPaintFlags(holder.pricePerUnitTextView.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+            holder.itemPriceTextView.setPaintFlags(holder.itemPriceTextView.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+        }
+        else {
+            holder.itemNameTextView.setPaintFlags(holder.itemNameTextView.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
+            holder.weightTextView.setPaintFlags(holder.weightTextView.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
+            holder.pricePerUnitTextView.setPaintFlags(holder.pricePerUnitTextView.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
+            holder.itemPriceTextView.setPaintFlags(holder.itemPriceTextView.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
+        }
 
         holder.storeItemCardView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,6 +92,10 @@ public class InsideSavedListAdapter extends RecyclerView.Adapter<InsideSavedList
                     holder.pricePerUnitTextView.setPaintFlags(holder.pricePerUnitTextView.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
                     holder.itemPriceTextView.setPaintFlags(holder.itemPriceTextView.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
                     itemsList.get(holder.getAdapterPosition()).setCrossed(true);
+                    db.crossItem(itemsList.get(holder.getAdapterPosition()).getListId(),
+                            itemsList.get(holder.getAdapterPosition()).getStoreId(),
+                            itemsList.get(holder.getAdapterPosition()).getId(),
+                            1);
                 }
                 else {
                     holder.itemNameTextView.setPaintFlags(holder.itemNameTextView.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
@@ -84,6 +103,10 @@ public class InsideSavedListAdapter extends RecyclerView.Adapter<InsideSavedList
                     holder.pricePerUnitTextView.setPaintFlags(holder.pricePerUnitTextView.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
                     holder.itemPriceTextView.setPaintFlags(holder.itemPriceTextView.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
                     itemsList.get(holder.getAdapterPosition()).setCrossed(false);
+                    db.crossItem(itemsList.get(holder.getAdapterPosition()).getListId(),
+                            itemsList.get(holder.getAdapterPosition()).getStoreId(),
+                            itemsList.get(holder.getAdapterPosition()).getId(),
+                            0);
                 }
 
                 int total = 0;

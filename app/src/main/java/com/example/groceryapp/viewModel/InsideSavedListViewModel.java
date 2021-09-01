@@ -1,11 +1,13 @@
 package com.example.groceryapp.viewModel;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -29,6 +31,7 @@ public class InsideSavedListViewModel extends AppCompatActivity {
     private TextView basketPriceTextView;
     private TextView insideSavedTextView;
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -95,7 +98,24 @@ public class InsideSavedListViewModel extends AppCompatActivity {
         String totalPrice = String.valueOf(result);
         estimatedPriceTextView.setText("£" + totalPrice);
 
+        basketPriceTextView = findViewById(R.id.basketPriceTextView);
 
+        int totalBasketPrice= 0;
+        for (int j = 0; j < itemsList.size(); j++) {
+            if (itemsList.get(j).isCrossed()) {
+                android.icu.math.BigDecimal price = new android.icu.math.BigDecimal(itemsList.get(j).getPrice());
+                android.icu.math.BigDecimal multiplier = new android.icu.math.BigDecimal("100");
+                android.icu.math.BigDecimal res = price.multiply(multiplier);
+                int number = res.intValue();
+                totalBasketPrice = totalBasketPrice + number;
+            }
+
+            android.icu.math.BigDecimal answer = new android.icu.math.BigDecimal(String.valueOf(totalBasketPrice));
+            android.icu.math.BigDecimal divider = new android.icu.math.BigDecimal("100");
+            android.icu.math.BigDecimal res = answer.divide(divider, 2, android.icu.math.BigDecimal.ROUND_HALF_EVEN);
+
+            basketPriceTextView.setText("£" + String.valueOf(res));
+        }
     }
 }
 

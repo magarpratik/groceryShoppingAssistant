@@ -62,6 +62,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public static final String FINAL_STORE_ID = "FINAL_STORE_ID";
     public static final String FINAL_PRICE = "FINAL_PRICE";
     public static final String FINAL_PPU = "FINAL_PPU";
+    public static final String FINAL_IS_CROSSED = "FINAL_IS_CROSSED";
 
     private SQLiteDatabase db;
 
@@ -91,7 +92,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 + RESULTS_QTY + " TEXT, " + RESULTS_PPU + " TEXT, " + RESULTS_PPU_EXTRACTED + " TEXT)";
         String createFinalTableStatement = "CREATE TABLE " + FINAL_TABLE + " (" + FINAL_LIST_ID + " INTEGER, " + FINAL_ITEM_ID
                 + " INTEGER, " + FINAL_STORE_ID + " INTEGER, " + FINAL_NAME + " TEXT, " + FINAL_PRICE + " TEXT, "
-                + FINAL_QTY + " TEXT, " + FINAL_PPU + " TEXT)";
+                + FINAL_QTY + " TEXT, " + FINAL_PPU + " TEXT, " + FINAL_IS_CROSSED + " INTEGER)";
 
         db.execSQL(createListTableStatement);
         db.execSQL(createItemTableStatement);
@@ -470,6 +471,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                         item.setStoreId(cursor.getInt(cursor.getColumnIndex(FINAL_STORE_ID)));
                         item.setPrice(cursor.getString(cursor.getColumnIndex(FINAL_PRICE)));
                         item.setPricePerUnit(cursor.getString(cursor.getColumnIndex(FINAL_PPU)));
+                        item.setCrossedValue(cursor.getInt(cursor.getColumnIndex(FINAL_IS_CROSSED)));
 
                         result.add(item);
                     }while(cursor.moveToNext());
@@ -482,6 +484,14 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             cursor.close();
         }
         return result;
+    }
+
+    public void crossItem(int listId, int storeId, int itemId, int cross) {
+        ContentValues cv = new ContentValues();
+        cv.put(FINAL_IS_CROSSED, cross);
+        db.update(FINAL_TABLE, cv,
+                FINAL_ITEM_ID + "=?" + " AND " + FINAL_LIST_ID + "=?" + " AND " + FINAL_STORE_ID + "=?",
+                new String[] {String.valueOf(itemId),String.valueOf(listId),String.valueOf(storeId)});
     }
 
 
@@ -546,6 +556,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         cv.put(FINAL_STORE_ID, itemModel.getStoreId());
         cv.put(FINAL_PRICE, itemModel.getPrice());
         cv.put(FINAL_PPU, itemModel.getPricePerUnit());
+        cv.put(FINAL_IS_CROSSED, itemModel.getCrossedValue());
 
         db.insert(FINAL_TABLE, null, cv);
     }

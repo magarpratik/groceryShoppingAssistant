@@ -148,6 +148,22 @@ public class ItemModel implements Serializable {
         isCrossed = crossed;
     }
 
+    public int getCrossedValue() {
+        int ans = 0;
+        if (isCrossed) {
+            ans = 1;
+        }
+        return ans;
+    }
+
+    public void setCrossedValue(int isCrossed) {
+        if (isCrossed == 0) {
+            setCrossed(false);
+        }
+        else setCrossed(true);
+    }
+
+
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void extractPPU(String pricePerUnit) {
         String[] result = pricePerUnit.split("/");
