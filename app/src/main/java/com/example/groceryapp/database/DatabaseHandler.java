@@ -100,6 +100,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.execSQL(createFinalTableStatement);
     }
 
+
+
     // called when the database version number changes
     // prevents previous users' apps from breaking down when the database design is changed
     @Override
@@ -133,6 +135,47 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.execSQL("DELETE FROM " + RESULTS_TABLE + " WHERE " + RESULTS_LIST_ID + " = " + listId);
     }
 
+
+    public int getMaxItemId() {
+        int answer = 0;
+
+        // Cursor is resultset
+        Cursor cursor = null;
+
+        // Atomic operation starts
+        db.beginTransaction();
+        try {
+            // returns the whole table
+            cursor = db.query(FINAL_TABLE,
+                    new String[]{"MAX(" + FINAL_ITEM_ID + ")"},
+                    null,
+                    null,
+                    null,
+                    null,
+                    null);
+
+            if(cursor != null) {
+                // move to the first row of the table
+                if(cursor.moveToFirst()) {
+                    do{
+                        // Get the details about the lists from the resultset (cursor)
+                        // Go through the lists from the resultset
+                        // Add the lists from the resultset to the listOfLists ArrayList
+                        int res = cursor.getInt(0);
+
+                        answer = res;
+                    }while(cursor.moveToNext());
+                }
+            }
+        }
+        finally {
+            // Atomic operation ends
+            db.endTransaction();
+            cursor.close();
+        }
+
+        return answer;
+    }
 
 
     // METHODS FOR THE ADDING/DELETING/EDITING LISTS
@@ -235,6 +278,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         cv.put(ITEM_NAME, item_name);
         cv.put(ITEM_QUANTITY, item_qty);
         cv.put(ITEM_UNIT, item_unit);
+
         db.update(ITEM_TABLE, cv, ITEM_ID + "=?", new String[] {String.valueOf(id)});
     }
 
@@ -244,9 +288,20 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         cv.put(FINAL_NAME, name);
         cv.put(FINAL_QTY, qty + unit);
         cv.put(FINAL_PRICE, price);
-        cv.put(FINAL_PPU, "");
         db.update(FINAL_TABLE, cv, FINAL_ITEM_ID+ "=?" + " AND " +
                 FINAL_STORE_ID + "=?" + " AND " + FINAL_LIST_ID + "=?",
+                new String[] {String.valueOf(itemId),
+                        String.valueOf(storeId), String.valueOf(listId)});
+    }
+
+    public void updateSavedItem(int itemId, int listId, int storeId,
+                                String name, String price) {
+        ContentValues cv = new ContentValues();
+        cv.put(FINAL_NAME, name);
+        cv.put(FINAL_PRICE, price);
+        cv.put(FINAL_PPU, " ");
+        db.update(FINAL_TABLE, cv, FINAL_ITEM_ID+ "=?" + " AND " +
+                        FINAL_STORE_ID + "=?" + " AND " + FINAL_LIST_ID + "=?",
                 new String[] {String.valueOf(itemId),
                         String.valueOf(storeId), String.valueOf(listId)});
     }
@@ -254,11 +309,12 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public void addNewSavedItem(ItemModel itemModel) {
         ContentValues cv = new ContentValues();
         cv.put(FINAL_ITEM_ID, itemModel.getId());
-        cv.put(FINAL_QTY, itemModel.getQuantity() + itemModel.getUnit());
+        cv.put(FINAL_QTY, itemModel.getWeight());
         cv.put(FINAL_NAME, itemModel.getName());
         cv.put(FINAL_PRICE, itemModel.getPrice());
         cv.put(FINAL_STORE_ID, itemModel.getStoreId());
         cv.put(FINAL_LIST_ID, itemModel.getListId());
+        cv.put(FINAL_PPU, " ");
         db.insert(FINAL_TABLE, null, cv);
     }
 

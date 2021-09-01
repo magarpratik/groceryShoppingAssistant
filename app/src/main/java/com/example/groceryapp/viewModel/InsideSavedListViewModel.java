@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -20,6 +21,7 @@ import com.example.groceryapp.adapter.InsideSavedListAdapter;
 import com.example.groceryapp.database.DatabaseHandler;
 import com.example.groceryapp.model.ItemModel;
 import com.example.groceryapp.touchHelper.InsideSavedListTouchHelper;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -36,6 +38,7 @@ public class InsideSavedListViewModel extends AppCompatActivity implements Dialo
     private TextView insideSavedTextView;
     private int listId;
     private int storeId;
+    private FloatingActionButton addFloatingButton;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -126,6 +129,22 @@ public class InsideSavedListViewModel extends AppCompatActivity implements Dialo
         ItemTouchHelper itemTouchHelper = new
                 ItemTouchHelper(new InsideSavedListTouchHelper(adapter));
         itemTouchHelper.attachToRecyclerView(recyclerView);
+
+        addFloatingButton = findViewById(R.id.addSavedFloatingButton);
+        // adding a new list
+        addFloatingButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addFloatingButton.hide();
+                Bundle bundle = new Bundle();
+                bundle.putString("ITEM_NAME", "");
+                bundle.putInt("LIST_ID", listId);
+                bundle.putInt("STORE_ID", storeId);
+                AddNewSavedItemViewModel fragment = new AddNewSavedItemViewModel();
+                fragment.setArguments(bundle);
+                fragment.show(getSupportFragmentManager(), AddNewSavedItemViewModel.TAG);
+            }
+        });
     }
 
     @Override
@@ -133,6 +152,29 @@ public class InsideSavedListViewModel extends AppCompatActivity implements Dialo
         itemsList = db.getSavedItemsList(listId, storeId);
         adapter.setSavedItemsList(itemsList);
         adapter.notifyDataSetChanged();
+
+        // Calculate the total price
+        TextView estimatedPriceTextView = findViewById(R.id.estimatedPriceTextView);
+
+        int total = 0;
+        // add the prices
+        for (int j = 0; j < itemsList.size(); j++) {
+            String price = itemsList.get(j).getPrice();
+            BigDecimal num = new BigDecimal(price.trim());
+            BigDecimal multiplier = new BigDecimal("100");
+            BigDecimal res = num.multiply(multiplier);
+            total = total + res.intValue();
+        }
+
+        BigDecimal num = new BigDecimal(String.valueOf(total));
+        BigDecimal divisor = new BigDecimal("100");
+        BigDecimal result = num.divide(divisor, 2, BigDecimal.ROUND_HALF_EVEN);
+        total = 0;
+
+        String totalPrice = String.valueOf(result);
+        estimatedPriceTextView.setText("£" + totalPrice);
+
+        addFloatingButton.show();
     }
 }
 

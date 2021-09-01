@@ -51,6 +51,10 @@ public class AddNewSavedItemViewModel extends BottomSheetDialogFragment {
         return view;
     }
 
+    public static AddNewSavedItemViewModel newInstance() {
+        return new AddNewSavedItemViewModel();
+    }
+
     // define all the code that is necessary for the functions in the dialog fragment
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
@@ -79,18 +83,21 @@ public class AddNewSavedItemViewModel extends BottomSheetDialogFragment {
             isUpdate = true;
             String name = bundle.getString("ITEM_NAME");
             itemName.setText(name);
-            String qty = bundle.getString("ITEM_QTY");
-            itemQty.setText(qty);
-            String unit = bundle.getString("ITEM_UNIT");
-            spinner.setSelection(getIndex(spinner, unit));
+            //String qty = bundle.getString("ITEM_WEIGHT");
+            //itemQty.setText(qty);
+            //String unit = bundle.getString("ITEM_UNIT");
+            //spinner.setSelection(getIndex(spinner, unit));
             String price = bundle.getString("ITEM_PRICE");
             itemPrice.setText(price);
+
 
             // check if itemName is empty or not
             if(name.length() > 0) {
                 saveButton.setTextColor(ContextCompat.getColor(getContext(), R.color.primary3));
             }
         }
+
+
 
         // Listener to check if the text changed in the EditText
         // Save button will be enabled only after text is entered in the EditText
@@ -118,6 +125,7 @@ public class AddNewSavedItemViewModel extends BottomSheetDialogFragment {
             }
         });
 
+
         // Listener for the SAVE button
         boolean finalIsUpdate = isUpdate;
         saveButton.setOnClickListener(new View.OnClickListener() {
@@ -127,21 +135,41 @@ public class AddNewSavedItemViewModel extends BottomSheetDialogFragment {
                 String qty = itemQty.getText().toString();
                 String unit = spinner.getSelectedItem().toString();
                 String price = itemPrice.getText().toString();
-                int itemId = bundle.getInt("ITEM_ID");
+
                 int listId = bundle.getInt("LIST_ID");
                 int storeId = bundle.getInt("STORE_ID");
 
-                if(!itemName.equals("")) {
+
+                if(!itemName.equals("") && !itemQty.equals("")) {
                     if(finalIsUpdate) {
+                        int itemId = bundle.getInt("ITEM_ID");
                         db.updateSavedItem(itemId, listId, storeId,
                                 name, qty, unit, price);
                     }
                     else {
+                        int itemId = db.getMaxItemId() + 1;
                         ItemModel itemModel = new ItemModel(listId, name);
                         itemModel.setPrice(price);
                         itemModel.setId(itemId);
                         itemModel.setStoreId(storeId);
                         itemModel.setWeight(qty + unit);
+                        db.addNewSavedItem(itemModel);
+                    }
+                    // dismiss the bottom sheet dialog fragment
+                    dismiss();
+                }
+                else if (!itemName.equals("") && itemQty.equals("")){
+                    if(finalIsUpdate) {
+                        int itemId = bundle.getInt("ITEM_ID");
+                        db.updateSavedItem(itemId, listId, storeId,
+                                name, price);
+                    }
+                    else {
+                        int itemId = db.getMaxItemId() + 1;
+                        ItemModel itemModel = new ItemModel(listId, name);
+                        itemModel.setPrice(price);
+                        itemModel.setId(itemId);
+                        itemModel.setStoreId(storeId);
                         db.addNewSavedItem(itemModel);
                     }
                     // dismiss the bottom sheet dialog fragment

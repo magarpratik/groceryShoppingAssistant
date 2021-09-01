@@ -131,6 +131,8 @@ public class InsideListViewModel extends AppCompatActivity implements DialogClos
             }
         });
 
+
+
         comparePricesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

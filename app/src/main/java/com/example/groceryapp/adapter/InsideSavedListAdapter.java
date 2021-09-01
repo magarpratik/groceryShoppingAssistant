@@ -39,6 +39,7 @@ public class InsideSavedListAdapter extends RecyclerView.Adapter<InsideSavedList
     boolean isOnTextChanged = false;
     int basketPrice;
     private TextView basketPriceTextView;
+    private TextView estimatedPriceTextView;
 
     public InsideSavedListAdapter(InsideSavedListViewModel insideSavedListViewModel, DatabaseHandler db) {
         this.insideSavedListViewModel = insideSavedListViewModel;
@@ -57,6 +58,7 @@ public class InsideSavedListAdapter extends RecyclerView.Adapter<InsideSavedList
         rootview = ((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content);
 
         basketPriceTextView = (TextView) rootview.findViewById(R.id.basketPriceTextView);
+        estimatedPriceTextView = (TextView) rootview.findViewById(R.id.estimatedPriceTextView);
 
         return new ViewHolder(view);
     }
@@ -64,10 +66,9 @@ public class InsideSavedListAdapter extends RecyclerView.Adapter<InsideSavedList
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onBindViewHolder(@NonNull InsideSavedListAdapter.ViewHolder holder, int position) {
-
         holder.numberTextView.setText(String.valueOf(position + 1));
         holder.itemNameTextView.setText(itemsList.get(position).getName());
-        holder.weightTextView.setText(itemsList.get(position).getWeight());
+        holder.weightTextView.setText(itemsList.get(holder.getAdapterPosition()).getWeight());
         holder.pricePerUnitTextView.setText(itemsList.get(position).getPricePerUnit());
         BigDecimal price = new BigDecimal(itemsList.get(position).getPrice());
         BigDecimal multiply = price.multiply(new BigDecimal("100"));
@@ -130,6 +131,25 @@ public class InsideSavedListAdapter extends RecyclerView.Adapter<InsideSavedList
 
                     basketPriceTextView.setText("£" + String.valueOf(res));
                 }
+
+
+                int totalEstimate = 0;
+                // add the prices
+                for (int j = 0; j < itemsList.size(); j++) {
+                    String price = itemsList.get(j).getPrice();
+                    java.math.BigDecimal num = new java.math.BigDecimal(price.trim());
+                    java.math.BigDecimal multiplier = new java.math.BigDecimal("100");
+                    java.math.BigDecimal res = num.multiply(multiplier);
+                    totalEstimate = totalEstimate + res.intValue();
+                }
+
+                java.math.BigDecimal num = new java.math.BigDecimal(String.valueOf(totalEstimate));
+                java.math.BigDecimal divisor = new java.math.BigDecimal("100");
+                java.math.BigDecimal result = num.divide(divisor, 2, java.math.BigDecimal.ROUND_HALF_EVEN);
+                total = 0;
+
+                String totalPrice = String.valueOf(result);
+                estimatedPriceTextView.setText("£" + totalPrice);
             }
         });
     }
