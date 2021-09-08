@@ -11,11 +11,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.GroceryApp">
         <activity
-            android:name=".viewModel.InsideListViewModel"
-            android:parentActivityName=".viewModel.MainActivityViewModel"
+            android:name=".viewControllers.InsideListViewController"
+            android:parentActivityName=".viewControllers.MainActivityViewController"
             android:exported="true" />
         <activity
-            android:name=".viewModel.MainActivityViewModel"
+            android:name=".viewControllers.MainActivityViewController"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,21 +24,21 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".viewModel.ComparisonViewModel"
+            android:name=".viewControllers.ComparisonViewController"
             android:exported="true">
         </activity>
         <activity
-            android:name=".viewModel.StoreViewModel"
+            android:name=".viewControllers.StoreViewController"
             android:exported="true">
         </activity>
         <activity
-            android:name=".viewModel.SelectItemViewModel"
+            android:name=".viewControllers.SelectItemViewController"
             android:exported="true">
         </activity>
-        <activity android:name=".viewModel.SavedListsViewModel"
+        <activity android:name=".viewControllers.SavedListsViewController"
             android:exported="true">
         </activity>
-        <activity android:name=".viewModel.InsideSavedListViewModel"
+        <activity android:name=".viewControllers.InsideSavedListViewController"
             android:exported="true">
         </activity>
     </application>

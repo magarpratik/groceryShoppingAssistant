@@ -7,20 +7,15 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.icu.math.BigDecimal;
 import android.os.Build;
-import android.util.Log;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 
-import com.example.groceryapp.model.ItemModel;
-import com.example.groceryapp.model.ShoppingListModel;
+import com.example.groceryapp.models.ItemModel;
+import com.example.groceryapp.models.ShoppingListModel;
 
-import java.math.RoundingMode;
-import java.nio.CharBuffer;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class DatabaseHandler extends SQLiteOpenHelper {
     // database details
@@ -63,6 +58,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public static final String FINAL_PRICE = "FINAL_PRICE";
     public static final String FINAL_PPU = "FINAL_PPU";
     public static final String FINAL_IS_CROSSED = "FINAL_IS_CROSSED";
+    public static final String FINAL_QUANTITY = "FINAL_QUANTITY";
 
     private SQLiteDatabase db;
 
@@ -92,7 +88,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 + RESULTS_QTY + " TEXT, " + RESULTS_PPU + " TEXT, " + RESULTS_PPU_EXTRACTED + " TEXT)";
         String createFinalTableStatement = "CREATE TABLE " + FINAL_TABLE + " (" + FINAL_LIST_ID + " INTEGER, " + FINAL_ITEM_ID
                 + " INTEGER, " + FINAL_STORE_ID + " INTEGER, " + FINAL_NAME + " TEXT, " + FINAL_PRICE + " TEXT, "
-                + FINAL_QTY + " TEXT, " + FINAL_PPU + " TEXT, " + FINAL_IS_CROSSED + " INTEGER)";
+                + FINAL_QTY + " TEXT, " + FINAL_PPU + " TEXT, " + FINAL_QUANTITY + " INTEGER, " + FINAL_IS_CROSSED + " INTEGER)";
 
         db.execSQL(createListTableStatement);
         db.execSQL(createItemTableStatement);
@@ -560,6 +556,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                         item.setPrice(cursor.getString(cursor.getColumnIndex(FINAL_PRICE)));
                         item.setPricePerUnit(cursor.getString(cursor.getColumnIndex(FINAL_PPU)));
                         item.setCrossedValue(cursor.getInt(cursor.getColumnIndex(FINAL_IS_CROSSED)));
+                        item.setFinalQuantity(cursor.getInt(cursor.getColumnIndex(FINAL_QUANTITY)));
 
                         result.add(item);
                     }while(cursor.moveToNext());
@@ -645,6 +642,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         cv.put(FINAL_PRICE, itemModel.getPrice());
         cv.put(FINAL_PPU, itemModel.getPricePerUnit());
         cv.put(FINAL_IS_CROSSED, itemModel.getCrossedValue());
+        cv.put(FINAL_QUANTITY, itemModel.getFinalQuantity());
 
         db.insert(FINAL_TABLE, null, cv);
     }
