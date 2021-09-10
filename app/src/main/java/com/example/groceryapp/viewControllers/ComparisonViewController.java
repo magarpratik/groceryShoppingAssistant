@@ -2,6 +2,7 @@ package com.example.groceryapp.viewControllers;
 
 import android.os.Build;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -78,6 +79,19 @@ public class ComparisonViewController extends AppCompatActivity {
                 adapter.setPrices(prices);
             }
         });
+
+        hiddenButton.setEnabled(false);
+
+        new CountDownTimer(10000, 1000) {
+            public void onTick(long millisUntilFinished) {
+                hiddenButton.setText("Wait for " + (millisUntilFinished / 1000) + " seconds");
+            }
+
+            public void onFinish() {
+                hiddenButton.setEnabled(true);
+                hiddenButton.setText("View Prices");
+            }
+        }.start();
 
         /*ArrayList<String> finalPrices = new ArrayList<>();
 
