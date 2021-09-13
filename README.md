@@ -8,6 +8,8 @@ The app can be run using a Virtual Device provided by the Android emulator in An
 
 Alternatively, an APK file can be created using the Android Studio IDE by going to the menubar and navigating to "Build" > "Build Bundle(s) / APK (s) > "Build APK (s)". This APK file will be saved on the PC, which can then be transferred to an android phone.
 
+
+
 package com.example.groceryapp.activities;
 contain activity classes. Each Activity class is resposible for a single screen.
 
