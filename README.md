@@ -10,13 +10,18 @@ Alternatively, an APK file can be created using the Android Studio IDE by going 
 
 package com.example.groceryapp.activities;
 contain activity classes. Each Activity class is resposible for a single screen.
+
 package com.example.groceryapp.adapters;
 contain recyclerView adapters. Each Adapter class is responsible for displaying items on the RecyclerView
+
 package com.example.groceryapp.database;
 contains DatabaseHandler class. Deals with the database.
+
 package com.example.groceryapp.models;
 contains Model classes. Used to work with data in an organised manner.
+
 package com.example.groceryapp.scrapers;
 contains Scraper classes. Responsible for web scraping
+
 package com.example.groceryapp.touchHelpers;
 contains TouchHelper classes. Responsible for implementing swipe functionality. 
