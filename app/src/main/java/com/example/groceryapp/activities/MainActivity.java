@@ -26,6 +26,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.ArrayList;
 import java.util.List;
 
+// Responsible for the main home screen
 public class MainActivity extends AppCompatActivity implements DialogCloseListener {
     private List<ShoppingListModel> listOfShoppingLists;
     private RecyclerView listRecyclerView;
@@ -83,6 +84,7 @@ public class MainActivity extends AppCompatActivity implements DialogCloseListen
             }
         });
 
+        // Access the list
         ConstraintLayout shoppingListButton = findViewById(R.id.shoppingListButton);
         shoppingListButton.setOnClickListener(new View.OnClickListener() {
             @Override

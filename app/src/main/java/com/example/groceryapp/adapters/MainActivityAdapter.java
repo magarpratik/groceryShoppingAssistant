@@ -114,6 +114,7 @@ public class MainActivityAdapter extends RecyclerView.Adapter<MainActivityAdapte
         notifyItemRemoved(position);
     }
 
+    // edit item
     public void editItem(int position) {
         ShoppingListModel item = listOfShoppingLists.get(position);
         Bundle bundle = new Bundle();

@@ -86,6 +86,14 @@ public class ComparisonActivity extends AppCompatActivity {
 
         hiddenButton.setEnabled(false);
 
+
+        // This is a temporary measure to compensate for the bug
+        // BUG: If you press the hiddenButton too soon after this activity is opened,
+        // the app crashes because the scraper() method will not have finished all the scraped entries
+        // to the database.
+        // The exception comes up because hiddenButton tries to access the database entry before
+        // the scraper() finishes adding them to the database
+
         new CountDownTimer(10000, 1000) {
             public void onTick(long millisUntilFinished) {
                 hiddenButton.setText("Wait for " + (millisUntilFinished / 1000) + " seconds");
