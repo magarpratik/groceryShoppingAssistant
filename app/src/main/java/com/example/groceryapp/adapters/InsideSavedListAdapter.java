@@ -1,3 +1,7 @@
+/**
+ * @Author Pratik Magar 2241293
+ **/
+
 package com.example.groceryapp.adapters;
 
 import android.app.Activity;
@@ -20,13 +24,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.groceryapp.R;
 import com.example.groceryapp.database.DatabaseHandler;
 import com.example.groceryapp.models.ItemModel;
-import com.example.groceryapp.viewControllers.AddNewSavedItemViewController;
-import com.example.groceryapp.viewControllers.InsideSavedListViewController;
+import com.example.groceryapp.activities.AddNewSavedItemActivity;
+import com.example.groceryapp.activities.ShoppingActivity;
 
 import java.util.List;
 
 public class InsideSavedListAdapter extends RecyclerView.Adapter<InsideSavedListAdapter.ViewHolder> {
-    private InsideSavedListViewController insideSavedListViewController;
+    private ShoppingActivity shoppingActivity;
     private DatabaseHandler db;
     private List<ItemModel> itemsList;
     private List<Integer> basketPriceList;
@@ -38,12 +42,12 @@ public class InsideSavedListAdapter extends RecyclerView.Adapter<InsideSavedList
     private TextView basketPriceTextView;
     private TextView estimatedPriceTextView;
 
-    public InsideSavedListAdapter(InsideSavedListViewController insideSavedListViewController, DatabaseHandler db) {
-        this.insideSavedListViewController = insideSavedListViewController;
+    public InsideSavedListAdapter(ShoppingActivity shoppingActivity, DatabaseHandler db) {
+        this.shoppingActivity = shoppingActivity;
         this.db = db;
     }
 
-    public Context getContext() { return insideSavedListViewController;}
+    public Context getContext() { return shoppingActivity;}
 
     @NonNull
     @Override
@@ -206,8 +210,8 @@ public class InsideSavedListAdapter extends RecyclerView.Adapter<InsideSavedList
         bundle.putString("ITEM_PRICE", itemModel.getPrice());
 
 
-        AddNewSavedItemViewController fragment = new AddNewSavedItemViewController();
+        AddNewSavedItemActivity fragment = new AddNewSavedItemActivity();
         fragment.setArguments(bundle);
-        fragment.show(insideSavedListViewController.getSupportFragmentManager(), AddNewSavedItemViewController.TAG);
+        fragment.show(shoppingActivity.getSupportFragmentManager(), AddNewSavedItemActivity.TAG);
     }
 }

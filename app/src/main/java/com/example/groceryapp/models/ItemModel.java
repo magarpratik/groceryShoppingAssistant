@@ -1,3 +1,7 @@
+/**
+ * @Author Pratik Magar 2241293
+ **/
+
 package com.example.groceryapp.models;
 
 import android.icu.math.BigDecimal;

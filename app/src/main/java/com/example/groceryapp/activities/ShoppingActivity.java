@@ -1,4 +1,8 @@
-package com.example.groceryapp.viewControllers;
+/**
+ * @Author Pratik Magar 2241293
+ **/
+
+package com.example.groceryapp.activities;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -27,7 +31,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-public class InsideSavedListViewController extends AppCompatActivity implements DialogCloseListener {
+public class ShoppingActivity extends AppCompatActivity implements DialogCloseListener {
     private DatabaseHandler db;
     private RecyclerView recyclerView;
     private InsideSavedListAdapter adapter;
@@ -50,7 +54,7 @@ public class InsideSavedListViewController extends AppCompatActivity implements 
         getSupportActionBar().hide();
 
         // Database
-        db = new DatabaseHandler(InsideSavedListViewController.this);
+        db = new DatabaseHandler(ShoppingActivity.this);
         db.openDatabase();
 
         Intent i = getIntent();
@@ -140,9 +144,9 @@ public class InsideSavedListViewController extends AppCompatActivity implements 
                 bundle.putString("ITEM_NAME", "");
                 bundle.putInt("LIST_ID", listId);
                 bundle.putInt("STORE_ID", storeId);
-                AddNewSavedItemViewController fragment = new AddNewSavedItemViewController();
+                AddNewSavedItemActivity fragment = new AddNewSavedItemActivity();
                 fragment.setArguments(bundle);
-                fragment.show(getSupportFragmentManager(), AddNewSavedItemViewController.TAG);
+                fragment.show(getSupportFragmentManager(), AddNewSavedItemActivity.TAG);
             }
         });
     }

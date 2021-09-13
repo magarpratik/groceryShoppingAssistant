@@ -1,3 +1,7 @@
+/**
+ * @Author Pratik Magar 2241293
+ **/
+
 package com.example.groceryapp.adapters;
 
 import android.annotation.SuppressLint;
@@ -19,15 +23,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.groceryapp.R;
 import com.example.groceryapp.database.DatabaseHandler;
 import com.example.groceryapp.models.ItemModel;
-import com.example.groceryapp.viewControllers.SelectItemViewController;
-import com.example.groceryapp.viewControllers.StoreViewController;
+import com.example.groceryapp.activities.SelectItemActivity;
+import com.example.groceryapp.activities.StoreViewActivity;
 
 import java.io.Serializable;
 import java.util.List;
 
 @RequiresApi(api = Build.VERSION_CODES.N)
 public class StoreAdapter extends RecyclerView.Adapter<StoreAdapter.ViewHolder> {
-    private StoreViewController storeViewController;
+    private StoreViewActivity storeViewActivity;
     private DatabaseHandler db;
     private List<ItemModel> finalList; // list being displayed
     private List<ItemModel> itemsList;
@@ -36,8 +40,8 @@ public class StoreAdapter extends RecyclerView.Adapter<StoreAdapter.ViewHolder> 
     private String listName;
     private int storeId;
 
-    public StoreAdapter(StoreViewController storeViewController, DatabaseHandler db, String listName, int storeId) {
-        this.storeViewController = storeViewController;
+    public StoreAdapter(StoreViewActivity storeViewActivity, DatabaseHandler db, String listName, int storeId) {
+        this.storeViewActivity = storeViewActivity;
         this.db = db;
         this.listName = listName;
         this.storeId = storeId;
@@ -79,7 +83,7 @@ public class StoreAdapter extends RecyclerView.Adapter<StoreAdapter.ViewHolder> 
         holder.storeItemCardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(storeViewController, SelectItemViewController.class);
+                Intent intent = new Intent(storeViewActivity, SelectItemActivity.class);
                 Bundle bundle = new Bundle();
                 //bundle.putSerializable("itemsList", (Serializable) itemsList);
                 //bundle.putString("listName", listName);
@@ -95,7 +99,7 @@ public class StoreAdapter extends RecyclerView.Adapter<StoreAdapter.ViewHolder> 
                 bundle.putInt("position", position);
 
                 intent.putExtras(bundle);
-                storeViewController.startActivity(intent);
+                storeViewActivity.startActivity(intent);
             }
         });
     }

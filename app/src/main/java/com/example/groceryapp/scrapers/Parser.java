@@ -1,3 +1,9 @@
+/**
+ * @Author Pratik Magar 2241293
+ **/
+
+// The Parser class was copied from the youtube video https://www.youtube.com/watch?v=ZjZqLUGCWxo&t=5s
+
 package com.example.groceryapp.scrapers;
 
 import org.json.JSONArray;

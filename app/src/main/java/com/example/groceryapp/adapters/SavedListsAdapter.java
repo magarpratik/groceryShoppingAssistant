@@ -1,3 +1,7 @@
+/**
+ * @Author Pratik Magar 2241293
+ **/
+
 package com.example.groceryapp.adapters;
 
 import android.annotation.SuppressLint;
@@ -17,24 +21,24 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.groceryapp.R;
 import com.example.groceryapp.database.DatabaseHandler;
 import com.example.groceryapp.models.ShoppingListModel;
-import com.example.groceryapp.viewControllers.AddNewListViewController;
-import com.example.groceryapp.viewControllers.InsideSavedListViewController;
-import com.example.groceryapp.viewControllers.SavedListsViewController;
+import com.example.groceryapp.activities.AddNewListActivity;
+import com.example.groceryapp.activities.ShoppingActivity;
+import com.example.groceryapp.activities.SavedListsActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class SavedListsAdapter extends RecyclerView.Adapter<SavedListsAdapter.ViewHolder> {
     private List<ShoppingListModel> list = new ArrayList<>();
-    private SavedListsViewController savedListsViewController;
+    private SavedListsActivity savedListsActivity;
     private DatabaseHandler db;
 
-    public SavedListsAdapter(SavedListsViewController savedListsViewController, DatabaseHandler db) {
-        this.savedListsViewController = savedListsViewController;
+    public SavedListsAdapter(SavedListsActivity savedListsActivity, DatabaseHandler db) {
+        this.savedListsActivity = savedListsActivity;
         this.db = db;
     }
 
-    public Context getContext() {return savedListsViewController;}
+    public Context getContext() {return savedListsActivity;}
 
     @NonNull
     @Override
@@ -66,11 +70,11 @@ public class SavedListsAdapter extends RecyclerView.Adapter<SavedListsAdapter.Vi
         holder.listNameCardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(savedListsViewController, InsideSavedListViewController.class);
+                Intent i = new Intent(savedListsActivity, ShoppingActivity.class);
                 i.putExtra("storeId", storeId);
                 i.putExtra("listName", listName);
                 i.putExtra("listId", list.get(position).getId());
-                savedListsViewController.startActivity(i);
+                savedListsActivity.startActivity(i);
             }
         });
     }
@@ -112,8 +116,8 @@ public class SavedListsAdapter extends RecyclerView.Adapter<SavedListsAdapter.Vi
         Bundle bundle = new Bundle();
         bundle.putInt("ID", item.getId());
         bundle.putString("LIST_NAME", item.getName());
-        AddNewListViewController fragment = new AddNewListViewController();
+        AddNewListActivity fragment = new AddNewListActivity();
         fragment.setArguments(bundle);
-        fragment.show(savedListsViewController.getSupportFragmentManager(), AddNewListViewController.TAG);
+        fragment.show(savedListsActivity.getSupportFragmentManager(), AddNewListActivity.TAG);
     }
 }

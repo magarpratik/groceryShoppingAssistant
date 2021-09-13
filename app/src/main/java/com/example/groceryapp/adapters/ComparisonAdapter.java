@@ -1,3 +1,7 @@
+/**
+ * @Author Pratik Magar 2241293
+ **/
+
 package com.example.groceryapp.adapters;
 
 import android.content.Context;
@@ -19,15 +23,15 @@ import com.example.groceryapp.R;
 import com.example.groceryapp.database.DatabaseHandler;
 import com.example.groceryapp.models.ItemModel;
 import com.example.groceryapp.models.ShoppingListModel;
-import com.example.groceryapp.viewControllers.ComparisonViewController;
-import com.example.groceryapp.viewControllers.StoreViewController;
+import com.example.groceryapp.activities.ComparisonActivity;
+import com.example.groceryapp.activities.StoreViewActivity;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 
 public class ComparisonAdapter extends RecyclerView.Adapter<ComparisonAdapter.ViewHolder> {
     private ArrayList<ShoppingListModel> list = new ArrayList<>();
-    private ComparisonViewController comparisonViewController;
+    private ComparisonActivity comparisonActivity;
     private DatabaseHandler db;
     private ArrayList<ItemModel> itemsList;
     private ArrayList<String> prices = new ArrayList<>();
@@ -35,8 +39,8 @@ public class ComparisonAdapter extends RecyclerView.Adapter<ComparisonAdapter.Vi
     private String listName;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public ComparisonAdapter(ComparisonViewController comparisonViewController, DatabaseHandler db, ArrayList<ItemModel> itemsList, int listId, String listName) {
-        this.comparisonViewController = comparisonViewController;
+    public ComparisonAdapter(ComparisonActivity comparisonActivity, DatabaseHandler db, ArrayList<ItemModel> itemsList, int listId, String listName) {
+        this.comparisonActivity = comparisonActivity;
         this.db = db;
         this.itemsList = itemsList;
         this.listId = listId;
@@ -47,7 +51,7 @@ public class ComparisonAdapter extends RecyclerView.Adapter<ComparisonAdapter.Vi
     }
 
     public Context getContext() {
-        return comparisonViewController;
+        return comparisonActivity;
     }
 
     @NonNull
@@ -103,7 +107,7 @@ public class ComparisonAdapter extends RecyclerView.Adapter<ComparisonAdapter.Vi
             public void onClick(View v) {
                 // Show the items list when you click the store
                 // start a new activity when you click on the item
-                Intent intent = new Intent(comparisonViewController, StoreViewController.class);
+                Intent intent = new Intent(comparisonActivity, StoreViewActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("itemsList", (Serializable) itemsList);
                 bundle.putString("listName", listName);
@@ -114,7 +118,7 @@ public class ComparisonAdapter extends RecyclerView.Adapter<ComparisonAdapter.Vi
                 bundle.putSerializable("comparisonList", (Serializable) comparisonList);
 
                 intent.putExtras(bundle);
-                comparisonViewController.startActivity(intent);
+                comparisonActivity.startActivity(intent);
             }
         });
     }

@@ -1,4 +1,8 @@
-package com.example.groceryapp.viewControllers;
+/**
+ * @Author Pratik Magar 2241293
+ **/
+
+package com.example.groceryapp.activities;
 
 import android.os.Build;
 import android.os.Bundle;
@@ -21,7 +25,7 @@ import com.example.groceryapp.models.ShoppingListModel;
 
 import java.util.ArrayList;
 
-public class ComparisonViewController extends AppCompatActivity {
+public class ComparisonActivity extends AppCompatActivity {
     private String listName;
     private int listId;
     private RecyclerView recyclerView;

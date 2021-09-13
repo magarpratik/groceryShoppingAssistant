@@ -1,4 +1,8 @@
-package com.example.groceryapp.viewControllers;
+/**
+ * @Author Pratik Magar 2241293
+ **/
+
+package com.example.groceryapp.activities;
 
 import android.os.Bundle;
 import android.widget.TextView;
@@ -16,7 +20,7 @@ import com.example.groceryapp.models.ItemModel;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SelectItemViewController extends AppCompatActivity {
+public class SelectItemActivity extends AppCompatActivity {
     private DatabaseHandler db;
     private String listName;
     private int listId;
@@ -38,7 +42,7 @@ public class SelectItemViewController extends AppCompatActivity {
         getSupportActionBar().hide();
 
         // Database
-        db = new DatabaseHandler(SelectItemViewController.this);
+        db = new DatabaseHandler(SelectItemActivity.this);
         db.openDatabase();
 
         // unpack the bundle

@@ -1,3 +1,10 @@
+/**
+ * @Author Pratik Magar 2241293
+ **/
+
+// The touch helper classes were copied from the youtube videos from the following playlist
+// https://www.youtube.com/watch?v=7u5_NNrbQos&list=PLzEWSvaHx_Z2MeyGNQeUCEktmnJBp8136
+
 package com.example.groceryapp.touchHelpers;
 
 import android.content.DialogInterface;

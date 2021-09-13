@@ -1,3 +1,7 @@
+/**
+ * @Author Pratik Magar 2241293
+ **/
+
 package com.example.groceryapp.adapters;
 
 import android.annotation.SuppressLint;
@@ -14,9 +18,9 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.groceryapp.database.DatabaseHandler;
-import com.example.groceryapp.viewControllers.AddNewListViewController;
-import com.example.groceryapp.viewControllers.InsideListViewController;
-import com.example.groceryapp.viewControllers.MainActivityViewController;
+import com.example.groceryapp.activities.AddNewListActivity;
+import com.example.groceryapp.activities.InsideListActivity;
+import com.example.groceryapp.activities.MainActivity;
 import com.example.groceryapp.R;
 import com.example.groceryapp.models.ShoppingListModel;
 
@@ -27,11 +31,11 @@ import java.util.List;
 // Takes items from the shopping list and displays it in the RecyclerView
 public class MainActivityAdapter extends RecyclerView.Adapter<MainActivityAdapter.ViewHolder> {
     private List<ShoppingListModel> listOfShoppingLists = new ArrayList<>();
-    private MainActivityViewController mainActivity;
+    private MainActivity mainActivity;
     private DatabaseHandler db;
 
     // Constructor
-    public MainActivityAdapter(MainActivityViewController mainActivity, DatabaseHandler db) {
+    public MainActivityAdapter(MainActivity mainActivity, DatabaseHandler db) {
         this.mainActivity = mainActivity;
         this.db = db;
     }
@@ -80,7 +84,7 @@ public class MainActivityAdapter extends RecyclerView.Adapter<MainActivityAdapte
             @Override
             public void onClick(View v) {
                 // start a new activity when you click on an item
-                Intent i = new Intent(getContext(), InsideListViewController.class);
+                Intent i = new Intent(getContext(), InsideListActivity.class);
                 i.putExtra("listName", listOfShoppingLists.get(holder.getAdapterPosition()).getName());
                 i.putExtra("listId", listOfShoppingLists.get(holder.getAdapterPosition()).getId());
                 mainActivity.startActivity(i);
@@ -115,8 +119,8 @@ public class MainActivityAdapter extends RecyclerView.Adapter<MainActivityAdapte
         Bundle bundle = new Bundle();
         bundle.putInt("ID", item.getId());
         bundle.putString("LIST_NAME", item.getName());
-        AddNewListViewController fragment = new AddNewListViewController();
+        AddNewListActivity fragment = new AddNewListActivity();
         fragment.setArguments(bundle);
-        fragment.show(mainActivity.getSupportFragmentManager(), AddNewListViewController.TAG);
+        fragment.show(mainActivity.getSupportFragmentManager(), AddNewListActivity.TAG);
     }
 }

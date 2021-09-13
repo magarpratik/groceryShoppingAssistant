@@ -1,4 +1,8 @@
-package com.example.groceryapp.viewControllers;
+/**
+ * @Author Pratik Magar 2241293
+ **/
+
+package com.example.groceryapp.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -22,7 +26,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivityViewController extends AppCompatActivity implements DialogCloseListener {
+public class MainActivity extends AppCompatActivity implements DialogCloseListener {
     private List<ShoppingListModel> listOfShoppingLists;
     private RecyclerView listRecyclerView;
     private MainActivityAdapter mainActivityAdapter;
@@ -39,7 +43,7 @@ public class MainActivityViewController extends AppCompatActivity implements Dia
         getSupportActionBar().hide();
 
         // Database
-        db = new DatabaseHandler(MainActivityViewController.this);
+        db = new DatabaseHandler(MainActivity.this);
         db.openDatabase();
 
         // db.resetDatabase();
@@ -75,7 +79,7 @@ public class MainActivityViewController extends AppCompatActivity implements Dia
             @Override
             public void onClick(View v) {
                 addFloatingButton.hide();
-                AddNewListViewController.newInstance().show(getSupportFragmentManager(), AddNewListViewController.TAG);
+                AddNewListActivity.newInstance().show(getSupportFragmentManager(), AddNewListActivity.TAG);
             }
         });
 
@@ -83,8 +87,8 @@ public class MainActivityViewController extends AppCompatActivity implements Dia
         shoppingListButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(MainActivityViewController.this, SavedListsViewController.class);
-                MainActivityViewController.this.startActivity(i);
+                Intent i = new Intent(MainActivity.this, SavedListsActivity.class);
+                MainActivity.this.startActivity(i);
             }
         });
     }

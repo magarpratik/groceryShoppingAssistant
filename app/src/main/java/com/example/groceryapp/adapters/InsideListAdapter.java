@@ -1,3 +1,7 @@
+/**
+ * @Author Pratik Magar 2241293
+ **/
+
 package com.example.groceryapp.adapters;
 
 import android.content.Context;
@@ -13,8 +17,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.groceryapp.R;
 import com.example.groceryapp.database.DatabaseHandler;
 import com.example.groceryapp.models.ItemModel;
-import com.example.groceryapp.viewControllers.AddNewItemViewController;
-import com.example.groceryapp.viewControllers.InsideListViewController;
+import com.example.groceryapp.activities.AddNewItemActivity;
+import com.example.groceryapp.activities.InsideListActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,16 +26,16 @@ import java.util.List;
 // RecyclerView adapter for the items inside the list
 public class InsideListAdapter extends RecyclerView.Adapter<InsideListAdapter.ViewHolder> {
     private List<ItemModel> itemsList = new ArrayList<>();
-    private InsideListViewController insideListViewController;
+    private InsideListActivity insideListActivity;
     private DatabaseHandler db;
 
     // Constructor for the adapter
-    public InsideListAdapter(InsideListViewController insideListViewController, DatabaseHandler db) {
-        this.insideListViewController = insideListViewController;
+    public InsideListAdapter(InsideListActivity insideListActivity, DatabaseHandler db) {
+        this.insideListActivity = insideListActivity;
         this.db = db;
     }
 
-    public Context getContext() { return insideListViewController; }
+    public Context getContext() { return insideListActivity; }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         private TextView numberTextView;
@@ -86,7 +90,7 @@ public class InsideListAdapter extends RecyclerView.Adapter<InsideListAdapter.Vi
         itemsList.remove(position);
         notifyItemRemoved(position);
         if (itemsList.size() == 0) {
-            insideListViewController.hideUI();
+            insideListActivity.hideUI();
         }
     }
 
@@ -99,8 +103,8 @@ public class InsideListAdapter extends RecyclerView.Adapter<InsideListAdapter.Vi
         bundle.putString("ITEM_QTY", itemModel.getQuantity());
         bundle.putString("ITEM_UNIT", itemModel.getUnit());
 
-        AddNewItemViewController fragment = new AddNewItemViewController();
+        AddNewItemActivity fragment = new AddNewItemActivity();
         fragment.setArguments(bundle);
-        fragment.show(insideListViewController.getSupportFragmentManager(), AddNewItemViewController.TAG);
+        fragment.show(insideListActivity.getSupportFragmentManager(), AddNewItemActivity.TAG);
     }
 }

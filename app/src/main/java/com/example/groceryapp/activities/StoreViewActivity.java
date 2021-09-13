@@ -1,4 +1,8 @@
-package com.example.groceryapp.viewControllers;
+/**
+ * @Author Pratik Magar 2241293
+ **/
+
+package com.example.groceryapp.activities;
 
 import android.content.Intent;
 import android.os.Build;
@@ -23,7 +27,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StoreViewController extends AppCompatActivity {
+public class StoreViewActivity extends AppCompatActivity {
     private List<ItemModel> itemsList;
     private RecyclerView recyclerView;
     private StoreAdapter adapter;
@@ -50,7 +54,7 @@ public class StoreViewController extends AppCompatActivity {
         getSupportActionBar().hide();
 
         // Database
-        db = new DatabaseHandler(StoreViewController.this);
+        db = new DatabaseHandler(StoreViewActivity.this);
         db.openDatabase();
 
         itemsList = new ArrayList<>();
@@ -131,8 +135,8 @@ public class StoreViewController extends AppCompatActivity {
                 for (int i = 0; i < comparisonList.size(); i++) {
                     db.addFinalItem(comparisonList.get(i));
                 }
-                Intent intent = new Intent(StoreViewController.this, SavedListsViewController.class);
-                StoreViewController.this.startActivity(intent);
+                Intent intent = new Intent(StoreViewActivity.this, SavedListsActivity.class);
+                StoreViewActivity.this.startActivity(intent);
             }
         });
     }

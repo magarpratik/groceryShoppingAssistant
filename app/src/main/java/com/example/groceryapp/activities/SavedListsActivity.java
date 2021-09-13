@@ -1,4 +1,8 @@
-package com.example.groceryapp.viewControllers;
+/**
+ * @Author Pratik Magar 2241293
+ **/
+
+package com.example.groceryapp.activities;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -22,7 +26,7 @@ import com.example.groceryapp.touchHelpers.SavedListsTouchHelper;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SavedListsViewController extends AppCompatActivity implements DialogCloseListener {
+public class SavedListsActivity extends AppCompatActivity implements DialogCloseListener {
     private List<ShoppingListModel> list;
     private RecyclerView recyclerView;
     private SavedListsAdapter adapter;
@@ -41,12 +45,12 @@ public class SavedListsViewController extends AppCompatActivity implements Dialo
         homeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(SavedListsViewController.this, MainActivityViewController.class);
-                SavedListsViewController.this.startActivity(i);
+                Intent i = new Intent(SavedListsActivity.this, MainActivity.class);
+                SavedListsActivity.this.startActivity(i);
             }
         });
 
-        db = new DatabaseHandler(SavedListsViewController.this);
+        db = new DatabaseHandler(SavedListsActivity.this);
         db.openDatabase();
 
         list = new ArrayList<>();

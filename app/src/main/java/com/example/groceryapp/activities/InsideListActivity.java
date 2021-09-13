@@ -1,4 +1,8 @@
-package com.example.groceryapp.viewControllers;
+/**
+ * @Author Pratik Magar 2241293
+ **/
+
+package com.example.groceryapp.activities;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -42,11 +46,11 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class InsideListViewController extends AppCompatActivity implements DialogCloseListener {
+public class InsideListActivity extends AppCompatActivity implements DialogCloseListener {
     private List<ItemModel> itemsList;
     private RecyclerView insideListRecyclerView;
     private InsideListAdapter insideListAdapter;
-    private InsideListViewController insideListViewController = this;
+    private InsideListActivity insideListActivity = this;
 
     private FloatingActionButton addItemFloatingButton;
     private Button comparePricesButton;
@@ -65,7 +69,7 @@ public class InsideListViewController extends AppCompatActivity implements Dialo
         getSupportActionBar().hide();
 
         // Database
-        db = new DatabaseHandler(InsideListViewController.this);
+        db = new DatabaseHandler(InsideListActivity.this);
         db.openDatabase();
 
         // unpack the intent and set up the activity
@@ -114,9 +118,9 @@ public class InsideListViewController extends AppCompatActivity implements Dialo
                 Bundle bundle = new Bundle();
                 bundle.putInt("LIST_ID", listId);
                 bundle.putString("ITEM_NAME", "");
-                AddNewItemViewController fragment = new AddNewItemViewController();
+                AddNewItemActivity fragment = new AddNewItemActivity();
                 fragment.setArguments(bundle);
-                fragment.show(getSupportFragmentManager(), AddNewItemViewController.TAG);
+                fragment.show(getSupportFragmentManager(), AddNewItemActivity.TAG);
             }
         });
 
@@ -130,14 +134,14 @@ public class InsideListViewController extends AppCompatActivity implements Dialo
                 scraper();
 
                 // start a new activity when you click on an item
-                Intent intent = new Intent(insideListViewController, ComparisonViewController.class);
+                Intent intent = new Intent(insideListActivity, ComparisonActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("itemsList", (Serializable) itemsList);
                 bundle.putString("listName", listName);
                 bundle.putInt("listId", listId);
 
                 intent.putExtras(bundle);
-                insideListViewController.startActivity(intent);
+                insideListActivity.startActivity(intent);
             }
         });
     }
@@ -183,7 +187,7 @@ public class InsideListViewController extends AppCompatActivity implements Dialo
 
     public void scraper() {
         // Volley request queue
-        RequestQueue requestQueue = Volley.newRequestQueue(insideListViewController);
+        RequestQueue requestQueue = Volley.newRequestQueue(insideListActivity);
 
         // Asda scraper
         for (int i = 0; i < itemsList.size(); i++) {
@@ -225,7 +229,7 @@ public class InsideListViewController extends AppCompatActivity implements Dialo
                     }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    Toast.makeText(InsideListViewController.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(InsideListActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             });
             requestQueue.add(request);

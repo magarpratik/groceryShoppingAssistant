@@ -1,4 +1,8 @@
-package com.example.groceryapp.viewControllers;
+/**
+ * @Author Pratik Magar 2241293
+ **/
+
+package com.example.groceryapp.activities;
 
 import android.app.Activity;
 import android.content.DialogInterface;
@@ -24,7 +28,7 @@ import com.example.groceryapp.models.ItemModel;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 // A dialog box that appears on the bottom of the screen
-public class AddNewItemViewController extends BottomSheetDialogFragment {
+public class AddNewItemActivity extends BottomSheetDialogFragment {
 
     // TAG to identify the specific dialog fragment
     public static final String TAG = "AddItemBottomDialog";
@@ -37,8 +41,8 @@ public class AddNewItemViewController extends BottomSheetDialogFragment {
     private DatabaseHandler db;
 
     // returns an object of the AddNewItem class so that it can be used in the MainActivity
-    public static AddNewItemViewController newInstance() {
-        return new AddNewItemViewController();
+    public static AddNewItemActivity newInstance() {
+        return new AddNewItemActivity();
     }
 
     /*Bundles are generally used for passing data between various Android activities.

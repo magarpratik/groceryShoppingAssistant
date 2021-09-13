@@ -1,3 +1,7 @@
+/**
+ * @Author Pratik Magar 2241293
+ **/
+
 package com.example.groceryapp.adapters;
 
 import android.annotation.SuppressLint;
@@ -18,15 +22,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.groceryapp.R;
 import com.example.groceryapp.database.DatabaseHandler;
 import com.example.groceryapp.models.ItemModel;
-import com.example.groceryapp.viewControllers.SelectItemViewController;
-import com.example.groceryapp.viewControllers.StoreViewController;
+import com.example.groceryapp.activities.SelectItemActivity;
+import com.example.groceryapp.activities.StoreViewActivity;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 public class SelectItemAdapter extends RecyclerView.Adapter<SelectItemAdapter.ViewHolder> {
-    private SelectItemViewController selectItemViewController;
+    private SelectItemActivity selectItemActivity;
     private DatabaseHandler db;
     private List<ItemModel> listOfItems; // optionsList that is displayed
     private String listName;
@@ -35,8 +39,8 @@ public class SelectItemAdapter extends RecyclerView.Adapter<SelectItemAdapter.Vi
     private List<ItemModel> itemsList;
     private int storeId;
 
-    public SelectItemAdapter(SelectItemViewController selectItemViewController, DatabaseHandler db, String listName, int storeId) {
-        this.selectItemViewController = selectItemViewController;
+    public SelectItemAdapter(SelectItemActivity selectItemActivity, DatabaseHandler db, String listName, int storeId) {
+        this.selectItemActivity = selectItemActivity;
         this.db = db;
         this.listName = listName;
         this.storeId = storeId;
@@ -69,7 +73,7 @@ public class SelectItemAdapter extends RecyclerView.Adapter<SelectItemAdapter.Vi
         holder.storeItemCardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(selectItemViewController, StoreViewController.class);
+                Intent intent = new Intent(selectItemActivity, StoreViewActivity.class);
                 Bundle bundle = new Bundle();
                 //bundle.putSerializable("itemsList", (Serializable) itemsList);
                 //bundle.putString("listName", listName);
@@ -89,7 +93,7 @@ public class SelectItemAdapter extends RecyclerView.Adapter<SelectItemAdapter.Vi
                 bundle.putSerializable("comparisonList", (Serializable) finalList);
 
                 intent.putExtras(bundle);
-                selectItemViewController.startActivity(intent);
+                selectItemActivity.startActivity(intent);
             }
         });
     }

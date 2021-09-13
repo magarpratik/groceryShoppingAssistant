@@ -1,4 +1,8 @@
-package com.example.groceryapp.viewControllers;
+/**
+ * @Author Pratik Magar 2241293
+ **/
+
+package com.example.groceryapp.activities;
 
 import android.app.Activity;
 import android.content.DialogInterface;
@@ -23,7 +27,7 @@ import com.example.groceryapp.database.DatabaseHandler;
 import com.example.groceryapp.models.ItemModel;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
-public class AddNewSavedItemViewController extends BottomSheetDialogFragment {
+public class AddNewSavedItemActivity extends BottomSheetDialogFragment {
     public static final String TAG = "AddSavedItemBottomDialog";
 
     private EditText itemName;
@@ -51,8 +55,8 @@ public class AddNewSavedItemViewController extends BottomSheetDialogFragment {
         return view;
     }
 
-    public static AddNewSavedItemViewController newInstance() {
-        return new AddNewSavedItemViewController();
+    public static AddNewSavedItemActivity newInstance() {
+        return new AddNewSavedItemActivity();
     }
 
     // define all the code that is necessary for the functions in the dialog fragment
