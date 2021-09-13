@@ -27,3 +27,18 @@ contains Scraper classes. Responsible for web scraping
 
 package com.example.groceryapp.touchHelpers;
 contains TouchHelper classes. Responsible for implementing swipe functionality. 
+
+
+Online resources used:
+
+https://www.scrapingbee.com/java-webscraping-book/
+
+https://www.udemy.com/course/learn-web-scraping-with-java-in-just-1-hour/
+
+https://www.youtube.com/watch?v=4cFL7CMd5QY
+
+https://www.youtube.com/watch?v=ZjZqLUGCWxo&t=6s
+
+https://www.youtube.com/watch?v=312RhjfetP8
+
+https://www.youtube.com/watch?v=7u5_NNrbQos&list=PLzEWSvaHx_Z2MeyGNQeUCEktmnJBp8136
