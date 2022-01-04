@@ -7,9 +7,7 @@ Android Studio is needed to open the project.
 ## Using the app
 The app can be run on a Virtual Device provided by the Android emulator in Android Studio. 
 
-Alternatively, an Android Package (APK) file can be created using Android Studio by navigating to the menubar and selecting:
-
-Build > Build Bundle(s) / APK (s) > Build APK (s). 
+Alternatively, an Android Package (APK) file can be created using Android Studio by navigating to the menubar and selecting: Build > Build Bundle(s) / APK (s) > Build APK (s). 
 
 The APK file will be saved on the selected location on the PC, which can be transferred to an android phone.
 
